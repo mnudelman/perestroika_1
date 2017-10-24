@@ -1,0 +1,2 @@
+-- ALTER DATABASE `elize` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+SET TIME_ZONE = '+5:00' ;

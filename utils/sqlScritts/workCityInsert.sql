@@ -1,0 +1,1 @@
+INSERT INTO work_city (work_region_id,city_id) VALUES (1,5106) ;

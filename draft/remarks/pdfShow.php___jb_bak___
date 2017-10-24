@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<?php
+
+function showPDF($filename) {
+ $pdf=fopen($filename,'r');
+ $content=fread($pdf,filesize($filename));
+ fclose($pdf);
+ header('Content-type: application/pdf');
+ print($content);
+}
+$fn = __DIR__ .'/orderScheme.pdf' ;
+showPdf($fn) ;
+?>
+</body>
+</html>

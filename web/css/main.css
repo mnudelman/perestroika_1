@@ -1,0 +1,87 @@
+﻿
+/*************************
+*******Typography******
+**************************/
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,500,700,100);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
+@import url(http://fonts.googleapis.com/css?family=Abel);
+
+body {
+  font-family: 'Roboto', sans-serif;
+  /*background:;*/
+  position: relative;
+  /*font-weight:400px;*/
+}
+
+.text-description,.wd-text   {
+    background-color: #ffe7c5;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #6a2e02;
+    padding: 10px;
+    color: #5f391b;
+}
+.wd-text-title, .page-title {
+    color: #5f391b;
+    font-weight: 700;
+}
+.rule-content {
+    background-color: #ffe7c5;
+    color: #5f391b;
+    font-weight: 400;
+}
+/*звёздочка рядом с обязательным атрибутом*/
+div.required label.control-label:before {
+    content: " *";
+    color: red;
+}
+
+.form-messages,.form-messages-error,.form-messages-success {
+    background-color: #ffe7c5;
+    font-weight: 500;
+}
+.form-messages-success {
+    color: #008000;
+}
+.form-messages-error {
+    color: #ff0000;
+}
+
+textarea {
+    background: #F0F0E9;
+    border: medium none;
+    color: #A6A6A1;
+    /*height: 195px;*/
+    /*margin-bottom: 25px;*/
+    /*margin-top: 15px;*/
+    /*outline: medium none;*/
+    /*padding-left: 10px;*/
+    /*padding-top: 15px;*/
+    resize: vertical;
+}
+.topmenu-avatar-image {
+    height: 24px ;
+}
+.brand-row{
+    margin-top:55px;
+    background-color: #ffffff;
+}
+.image-logo{
+    height:70px ;
+}
+.topmenu-lang-image {
+    width: 16px ;
+}
+.dropdown-menu {
+    /*max-height:200px ;*/
+    /*overflow-y: auto;*/
+}
+/*top - menu шрифт*/
+.navbar-inverse .navbar-nav > li > a {
+    font-weight: 700;
+    color: #20cd8c;
+}
+ /*выравнивание иконок по ширине*/
+.icon-stat {
+    width: 37px;
+}
