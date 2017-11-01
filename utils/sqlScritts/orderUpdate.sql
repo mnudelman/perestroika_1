@@ -1,1 +1,1 @@
-UPDATE order_mailing SET stat = 35 WHERE order_id IN (2,8) ;
+UPDATE order_mailing SET stat = 0 WHERE order_id = 1 ;

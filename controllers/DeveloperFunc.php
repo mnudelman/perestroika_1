@@ -452,7 +452,13 @@ class DeveloperFunc {
          GROUP BY work_direction_id
         ')
             ->queryAll();
-        Yii::$app->db->createCommand()->truncateTable('order_work_count_tmp') ;
+        Yii::$app->db->createCommand()->truncateTable('order_work_count_tmp')->execute() ;
+
+        $r = Yii::$app->db->createCommand('
+         SELECT *
+         FROM order_work_count_tmp
+         ')->queryAll();
+
         $insertList = [] ;
 
         foreach($countRec as $key=>$rec) {
@@ -492,7 +498,7 @@ class DeveloperFunc {
             ->bindValue(':order_id',$this->currentOrderId)
             ->queryAll();
 
-        Yii::$app->db->createCommand()->truncateTable('order_work_tmp') ;
+        Yii::$app->db->createCommand()->truncateTable('order_work_tmp')->execute() ;
         $insertList = [] ;
 // оба списка грузим order_work_tmp
          foreach($fullyWorkDirectionList as $key=>$rec) {
@@ -560,7 +566,10 @@ class DeveloperFunc {
         $table =  Yii::$app->db->getTableSchema('dev_order_rank_tmp') ;
         $r = Yii::$app->db->createCommand('show tables')->execute() ;
 
-        Yii::$app->db->createCommand()->truncateTable('dev_order_work_count_tmp');
+        Yii::$app->db->createCommand()->truncateTable('dev_order_work_count_tmp')->execute();
+
+        Yii::$app->db->createCommand()->truncateTable('dev_order_rank_tmp')->execute();
+
         $this->makeOrderWorkDirections() ;  //  список направлений заказа
         $this->uploadDevWorkDirections() ;  // загрузить направления работ по исполнителям
         $this->putWorkItemCountForOrder() ; // поле - кол работ по направлению для заказа

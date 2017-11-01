@@ -8,7 +8,7 @@ class DbConnector {
 private $HOST = 'localhost' ;
 private $DB_NAME = 'perestroika' ; // 'my_new_db' ; //'perestroika' ; // 'blog_test'
 private $USER = 'root' ;
-private $PASSWORD = 'root' ;
+private $PASSWORD = 'admin' ;
 public static $isSuccessful = false ; // успех подключения к БД
 private static $instance = null ;
 private  static $connect = null ;
