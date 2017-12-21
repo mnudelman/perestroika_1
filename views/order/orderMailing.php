@@ -146,12 +146,9 @@ $buttons = $listForShow['buttons'] ;
 
     </div>
     <!--     подсказка  -->
+
     <?= $this->render('orderMailingRule',
         ['htmlPrefix' => $htmlPrefix,]) ?>
-    <div class="col-sm-12" id="<?= $htmlPrefix ?>-order-label"
-         style="color:#00a300;background-color:#d3d3d3;margin-top:-13px ">
-        <p>заказ не определён</p>
-    </div>
     <div class="row">
         <div class="col-md-6">
 

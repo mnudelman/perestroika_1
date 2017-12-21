@@ -60,28 +60,28 @@ $htmlPrefix .= 'Additional' ;
                 <div id="<?=$htmlPrefix?>-order">
                     <div class="row" name="row-0">
                         <div id="<?=$htmlPrefix?>-order-1" class="col-sm-4 block" style="min-height: 20px;">
-                            <div class="orderEditAdditional-order-innerDiv"
-                                 id="orderEditAdditional-order-1-img"
-                                 style="width: 100%; height: auto; position: relative;">
-                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">
-                                <p>new picture</p>
-                            </div>
+<!--                            <div class="orderEditAdditional-order-innerDiv"-->
+<!--                                 id="orderEditAdditional-order-1-img"-->
+<!--                                 style="width: 100%; height: auto; position: relative;">-->
+<!--                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">-->
+<!--                                <p>new picture</p>-->
+<!--                            </div>-->
                         </div>
 
 
                         <div id="<?=$htmlPrefix?>-order-2" class="col-sm-4 block" style="min-height: 20px;">
-                            <div class="orderEditAdditional-order-innerDiv ui-draggable ui-draggable-handle" id="orderEditAdditional-order-1-img" style="width: 100%; height: auto; position: relative;">
-                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">
-                                <p>new picture</p>
-                            </div>
+<!--                            <div class="orderEditAdditional-order-innerDiv ui-draggable ui-draggable-handle" id="orderEditAdditional-order-1-img" style="width: 100%; height: auto; position: relative;">-->
+<!--                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">-->
+<!--                                <p>new picture</p>-->
+<!--                            </div>-->
                         </div>
 
 
                         <div id="<?=$htmlPrefix?>-order-3" class="col-sm-4 block" style="min-height: 20px;">
-                            <div class="orderEditAdditional-order-innerDiv ui-draggable ui-draggable-handle" id="orderEditAdditional-order-1-img" style="width: 100%; height: auto; position: relative;">
-                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">
-                                <p>new picture</p>
-                            </div>
+<!--                            <div class="orderEditAdditional-order-innerDiv ui-draggable ui-draggable-handle" id="orderEditAdditional-order-1-img" style="width: 100%; height: auto; position: relative;">-->
+<!--                                <img class="img-responsive img-thumbnail" src="/projects/perestroika/web/images/user/u_25/gallery/2_evro_tHRy9.jpg" style="width: 100%;">-->
+<!--                                <p>new picture</p>-->
+<!--                            </div>-->
                         </div>
 
 

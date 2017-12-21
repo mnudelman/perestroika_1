@@ -1,21 +1,16 @@
 <?php
 /**
- * Заказ
+ * Я-заказчик - меню
  *
  */
 ?>
 <?php
 use yii\bootstrap\Tabs;
-use yii\helpers\Html ;
-use yii\helpers\Url ;
 use app\models\UserProfile ;
 use app\service\PageItems ;
 
-//            'headerOptions' => ['style'=>'display:none'],
-//            'options' => ['style'=>'display:none'],
 $htmlPrefix = 'orderEdit' ;
 $userIsGuest = Yii::$app->user->isGuest ;
-//$expressStyle = (!$userIsGuest) ? 'display:none' : '' ;
 $email = '' ;
 $confirmationFlag = false ;
 if (!$userIsGuest) {
@@ -30,12 +25,20 @@ $expressStyle = ($hideExpressFlag) ? 'display:none' : '' ;
 $tabItemName = PageItems::getItemText(['order/tabs']);
 
 
+?>
+    <div class="double-panel">
+        <div  id="<?= $htmlPrefix ?>-order-label"
+             style="color:#00a300;background-color:#d3d3d3;">
+            <p>заказ не определён</p>
+        </div>
+
+        <?php
 echo Tabs::widget([
     'items' => [
         [
             'label' => $tabItemName['express'],
-            'content' => $this->render('tabItem',
-                ['tabTitle' => 'экспресс регистрация','tabContent' => 'expressLogin']),
+            'content' => $this->render('expressLogin',
+                ['tabTitle' => 'экспресс регистрация']),
             'headerOptions' => ['style'=> $expressStyle,
                 'name'=>$htmlPrefix . '-' . 'express' . '-header'],
             'options' => ['style'=> $expressStyle,
@@ -44,16 +47,14 @@ echo Tabs::widget([
         ],
         [
             'label' => $tabItemName['general'],
-            'content' => $this->render('tabItem',
-                ['tabTitle' => 'Общие сведения','tabContent' => 'orderGeneral']),
+            'content' => $this->render('orderGeneral',['tabTitle' => 'Общие сведения']),
             'options' => ['name'=>$htmlPrefix . '-' . 'general' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'general' . '-header'],
             'active' => $hideExpressFlag
         ],
         [
             'label' => $tabItemName['works'],
-            'content' => $this->render('tabItem',
-                ['tabTitle' => 'Общие сведения','tabContent' => 'orderWorks']),
+            'content' => $this->render('orderWorks',['tabTitle' => 'Общие сведения',]),
 
             'options' => ['name'=>$htmlPrefix . '-' . 'works' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'works' . '-header'],
@@ -62,16 +63,16 @@ echo Tabs::widget([
             'label' => $tabItemName['additional'],
             'options' => ['name'=>$htmlPrefix . '-' . 'additional' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'additional' . '-header'],
-            'content' => $this->render('tabItem',
-                ['tabTitle' => 'Дополнительные материалы','tabContent' => 'orderAdditional']),
+            'content' => $this->render('orderAdditional',['tabTitle' => 'Дополнительные материалы']),
         ],
         [
             'label' => $tabItemName['mailing'],
             'options' => ['name'=>$htmlPrefix . '-' . 'mailing' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'mailing' . '-header'],
-            'content' => $this->render('tabItem',
-                ['tabTitle' => 'Рассылка','tabContent' => 'orderMailing']),
+            'content' => $this->render('orderMailing',['tabTitle' => 'Рассылка']),
 
         ],
     ]
 ]);
+?>
+</div>

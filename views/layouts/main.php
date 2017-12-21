@@ -4,13 +4,9 @@
   */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\service\PageItems ;
 use app\components\MenuPathWidget ;
+
 AppAsset::register($this);
 $pageNames = [
     'homePage' => 'Перестройка',
@@ -52,12 +48,19 @@ if (isset($_SESSION['lang'])) {
              background: url(images/bg/linen.jpg) ;
          /*background: url(images/bg/bg-light-4865.png)*/
          }
+         /*.tab-header-1 {*/
+             /*font-weight:500;*/
+             /*color:red;*/
+             /*border:4px solid;*/
+             /*!*padding: 1px;*!*/
+         /*}*/
 
      </style>
     </head>
 <body>
 <?php $this->beginBody() ?>
-
+<!--обновление CSS в кэше-->
+<?=time()?>
 
 <!--<div class="wrap">-->
 <?=$this->render('layoutParts/topPage')?>

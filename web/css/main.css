@@ -2,6 +2,7 @@
 /*************************
 *******Typography******
 **************************/
+
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,500,700,100);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);
@@ -11,6 +12,14 @@ body {
   /*background:;*/
   position: relative;
   /*font-weight:400px;*/
+}
+.tab-header-1 {
+    font-weight:500;
+
+    border:4px solid;
+    border-color: #337ab7; /* #44ff7a;*/
+    border-radius: 10px;
+    font-size: larger;
 }
 
 .text-description,.wd-text   {
@@ -35,6 +44,7 @@ div.required label.control-label:before {
     content: " *";
     color: red;
 }
+
 
 .form-messages,.form-messages-error,.form-messages-success {
     background-color: #ffe7c5;
@@ -84,4 +94,10 @@ textarea {
  /*выравнивание иконок по ширине*/
 .icon-stat {
     width: 37px;
+}
+
+.double-panel {
+    border: 2px solid;
+    border-color: #0b93d5;
+    border-radius: 5px;
 }

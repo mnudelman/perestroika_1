@@ -128,16 +128,16 @@ function DeveloperOrders() {
     //
     //} ;
     /**
-     * переключение состояния
+     * переключение состояния заказа
      * @param toggleDirect
-     * @param developerId
+     * @param orderId
      */
-    this.toggleStat = function(toggleDirect,id) {
+    this.toggleStat = function(toggleDirect,orderId) {
         var opCod = 'toggleStat' ;
         var data = {
             opCod : opCod,
             toggleDirect: toggleDirect,
-            orderId : id
+            orderId : orderId
         } ;
         ajaxExe.setUrl(url.orderToggleStat) ;
         ajaxExe.setData(data) ;

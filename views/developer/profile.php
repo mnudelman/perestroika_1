@@ -74,6 +74,8 @@ $dirLayoutParts = '../layouts/layoutParts' ;
 
 
 ?>
+
+
                 <?=$this->render($dirLayoutParts . '/ruleAccordion',
                 ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,'ruleContentId'=>$ruleContentId])?>
 
