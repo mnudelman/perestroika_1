@@ -271,8 +271,7 @@ class OrderController extends BaseController {
         $success = (sizeof($message) === 0) ;
         $orderList = [] ;
         if ($success) {
-            $orderList = (new
-            nc())->getOrderList() ;
+            $orderList = (new OrderFunc())->getOrderList() ;
         }
 
         $answ = [
