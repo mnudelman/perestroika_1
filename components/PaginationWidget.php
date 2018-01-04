@@ -19,9 +19,9 @@ class PaginationWidget extends Widget {
     public $lastClass = '';
     //--------------------------------------------------//
     public function init() {
-       ob_start();
-        $this->tplInclude() ;
-        return ob_get_clean();
+//       ob_start();
+//        $this->tplInclude() ;
+//        return ob_get_clean();
 
 
     }

@@ -7,7 +7,7 @@
 ?>
 <?php
 use app\service\PageItems;
-use app\components\PaginationWidget;
+use app\components\ToolbarWidget;
 
 $pageItemFile = 'order/general';
 $partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
@@ -24,36 +24,25 @@ $prevClass = ($indexPagesVect['prevFlag']) ? '' : 'class="disabled"';
 $nextClass = ($indexPagesVect['nextFlag']) ? '' : 'class="disabled"';
 $lastClass = ($indexPagesVect['lastFlag']) ? '' : 'class="disabled"';
 
-
-?>
-<div class="row">
-    <div class="col-md-4">
-        <h5 class="header-title" style="text-align: left;">
-            <?= $partsTitleCurrent ?></h5>
-    </div>
-    <div class="col-md-3">
-        <button class="btn btn-primary btn-sm" title="help"
-                onclick="dataRule('<?= $htmlPrefix ?>-open')">
-            <i class="fa fa-question"></i>
-        </button>
-
-        <button class="btn btn-primary  btn-sm" title="filter"
-                onclick="orderEditFilter('<?= $htmlPrefix ?>-edit')">
-            <i class="fa fa-filter"></i>
-        </button>
-    </div>
-    <div class="col-md-5">
-
-        <?php
-        echo PaginationWidget::widget([
-            'htmlPrefix' => $htmlPrefix,
+echo ToolbarWidget::widget([
+        'htmlPrefix' => $htmlPrefix,
+        'topology' => [
+                'title' => 4,
+                'buttons' => 3,
+                'pagination' => 5
+        ],
+        'title' => $partsTitleCurrent,
+        'buttons' => [
+                'help'=> [],
+                'filter' => []
+        ],
+        'pagination' => [
             'indexPages' => $indexPagesList,
             'currentPage' => $currentPage,
             'firstClass' => $firstClass,
             'prevClass' => $prevClass,
             'nextClass' => $nextClass,
             'lastClass' => $lastClass,
-        ]);
-        ?>
-    </div>
-</div>
+        ],
+]) ;
+?>
