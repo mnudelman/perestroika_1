@@ -6,6 +6,7 @@
 ?>
 <?php
 use app\components\CollapsibleListWidget;
+use app\components\ToolbarWidget;
 use app\components\UserGeography;
 use yii\widgets\ActiveForm;
 use app\components\GeographySimpleWidget;
@@ -109,6 +110,31 @@ $filterForm = new OrderFilterForm();
                 <div class="panel-heading">
                     <h5 class="header-title" style="text-align: left;">
                         <?= $partsTitleEdit ?></h5></div>
+                <?php
+
+                echo ToolbarWidget::widget([
+                'htmlPrefix' => $htmlPrefix,
+                'topology' => [
+                'title' => 4,
+                'buttons' => 8,
+                'pagination' => 0
+                ],
+                'title' => $partsTitleEdit,
+                'buttons' => [
+                'help'=> [],
+                'filter' => []
+                ],
+                'pagination' => [],
+                ]) ;
+                ?>
+
+
+
+
+
+
+
+
                 <div class="container-fluid">
                     <div class="row">
 

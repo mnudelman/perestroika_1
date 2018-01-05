@@ -1,9 +1,34 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: mickhael
- * Date: 02.01.18
- * Time: 19:29
+ * панель инструментов состоит из :
+ * - текста($title), набора кнопок(buttons), пагинации
+ * топология(topology) - это ширина отдельных компонентов(сумма 12 единиц)
+ */
+
+/**
+ * пример:
+ echo ToolbarWidget::widget([
+'htmlPrefix' => $htmlPrefix,
+'topology' => [
+'title' => 4,
+'buttons' => 3,
+'pagination' => 5
+],
+'title' => $partsTitleCurrent,
+'buttons' => [
+'help'=> [],
+'filter' => []
+],
+'pagination' => [
+'indexPages' => $indexPagesList,
+'currentPage' => $currentPage,
+'firstClass' => $firstClass,
+'prevClass' => $prevClass,
+'nextClass' => $nextClass,
+'lastClass' => $lastClass,
+],
+]) ;
+
  */
 
 namespace app\components;
@@ -27,7 +52,9 @@ class ToolbarWidget extends Widget
         'title' => '',
         'iconClass' => '',
         'clickFunction' => '',
-        'clickAction' => ''
+        'clickAction' => '',
+        'id' => '',
+        'disabled' => false
     ] ;
     private $paginationDefault = [
         'indexPages' => [1] ,// массив страниц для вывода [1,2,3]
@@ -128,10 +155,10 @@ class ToolbarWidget extends Widget
     private function buttonsPrepare() {
         foreach ($this->buttons as $btName => $btItem) {
             if (isset($this->buttonsSet[$btName])) {
-                $btCurrent = $this->buttonsSet[$btName] ;
+                $btDefault = $this->buttonsSet[$btName] ;
                 foreach ($this->btEmpty as $key => $value) {
-                    if (!isset($btItem[$key])) {
-                        $btItem[$key] = $btCurrent[$key] ;
+                    if (!isset($btItem[$key]) && isset($btDefault[$key])) {
+                        $btItem[$key] = $btDefault[$key] ;
                     }
                 }
                 $this->buttons[$btName] = $btItem ;

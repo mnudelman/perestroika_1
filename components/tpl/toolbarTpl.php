@@ -51,8 +51,13 @@ $buttonClass = "btn btn-primary btn-sm" ;
             $clickArg = $htmlPrefix . (($clickAction !== '') ? '-' : '') . $clickAction  ;
             $onClick = $clickFunction . "('". $clickArg ."')" ;
             $iconClass = $btItem['iconClass'] ;
+            $id = (isset($btItem['id'])) ? $btItem['id'] : '' ;
+            $attrId = ($id !== '') ? ' id="' . $id . '" ' : '' ;
+            $disabledFlag = (isset($btItem['disabled'])) ? $btItem['disabled'] : false ;
+            $attrDisabled = ($disabledFlag) ? ' disabled ' : '' ;
         ?>
-            <button class="btn btn-primary btn-sm" title="<?=$btTitle?>"
+            <button class="btn btn-primary btn-sm" title="<?=$btTitle?>" <?=$attrId?>
+                    <?=$attrDisabled?>
                     onclick="<?=$onClick?>">
                 <i class="<?=$iconClass?>"></i>
             </button>
