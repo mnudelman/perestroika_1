@@ -461,7 +461,7 @@ function OrderDataEdit() {
      * преход на закладку редактирование работ
      */
     this.orderWorkEdit = function () {
-        var $order = paramSet.getObj('currentOrder');
+        // var $order = paramSet.getObj('currentOrder');
 
 
 //        htmlContext.orderWorksLabelShow() ;   // сейчас не надо см. tabInit
@@ -610,6 +610,8 @@ function OrderDataEditHtml() {
         return result;
     };
     /**
+     * Вывод основных реквизитов объекта в правой части,
+     * например, для ЗАКАЗА - это имя, описание, география
      * асинхроннность при выводе страны, региона, города
      * @param generalData
      */

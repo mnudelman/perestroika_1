@@ -108,70 +108,91 @@ $filterForm = new OrderFilterForm();
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h5 class="header-title" style="text-align: left;">
-                        <?= $partsTitleEdit ?></h5></div>
-                <?php
+<!--                    <h5 class="header-title" style="text-align: left;">-->
+<!--                        //= $partsTitleEdit ?><!--</h5>-->
+<!--                    -->
+                    <?php
 
-                echo ToolbarWidget::widget([
-                'htmlPrefix' => $htmlPrefix,
-                'topology' => [
-                'title' => 4,
-                'buttons' => 8,
-                'pagination' => 0
-                ],
-                'title' => $partsTitleEdit,
-                'buttons' => [
-                'help'=> [],
-                'filter' => []
-                ],
-                'pagination' => [],
-                ]) ;
-                ?>
-
-
-
-
-
-
-
-
-                <div class="container-fluid">
-                    <div class="row">
-
-
-                        <div class="col-sm-4">
-                            <div class="btn-toolbar" role="toolbar" aria-label="lab1">
-                                <button class="btn-info" title="<?= $tooltipOrderCreate ?>"
-                                        onclick="orderEditClick('<?= $htmlPrefix ?>-create')">
-                                    <i class="fa fa-file-o "></i>
-                                </button>
-                                <button class="btn-info" title="<?= $tooltipOrderCopy ?>"
-                                        onclick="orderEditClick('<?= $htmlPrefix ?>-copy')">
-                                    <i class="fa fa-clone "></i>
-                                </button>
-                                <button class="btn-info" title="<?= $tooltipOrderSave ?>"
-                                        onclick="orderEditClick('<?= $htmlPrefix ?>-save')">
-                                    <i class="fa fa-save "></i>
-                                </button>
-                                <button class="btn-info" title="<?= $tooltipOrderDelete ?>"
-                                        onclick="orderEditClick('<?= $htmlPrefix ?>-delete')">
-                                    <i class="fa fa-minus-square "></i>
-                                </button>
-
-                            </div>
-
-                        </div>
-                        <div class="col-sm-8" id="<?= $htmlPrefix ?>-order-label"
-                             data-new-order="true"
-                             style="color:#00a300;background-color:#d3d3d3 ">
-                            <p><?= $orderLabel ?></p>
-                            <!--                                        <p>заказ № xxxxxxx (новый)</p>-->
-
-                        </div>
-
-
-                    </div>
+                    echo ToolbarWidget::widget([
+                        'htmlPrefix' => $htmlPrefix,
+                        'topology' => [
+                            'title' => 4,
+                            'buttons' => 8,
+                            'pagination' => 0
+                        ],
+                        'title' => $partsTitleEdit,
+                        'buttons' => [
+                            'newFile' => [
+                                'title' => $tooltipOrderCreate,
+                                'clickFunction' => 'orderEditClick',
+                                'clickAction' => 'create'
+                            ],
+                            'clone' => [
+                                'title' => $tooltipOrderCopy,
+                                'clickFunction' => 'orderEditClick',
+                                'clickAction' => 'copy'
+                            ],
+                            'save' => [
+                                'title' => $tooltipOrderSave,
+                                'clickFunction' => 'orderEditClick',
+                                'clickAction' => 'save'
+                            ],
+                            'delete' => [
+                                'title' => $tooltipOrderDelete,
+                                'clickFunction' => 'orderEditClick',
+                                'clickAction' => 'delete'
+                            ]
+                        ],
+                        'pagination' => [],
+                    ]) ;
+                    ?>
                 </div>
+
+
+
+
+
+
+
+
+
+<!--                <div class="container-fluid">-->
+<!--                    <div class="row">-->
+<!---->
+<!---->
+<!--                        <div class="col-sm-4">-->
+<!--                            <div class="btn-toolbar" role="toolbar" aria-label="lab1">-->
+<!--                                <button class="btn-info" title="//= $tooltipOrderCreate ?><!--"-->
+<!--                                        onclick="orderEditClick('//= $htmlPrefix ?>//-create')">
+//                                    <i class="fa fa-file-o "></i>
+//                                </button>
+//                                <button class="btn-info" title="//= $tooltipOrderCopy ?><!--"-->
+<!--                                        onclick="orderEditClick('>?//= $htmlPrefix ?>//-copy')">
+//                                    <i class="fa fa-clone "></i>
+//                                </button>
+//                                <button class="btn-info" title="?//= $tooltipOrderSave ?><!--"-->
+<!--                                        onclick="orderEditClick('?//= $htmlPrefix ?>//-save')">
+//                                    <i class="fa fa-save "></i>
+//                                </button>
+//                                <button class="btn-info" title="?//= $tooltipOrderDelete ?><!--"-->
+<!--                                        onclick="orderEditClick('?//= $htmlPrefix ?>//-delete')">
+//                                    <i class="fa fa-minus-square "></i>
+//                                </button>
+//
+//                            </div>
+//
+//                        </div>
+//                        <div class="col-sm-8" id="?//= $htmlPrefix ?><!---order-label"-->
+<!--                             data-new-order="true"-->
+<!--                             style="color:#00a300;background-color:#d3d3d3 ">-->
+<!--                            <p>?//= $orderLabel ?><!--</p>-->
+<!--                            <!--                                        <p>заказ № xxxxxxx (новый)</p>-->
+<!---->
+<!--                        </div>-->
+<!---->
+<!---->
+<!--                    </div>-->
+<!--                </div>-->
                 <!--                    </div>-->
                 <div  class="panel-body" >
 

@@ -8,7 +8,7 @@
 ?>
 <?php
 use app\service\PageItems;
-use app\components\PaginationWidget;
+use app\components\ToolbarWidget;
 
 $pageItemFile = 'order/mailing';
 $partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
@@ -27,39 +27,33 @@ $lastClass = ($indexPagesVect['lastFlag']) ? '' : 'class="disabled"';
 
 
 ?>
-<div class="row">
-    <div class="col-md-4">
-        <h5 class="header-title" style="text-align: left;">
-            <?= $partsTitleCurrent ?></h5>
-    </div>
-    <div class="col-md-4">
-
-        <button class="btn btn-primary btn-sm" title="help"
-                onclick="dataRule('<?= $htmlPrefix ?>-open')">
-            <i class="fa fa-question"></i>
-        </button>
-        <button class="btn btn-primary btn-sm" title="создать тему"
-                onclick="orderMailingGo('<?=$htmlPrefix?>')"
-                id="<?=$htmlPrefix?>-newTheme"
-            >
-            <i class="fa fa-user-plus"></i>
-        </button>
-
-
-        <button class="btn btn-primary btn-sm" title="filter"
-                onclick="dataFilter('<?=$htmlPrefix?>-edit')"
-            >
-            <i class="fa fa-filter"></i>
-        </button>
-    </div>
-
-    <div class="col-md-4">
-        <?php
-        echo PaginationWidget::widget([
-            'htmlPrefix' => $htmlPrefix,
-            'indexPages' => [1],
-            'currentPage' => 1,
-        ]) ;
-        ?>
-    </div>
-</div>
+<?php
+echo ToolbarWidget::widget([
+    'htmlPrefix' => $htmlPrefix,
+    'topology' => [
+        'title' => 4,
+        'buttons' => 4,
+        'pagination' => 4
+    ],
+    'title' => $partsTitleCurrent,
+    'buttons' => [
+        'help' => [],
+        'filter' => [],
+        'newTheme' => [
+             'title' => 'newTheme',
+            'id' => $htmlPrefix .'-newTheme',
+        ],
+//        'send' => [
+//            'clickFunction' => 'orderMailingGo',
+//            'id' => $htmlPrefix . '-sendBt',
+//        ],
+    ],
+    'pagination' => [
+        'indexPages' => $indexPagesList,
+        'currentPage' => $currentPage,
+        'firstClass' => $firstClass,
+        'prevClass' => $prevClass,
+        'nextClass' => $nextClass,
+        'lastClass' => $lastClass,
+    ],
+]);

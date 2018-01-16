@@ -209,8 +209,8 @@ $tooltips = [
 $parts = [
     'current' => [
         'text' => [
-            'ru' => 'Существующие заказы',
-            'en' => 'Existing orders'
+            'ru' => 'Заказы для исполнения',
+            'en' => 'Orders for execution'
         ]
     ],
     'edit' => [

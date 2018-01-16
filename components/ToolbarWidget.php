@@ -106,7 +106,7 @@ class ToolbarWidget extends Widget
           'newTheme' => [
               'title' => 'newTheme',
               'iconClass' => 'fa fa-user-plus',
-              'clickFunction' => 'orderMailingGo',
+              'clickFunction' => '',
               'clickAction' => ''
 
           ],
@@ -139,7 +139,21 @@ class ToolbarWidget extends Widget
             'iconClass' => 'fa fa-envelope-o',
             'clickFunction' => '',
             'clickAction' => ''
-        ]
+        ],
+        'clone' => [
+            'title' => 'clone the current object',
+            'iconClass' => 'fa fa-clone',
+            'clickFunction' => '',
+            'clickAction' => ''
+
+        ],
+        'save' => [
+            'title' => 'save the object',
+            'iconClass' => 'fa fa-save',
+            'clickFunction' => '',
+            'clickAction' => ''
+
+        ],
 
 
     ] ;

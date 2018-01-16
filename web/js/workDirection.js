@@ -295,6 +295,17 @@ function EditDataController() {
         scheme['editImplement'] = editImplement ;
     } ;
     /**
+     * возможна установка внешней схемы
+     * @param externalScheme
+     */
+    this.setSheme = function(externalScheme) {
+        for (key in scheme) {
+            if (!externalScheme[key]) {
+                scheme[key] = externalScheme[key] ;
+            }
+        }
+    } ;
+    /**
      * переключить множество
      * @param newSetId
      * @returns {boolean}
@@ -364,7 +375,7 @@ function EditDataController() {
 }
 //===================EditDataSetSelector=====================//
 /**
- * управление множеством элементов - правая панель
+ * управление множеством элементов
  * @constructor
  */
 function EditDataSetSelector() {
@@ -481,36 +492,6 @@ function EditDataSetSelector() {
             }
         }, 50);
     } ;
-    //var queuePushDo = function(res) {
-    //    var rr = ajaxContext.parseAjaxRes('getSubItems',res) ;
-    //    var elem = {} ;
-    //    var setItem = rr['setItem'] ;
-    //    elem['setItem'] = {
-    //        id : setItem['workDirectionId'],
-    //        name : setItem['name'] ,
-    //        fullyFlag : setItem['fullyFlag'],
-    //        deleteFlag : false
-    //    } ;
-    //    var factList  = rr['subItemsFactList'] ;
-    //    var subItems = [] ;
-    //    for (var i = 0; i < factList.length; i++) {
-    //        var workItem = factList[i]['workItem'] ;
-    //        var subItem = {} ;
-    //        subItem = {
-    //            id : workItem['id'],
-    //            name: workItem['name_ru'],
-    //            inworkCurrentFlag: true
-    //        } ;
-    //        subItems.push(subItem) ;
-    //    }
-    //    elem['subItems'] = subItems ;
-    //
-    //    queue.push(elem) ;
-    //    queuePushReady = true ;
-    //
-    //} ;
-
-
 
     var queuePushDo = function(res) {
         var rr = ajaxContext.parseAjaxRes('getSubItemsSimple',res) ;
