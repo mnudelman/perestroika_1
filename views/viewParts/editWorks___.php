@@ -11,7 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-include_once __DIR__ . '/editWorksFunction.php' ;
+include_once __DIR__ . '/editWorksFunction.php';
 // это правая часть - изменения
 //$htmlPrefix = 'workDirectionEdit';
 $type = 'workDirection';
@@ -33,7 +33,7 @@ $styleDropdown = 'overflow-y:auto;max-height:400px;white-space: normal;';
 //----------- подписи ---//
 $pageItemFile = 'profile/workDirection' ;
 $ruleContentId = 'workDirection-form-collapseOne' ;
-include('workEditLabels.php') ;     // подписи для  формы
+include('workEditLabels.php');     // подписи для  формы
 ?>
 
 <div class="container-fluid">

@@ -5,7 +5,7 @@
  */
 ?>
 <?php
-$baseWorksEditScel = '/viewParts/editWorks' ;
+$baseWorksEditScel = '/viewParts/works/editWorks' ;
 $htmlPrefix = 'workDirectionEdit';
 ?>
 <?=$this->render($baseWorksEditScel,['htmlPrefix'=>$htmlPrefix,'objectType'=>'user'])?>

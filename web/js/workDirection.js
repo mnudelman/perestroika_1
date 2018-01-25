@@ -717,14 +717,14 @@ function EditImplement() {
         var  ajaxPar = ajaxContext.getAjaxParam('saveSetItem',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
         ajaxExe.setData(ajaxPar['data']) ;
-        ajaxExe.setCallback(setItemToRightPart) ;
+        ajaxExe.setCallback(setItemToLeftPart) ;
         ajaxExe.go() ;
 
     } ;
     /**
-     * показать setItem в правой части -
+     * показать setItem в левой части -
      */
-    var setItemToRightPart = function(res) {
+    var setItemToLeftPart = function(res) {
         var success = res['success'] ;
         if (!success) {
             return ;
@@ -1245,7 +1245,7 @@ function WorkDirectionEditHtml() {
         }else {
             checkBox.removeAttr('checked') ;
             text.css('color','black') ;
-            text.attr('value','просмотр только отмеченных') ;
+            text.attr('value','просмотр всех') ;
         }
     };
     this.setItemsClear = function() {

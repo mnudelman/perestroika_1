@@ -3,8 +3,8 @@
  * География работ
  * Time: 10:44
  */
-use yii\bootstrap\ButtonDropdown;
-use yii\bootstrap\Dropdown;
+//use yii\bootstrap\ButtonDropdown;
+//use yii\bootstrap\Dropdown;
 use app\models\WorkCountry ;
 use app\models\WorkRegion ;
 use app\models\WorkCity ;
@@ -12,6 +12,8 @@ use \app\models\Country ;
 use app\components\GeographySimpleWidget ;
 use app\components\UserGeography ;
 use app\components\CollapsibleListWidget ;
+use app\components\ToolbarWidget ;
+use app\components\RuleTextWidget ;
 //use Yii ;
 use app\service\PageItems ;
 ?>
@@ -87,16 +89,45 @@ include('workEditLabels.php') ;     // подписи для  формы
                data-yes="<?=$toolTipSubItemInWorkYes?>" data-no="<?=$toolTipSubItemInWorkNo?>">
 
     </div>
-
+    <!--     подсказка  -->
+    <?=RuleTextWidget::widget([
+    'htmlPrefix' => $htmlPrefix,
+    'ruleTitle' => '',
+    'ruleItems' => [
+    ['ruleTitle'=>$ruleTitle,
+    'ruleContent' => $ruleContent]
+    ],
+    ]) ;
+    ?>
 
     <div class="row">
-        <?=$this->render($dirLayoutParts . '/ruleAccordion',
-            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
-                'ruleContentId' => $ruleContentId])?>
+<!--        ?//=$this->render($dirLayoutParts . '/ruleAccordion',
+//            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
+//                'ruleContentId' => $ruleContentId])?> -->
         <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h5 class="header-title" style="text-align: left;"><?=$partsTitleCurrent?></h5></div>
+<!--                    <h5 class="header-title" style="text-align: left;">?//=$partsTitleCurrent?><!--</h5>-->
+                    <?=ToolbarWidget::widget([
+                    'htmlPrefix' => $htmlPrefix,
+                    'topology' => [
+                    'title' => 6,
+                    'buttons' => 6,
+                    'pagination' => 0
+                    ],
+                    'title' => $partsTitleCurrent,
+                    'buttons' => [
+                    'help'=> [],
+                    ],
+                    'pagination' => [],
+                    ]) ;
+                    ?>
+
+
+
+
+
+                </div>
                 <div class="panel-body">
                     <?php
  // текущая страна

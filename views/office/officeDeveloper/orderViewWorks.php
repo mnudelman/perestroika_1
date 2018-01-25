@@ -6,7 +6,7 @@
 ?>
 Это ЗАКЛАДКА "НАПРАВЛЕНИЯ РАБОТ" для выбранного ЗАКАЗА
 <?php
-    $baseGalleryEditScel = '/viewParts/worksView' ;
+    $baseGalleryEditScel = '/viewParts/works/worksView' ;
     $htmlPrefix .= 'Works';
     $objectType = 'order' ;
     ?>

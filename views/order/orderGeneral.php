@@ -150,50 +150,6 @@ $filterForm = new OrderFilterForm();
 
 
 
-
-
-
-
-
-
-<!--                <div class="container-fluid">-->
-<!--                    <div class="row">-->
-<!---->
-<!---->
-<!--                        <div class="col-sm-4">-->
-<!--                            <div class="btn-toolbar" role="toolbar" aria-label="lab1">-->
-<!--                                <button class="btn-info" title="//= $tooltipOrderCreate ?><!--"-->
-<!--                                        onclick="orderEditClick('//= $htmlPrefix ?>//-create')">
-//                                    <i class="fa fa-file-o "></i>
-//                                </button>
-//                                <button class="btn-info" title="//= $tooltipOrderCopy ?><!--"-->
-<!--                                        onclick="orderEditClick('>?//= $htmlPrefix ?>//-copy')">
-//                                    <i class="fa fa-clone "></i>
-//                                </button>
-//                                <button class="btn-info" title="?//= $tooltipOrderSave ?><!--"-->
-<!--                                        onclick="orderEditClick('?//= $htmlPrefix ?>//-save')">
-//                                    <i class="fa fa-save "></i>
-//                                </button>
-//                                <button class="btn-info" title="?//= $tooltipOrderDelete ?><!--"-->
-<!--                                        onclick="orderEditClick('?//= $htmlPrefix ?>//-delete')">
-//                                    <i class="fa fa-minus-square "></i>
-//                                </button>
-//
-//                            </div>
-//
-//                        </div>
-//                        <div class="col-sm-8" id="?//= $htmlPrefix ?><!---order-label"-->
-<!--                             data-new-order="true"-->
-<!--                             style="color:#00a300;background-color:#d3d3d3 ">-->
-<!--                            <p>?//= $orderLabel ?><!--</p>-->
-<!--                            <!--                                        <p>заказ № xxxxxxx (новый)</p>-->
-<!---->
-<!--                        </div>-->
-<!---->
-<!---->
-<!--                    </div>-->
-<!--                </div>-->
-                <!--                    </div>-->
                 <div  class="panel-body" >
 
 

@@ -7,11 +7,13 @@
 use yii\bootstrap\ButtonDropdown;
 use yii\bootstrap\Dropdown;
 use app\components\CollapsibleListWidget;
+use app\components\RuleTextWidget ;
+use app\components\ToolbarWidget ;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-include_once __DIR__ . '/editWorksFunction.php' ;
+include_once __DIR__ . '/editWorksFunction.php';
 // это правая часть - изменения
 //$htmlPrefix = 'workDirectionEdit';
 $type = 'workDirection';
@@ -29,11 +31,11 @@ switch ($objectType) {
 }
 
 $styleDropdown = 'overflow-y:auto;max-height:400px;white-space: normal;';
-
+//$dirLayoutParts = __DIR__ . '../../layouts/layoutParts' ;
 //----------- подписи ---//
 $pageItemFile = 'profile/workDirection' ;
 $ruleContentId = 'workDirection-form-collapseOne' ;
-include('workEditLabels.php') ;     // подписи для  формы
+include('workEditLabels.php');     // подписи для  формы
 ?>
 
 <div class="container-fluid">
@@ -46,16 +48,48 @@ include('workEditLabels.php') ;     // подписи для  формы
                data-yes="<?=$toolTipSubItemInWorkYes?>" data-no="<?=$toolTipSubItemInWorkNo?>">
 
     </div>
+    <?php
+    echo RuleTextWidget::widget([
+        'htmlPrefix' => $htmlPrefix,
+        'ruleTitle' => '',
+        'ruleItems' => [
+            ['ruleTitle'=>$ruleTitle,
+                'ruleContentId' => $ruleContentId,
+                'ruleContent' => $ruleContent]
+        ],
+    ]) ;
+    ?>
 
     <div class="row">
-        <?=$this->render($dirLayoutParts . '/ruleAccordion',
-            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
-                'ruleContentId' => $ruleContentId])?>
+<!--        >?//=$this->render($dirLayoutParts . '/ruleAccordion',
+//            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
+//                'ruleContentId' => $ruleContentId])?>-->
+
+
+
+
+
+
+
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h5 class="header-title" style="text-align: left;">
-                        <?=$partsTitleCurrent?></h5></div>
+                <div class="panel-heading" style="text-align: left;">
+                <?php
+                echo ToolbarWidget::widget([
+                'htmlPrefix' => $htmlPrefix,
+                'topology' => [
+                'title' => 6,
+                'buttons' => 6,
+                'pagination' => 0
+                ],
+                'title' => $partsTitleCurrent,
+                'buttons' => [
+                'help'=> [],
+                ],
+                'pagination' => [],
+                ]) ;
+                ?>
+                </div>
                 <div class="panel-body">
                     <?php
 

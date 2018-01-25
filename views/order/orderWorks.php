@@ -4,7 +4,7 @@
  */
 ?>
 <?php
-$baseWorksEditScel = '/viewParts/editWorks' ;
+$baseWorksEditScel = '/viewParts/works/editWorks' ;
 $htmlPrefix = 'orderEditWorks';
 $objectType = 'order' ;
 ?>
