@@ -214,7 +214,8 @@ include('workEditLabels.php') ;     // подписи для  формы
                         <span class="glyphicon glyphicon-minus"></span>
                     </a>
 
-                    <ul class="list-group collapse.in" id="workRegionEdit-collapse"
+                    <ul class="list-group collapse.in" id="work
+                    RegionEdit-collapse"
                         style="overflow:auto; max-height:200px">
                         <li class="list-group-item" name="city-[city_id]" >Нижний тагил
                             <a class="btn btn-default btn-sm" role="button" title="city is in work"
