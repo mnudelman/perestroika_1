@@ -16,6 +16,9 @@ class UserProfile extends ActiveRecord {
     public $emailPrev = false ;
     private $_userProfile = false ;
     private $_userId ;
+    private $AVATAR_PATH_NAME = 'userAvatar'; // имя в классе Files
+    private $AVATAR_PATH_NAME_DEFAULT = 'image'; // имя в классе Files
+    private $AVATAR_DEFAULT = 'people.png'; // имя в классе Files
     const SCENARIO_EXPRESS = 'express' ;
     const SCENARIO_DEFAULT = 'default' ;
 //    public $avatar = '' ;
@@ -97,13 +100,13 @@ class UserProfile extends ActiveRecord {
             return true ;
         }
         $res = true ;
-        if(!Files::fileExist('userAvatar',$this->userid,$fileAvatar)) {
+        if(!Files::fileExist($this->AVATAR_PATH_NAME,$this->userid,$fileAvatar)) {
             $res = Files::fileMove($fileAvatar,'upload','userAvatar') ;
             if ($res) {
                 $fileAvatarPrev = $this->avatarPrev ;
                 if (!empty($fileAvatarPrev) && $fileAvatarPrev !== $fileAvatar) {
-                    if (Files::fileExist('userAvatar',$this->userid,$fileAvatarPrev)) {
-                        Files::fileDelete('userAvatar',$this->userid,$fileAvatarPrev) ;
+                    if (Files::fileExist($this->AVATAR_PATH_NAME,$this->userid,$fileAvatarPrev)) {
+                        Files::fileDelete($this->AVATAR_PATH_NAME,$this->userid,$fileAvatarPrev) ;
                     }
                 }
             }
@@ -119,5 +122,26 @@ class UserProfile extends ActiveRecord {
         }
 
         return $aa ;
+    }
+
+    public function getAvatarDefault() {
+        $path = Files::getPath($this->AVATAR_PATH_NAME_DEFAULT) ;
+        return [
+            'imgName' => $this->AVATAR_DEFAULT, //'people.png' ;
+            'url' => $path['url'],
+            'dir' => $path['dir'],
+        ] ;
+    }
+    public function getAvatar() {
+        if (empty($this->avatar)) {
+            return $this->getAvatarDefault() ;
+        }
+        $path = Files::getPath($this->AVATAR_PATH_NAME,$this->userid) ;
+        return [
+            'imgName' => $this->avatar,
+            'url' => $path['url'],
+            'dir' => $path['dir'],
+
+        ] ;
     }
 }

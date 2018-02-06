@@ -33,8 +33,8 @@
 
 namespace app\components;
 use yii\base\Widget;
-use app\components\PaginationWidget ;
-use Yii;
+//use app\components\PaginationWidget ;
+//use Yii;
 
 class ToolbarWidget extends Widget
 {
@@ -154,6 +154,22 @@ class ToolbarWidget extends Widget
             'clickAction' => ''
 
         ],
+        'openedEye' => [
+            'title' => 'opened eye',
+            'iconClass' => 'fa fa-eye',
+            'clickFunction' => '',
+            'clickAction' => ''
+
+        ],
+        'coveredEye' => [                // прикрытый глаз
+            'title' => 'covered eye',
+            'iconClass' => 'fa fa-eye-slash',
+            'clickFunction' => '',
+            'clickAction' => ''
+
+        ],
+
+
 
 
     ] ;

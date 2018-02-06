@@ -231,7 +231,8 @@ class UserController extends BaseController
                 $email = $userProfile->email ;
                 $this->sendEmailConfirmation($userProfile->confirmation_key,$email) ;
             }
-
+            $avatar = $userProfile->getAvatar() ;
+            $avatarUrl = $avatar['url'] ;
             $answ = [
                 'opcod' => $opcod,
                 'success' => $success,
@@ -239,6 +240,7 @@ class UserController extends BaseController
                 'confirmationMessage' => $confirmationMessage,    // ссобщение о подтверждении почты
                 'attributes' => $userProfile->attributes,
                 'oldAttributes' => $oldAttributes,
+                'avatarUrl' => $avatarUrl,
                 'z_end' => 'end'
             ];
             echo json_encode($answ);

@@ -323,6 +323,8 @@ function EditDataController() {
      * @param newSetName
      */
     this.addNewSet = function(newSetId,newSetName) {
+        var setSelector = scheme['setSelector'] ;
+        setSelector.addNewSet(newSetId,newSetName) ;
     } ;
     /**
      * добавить новый элемент из области "новый"
@@ -413,9 +415,13 @@ function EditDataSetSelector() {
             var  ajaxPar = ajaxContext.getAjaxParam('addNewSet',sendPar) ;
             ajaxExe.setUrl(ajaxPar['url']) ;
             ajaxExe.setData(ajaxPar['data']) ;
-            ajaxExe.setCallback() ;
+            ajaxExe.setCallback(addNewSetRes) ;
 
         }
+    } ;
+    var addNewSetRes = function(rr) {
+       var success = rr['success'] ;
+
     } ;
     var newItem = function(id,name) {
         return {id: id, name: name} ;
@@ -1476,10 +1482,24 @@ function WorkDirectionEditAjax() {
             case 'getSetItemsFact' :
                 res = getSetItemsFactAjaxParam(params) ;
                 break ;
+            case 'addNewSet' :           // новое множество
+                res = addNewSetAjaxParam(params) ;
+                break ;
             default :
         }
         return res ;
 
+
+    };
+    /**
+     * Добавиить новое множество
+     * это может быть страна (для географии)
+     * в случае с направлением работ - множество единственное(
+     * заказ или пользователь, в зависимости от задачи)
+     * @param params
+     */
+
+    var addNewSetAjaxParam = function(params)  {
 
     };
     /**
@@ -1558,6 +1578,9 @@ function WorkDirectionEditAjax() {
             case 'getSetItemsFact' :
                 res = getSetItemsFactParseAjaxRes(rr) ;
                 break ;
+            case 'addNewSet' :
+                res = addNewSetParseAjaxRes(rr) ;
+                break ;
             default :
        }
         return res ;
@@ -1567,7 +1590,7 @@ function WorkDirectionEditAjax() {
     } ;
     var addNewSetParseAjaxRes = function(rr) {
          var success = rr['success'] ;
-        return {success: success} ;
+        return {success: success,message: rr['message']} ;
     } ;
     /**
      * массив элементов надо привести к виду {id:   , name: ,fullyFlag: }

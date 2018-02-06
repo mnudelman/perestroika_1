@@ -7,7 +7,7 @@
 
 namespace app\components;
 use Yii ;
-use app\models\UserProfile ;
+//use app\models\UserProfile ;
 use app\models\Country ;
 use app\models\Region ;
 use app\models\City ;

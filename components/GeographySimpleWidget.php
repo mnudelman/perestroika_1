@@ -115,7 +115,7 @@ class GeographySimpleWidget extends Widget {
             $currentId =  $this->$curName['id'] ;        // в шаблон
             $nameList = '_' . $typeName . 'List' ;
             $itemList = $this->$nameList ;                  // в шаблон
-            $htmlIdPrefix = $this->htmlIdPrefix ;
+            $htmlPrefix = $this->htmlIdPrefix ;
             $onClickFunction = $this->onClickFunction ;
             $disabled = $this->disabled ;
             include __DIR__ . '/tpl/geographySimpleTpl.php' ;

@@ -77,6 +77,7 @@ class AppAsset extends AssetBundle
         'js/menuPath.js',
         'js/orderStatus.js',
         'js/developerOrders.js',
+        'js/profile.js',
 
     ];
     public $depends = [
