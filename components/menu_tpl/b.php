@@ -14,7 +14,7 @@ use yii\bootstrap\ButtonDropdown;
 <?php
 $styleDropdown = 'overflow-y:auto;max-height:400px;white-space: pre-wrap;';
 /**
- * @var $htmlPrefix - обеспечивает уникальность
+ * @var $htmlIdPrefix - обеспечивает уникальность
  * @var $onClickFunction -
  * @var $disabled
  *
@@ -27,7 +27,7 @@ $liList = [];
 //        $currentName = (isset($this->currentCountry['name'])) ? $this->currentCountry['name'] : false;
 for ($i = 0; $i < sizeof($itemList); $i++) {
     $item = $itemList[$i];
-    $elName =$htmlPrefix .'-' .$typeName . '-' . $item['id'];
+    $elName =$htmlIdPrefix .'-' .$typeName . '-' . $item['id'];
     $name = $item['name'];
     $activeFlag = ($currentName === $name);     // текущий элемент в списке
     $liList[] = [
@@ -42,7 +42,7 @@ for ($i = 0; $i < sizeof($itemList); $i++) {
 }
 echo ButtonDropdown::widget([
     'label' => (false === $currentName) ? 'страна' : $currentName,
-    'id' => $htmlPrefix . '-' . $typeName . '-bt',     // geography-country-bt
+    'id' => $htmlIdPrefix . '-' . $typeName . '-bt',     // geography-country-bt
     'options' => [
         'name' => $typeName . '-' .$currentId,
         'class' => 'btn btn-primary',
@@ -53,7 +53,7 @@ echo ButtonDropdown::widget([
         'options' => [
             'class' => 'list-group',
             'style' => $styleDropdown,
-            'id' => $htmlPrefix . '-' . $typeName . '-ul',     // geography-country-ul
+            'id' => $htmlIdPrefix . '-' . $typeName . '-ul',     // geography-country-ul
             'name' => $typeName . '-' .$currentId,
         ],
         'items' => $liList]

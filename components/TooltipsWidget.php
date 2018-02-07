@@ -11,14 +11,19 @@ use yii\base\Widget ;
 
 class TooltipsWidget extends Widget
 {
-    public $htmlprefix ;
+    public $htmlPrefix ;
     public $tooltips = [] ;
  public function init() {
 
  }
  public function run() {
      ob_start();
-     include __DIR__ . '/tpl/tooltipsTpl.php';
+     echo '<div id="' . $this->htmlPrefix . '-tooltips' .'">' ;
+     foreach ($this->tooltips as $tooltipName => $toolTipVariants ) {
+         include __DIR__ . '/tpl/tooltipsTpl.php';
+     }
+
+     echo '</div>' ;
      return ob_get_clean();
  }
 }
