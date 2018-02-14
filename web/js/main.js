@@ -439,6 +439,9 @@ function dropDownSelect(elem) {
     // заменить текущий элемент //
     var items = ul.children() ;
     for(var ind in items) {
+        if (isNaN(ind)) {       // последним элементом попадает ind = 'length' ???
+            break ;
+        }
         item = $(items[ind]) ;
         var name = item.attr('name') ;
         var cl = item.attr('class') ;

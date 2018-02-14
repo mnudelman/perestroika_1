@@ -8,44 +8,11 @@
  * @var $addPanelHeading - раздел "Добавить новый элемент множества"
  * @var $addPanelBody - ---------------""--------------------
  * @var $ediPanelHeading ,  - раздел "изменить атрибуты(компоненты) элемента множества
+ * функция variableWidget($widgetName,$widgetPar) - запускает widget по имени
+ *      загружается в корне при запуске index
  */
 ?>
 <?php
-//include_once __DIR__ . '/variableWidget___.php' ;
-
- function variableWidget($widgetList) {
-   if (is_array($widgetList)) {
-       foreach ($widgetList as $name => $widgetItem) {
-           $name = $widgetItem['name'] ;
-           $par =  $widgetItem['par'] ;
-           widgetCase__($name,$par) ;
-       }
-
-   }
- }
- function widgetCase__($widgetName, $widgetPar) {
-     switch ($widgetName) {
-         case 'ButtonDropdown' :
-             echo yii\bootstrap\ButtonDropdown::widget($widgetPar);
-             break ;
-         case 'GeographySimpleWidget' :
-             echo app\components\GeographySimpleWidget::widget($widgetPar);
-             break ;
-         case 'CollapsibleListWidget' :
-             echo app\components\CollapsibleListWidget::widget($widgetPar);
-             break ;
-         case 'RuleTextWidget' :
-             echo app\components\RuleTextWidget::widget($widgetPar);
-             break ;
-         case 'ToolBarWidget' :
-             echo app\components\ToolbarWidget::widget($widgetPar);
-             break ;
-         case 'TooltipsWidget' :
-             echo app\components\TooltipsWidget::widget($widgetPar);
-             break ;
-
-     }
- }
 
 ?>
 <div class="container-fluid">
@@ -87,7 +54,7 @@
                         ?>
 
                         <button class="btn btn-success" role="button"
-                                onclick="addWorkGeography()"
+                                onclick="addNewSetItem(<?=$htmlPrefix?>)"
                                 title="add item">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
@@ -116,11 +83,13 @@
                             <span> Свердловская обл.</span><b class="caret"></b>
                         </a>
                         <a class="btn btn-default" role="button" title="region fully in work geography"
-                           id="workRegionEdit-fully" onclick="workRegionStat('fully')">
+                           id="workRegionEdit-fully"
+                           onclick="setSubItemStat(<?=$htmlPrefix?>'-fully')">
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
                         <a class="btn btn-default" role="button" title="region removed from work gegraphy"
-                           id="workRegionEdit-delete" onclick="workRegionStat('delete')">
+                           id="workRegionEdit-delete"
+                           onclick="setSubItemStat(<?=$htmlPrefix?>'-delete')">
                             <span class="glyphicon glyphicon-minus"></span>
                         </a>
 
@@ -128,7 +97,7 @@
                             style="overflow:auto; max-height:200px">
                             <li class="list-group-item" name="city-[city_id]">Нижний тагил
                                 <a class="btn btn-default btn-sm" role="button" title="city is in work"
-                                   onclick="workRegionCityStat(city_id)">
+                                   onclick="setSubItemStat(<?=$htmlPrefix?>'-city_id')">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
 

@@ -478,10 +478,10 @@ function OrderDataEdit() {
         if (orderId !== null) {
             //var elem = 'orderWorkDirectionEdit' + '-' + orderId ;
             var elem = 'orderEditWorks' + '-' + orderId;
-            switchItemsSet(elem);
+            switchSet(elem);
         } else {    // ссобщение с переходом на вкладку general
             var elem = 'orderEditWorks' + '-' + 'NULL';
-            switchItemsSet(elem);
+            switchSet(elem);
 
         }
 

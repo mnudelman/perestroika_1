@@ -122,7 +122,7 @@ function OrderView() {
     var orderWorks = function() {
         //--  переходим в контекст 'orderMailingWorkDirection - профиль исполнителя --//
         var elem = 'officeDeveloperOrdersOrderViewWorks' + '-' + currentOrderId ;
-        switchItemsSet(elem);
+        switchSet(elem);
     } ;
     /**
      * <button id="orderEdit-country-bt" class="btn btn-primary dropdown-toggle"

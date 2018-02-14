@@ -6,6 +6,24 @@
  * @var $htmlPrefix
  */
 
+/**
+ * 3-х уровневая модель:
+ * страна - множество (совокупность стран - совокупность множеств)
+ * регион - элемент множества
+ * город - компонент(атрибут) элемента множества
+ * топология:
+ * корень :  ruleTextWidget - подсказка
+ *            tooltipsWidget - тексты для атрибута title html - элементов
+ * левая панель:
+ *           toolbarWidget - панель инструментов
+ *           simpleGeographyWidget - выбор множества (страны)
+ *           CollapsibleListWidget - список регионов (элементов множества)
+ * правая панель:
+ *    раздел "Добавить регион" (добавить элеинт множества):
+ *              toolbarWidget - панель инструментов
+ *              simpleGeographyWidget - выбор нового региона (страна + регион)
+ *    раздел "Редактировать регион"
+ */
 use app\models\WorkCountry;
 use app\models\WorkRegion;
 use app\models\WorkCity;
@@ -27,6 +45,7 @@ $ownGeography = $ug->getOwnGeography();
 //    $userRegion = ['id' => $region->id,'name' => $region->name ] ;
 //    $userCity = ['id' => $city->id,'name' => $city->name ] ;
 $htmlPrefix = (isset($htmlPrefix)) ? $htmlPrefix . 'WorkGeography' : 'workGeography';
+
 $userCountry = $ownGeography['userCountry'];
 $userRegion = $ownGeography['userRegion'];
 $userCity = $ownGeography['userCity'];
@@ -109,19 +128,6 @@ $ruleTextWidgetPar = [
     ]
 ];
 
-$listToolbarPar = [
-    'htmlPrefix' => $htmlPrefix,
-    'topology' => [
-        'title' => 6,
-        'buttons' => 6,
-        'pagination' => 0
-    ],
-    'title' => $partsTitleCurrent,
-    'buttons' => [
-        'help' => [],
-    ],
-    'pagination' => [],
-];
 $geographySetSelectPar = [
     'htmlIdPrefix' => $htmlPrefix, //'workCountrySelect' ,
     'geographyItems' => ['country'],
@@ -129,16 +135,37 @@ $geographySetSelectPar = [
     'currentCountry' => $wkGCurrentCountry,
     'currentRegion' => [],
     'currentCity' => [],
-    'onClickFunction' => 'workRegionChangeCountry',
+    'onClickFunction' => 'switchSet',       //''workRegionChangeCountry',
     'countryList' => $wkGCountryList,
 ];
+
+
+$listToolbarPar = [
+    'htmlPrefix' => $htmlPrefix,
+    'topology' => [
+        'title' => 4,
+        'buttons' => 2,
+        'widget' => 6,
+        'pagination' => 0
+    ],
+    'title' => $partsTitleCurrent,
+    'buttons' => [
+        'help' => [],
+    ],
+    'widgetVar' => [
+            'name' => 'GeographySimpleWidget',
+            'par' => $geographySetSelectPar
+    ],
+    'pagination' => [],
+];
+
 $listRegionPar = [
     'listName' => '',        // например. 'workRegion' - регионы работ
     'pictureClass' => [     // картинки, обозначающие действия (см. defaultPictures)
 //                                 'edit' => [],
     ],
     'onClick' => [
-        'edit' => 'workRegionEditOnClick',      // реакция на кнопку "редактировать"
+        'edit' => 'setItemEdit', //'workRegionEditOnClick',      // реакция на кнопку "редактировать"
     ],
     'htmlPrefix' => $htmlPrefix, //'workRegionItem',     // префикс id для обеспечения уникальнгости
     'btTitle' => $toolTipItemEdit,      // поясняющая подпись для кнопки редактирования
@@ -163,10 +190,14 @@ $listPanelHeading = [
     ],
 ];
 $listPanelBody = [
-    'setSelect' => [
-        'name' => 'GeographySimpleWidget',
-        'par' => $geographySetSelectPar
-    ],
+//    'setSelect' => [
+//        'name' => 'GeographySimpleWidget',
+//        'par' => $geographySetSelectPar
+//    ],
+//    'html' => [
+//        'name' => 'br' ,
+//        'par'=> 2,
+//    ],
     'listRegion' => [
         'name' => 'CollapsibleListWidget',
         'par' => $listRegionPar
@@ -185,7 +216,7 @@ $addRegionToolbarPar = [
     'pagination' => [],
 ];
 $addNewRegionPar = [
-    'htmlIdPrefix' => $htmlPrefix . '-addNewWorkRegion',
+    'htmlIdPrefix' => $htmlPrefix . 'AddNewWorkRegion',
     'geographyItems' => ['country', 'region'],
     'listDirectUp' => false,
     'currentCountry' => $userCountry,
@@ -193,7 +224,7 @@ $addNewRegionPar = [
     'currentCity' => $userCity,];
 $plusButtonPar = [
     'title' => $toolTipItemAdd,
-    'onclick' => 'addWorkGeography',
+    'onclick' => 'addNewSetItem',//'addWorkGeography',
     'onClickPar' => ''
 ];
 
@@ -207,7 +238,7 @@ $regionEditToolbarPar = [
     'title' => $partsTitleEdit,
     'buttons' => [
         'save' => [
-            'clickFunction' => 'saveWorkGeography',
+            'clickFunction' => 'setItemSave',    //'saveWorkGeography',
         ],
         'coveredEye' => [
             'title' => 'только отмеченные',
@@ -218,7 +249,7 @@ $regionEditToolbarPar = [
 
 $addPanelHeading = [
     'toolbar' => [
-        'name' => 'ToolbarWidget',
+        'name' => 'ToolBarWidget',
         'par' => $addRegionToolbarPar
     ]
 ];
@@ -228,9 +259,9 @@ $addPanelBody = [
         'par' => $addNewRegionPar
     ],
 ];
-$ediPanelHeading = [
+$editPanelHeading = [
     'toolbar' => [
-        'name' => 'ToolbarWidget',
+        'name' => 'ToolBarWidget',
         'par' => $regionEditToolbarPar
     ],
 ];
@@ -241,7 +272,7 @@ echo TreeLevelWidget::widget([
     'listPanelBody' => $listPanelBody,
     'addPanelHeading' => $addPanelHeading,
     'addPanelBody' => $addPanelBody,
-    'editPanelHeading' => $ediPanelHeading,
+    'editPanelHeading' => $editPanelHeading,
 ]);
 ?>
 

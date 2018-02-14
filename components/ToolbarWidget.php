@@ -43,9 +43,11 @@ class ToolbarWidget extends Widget
     public $title ;
     public $buttons = [];
     public $pagination = [];
+    public $widgetVar = [] ;
     private $topologyDefault = [
         'title' => 3,       // ширина заголовка
         'buttons' => 5,     // ширина раздела кнопок
+        'widget' => 0,      // gроизвольный widget
         'pagination' => 4   // ширина указателя страниц
     ] ;
     private $btEmpty = [         // список атрибутов кнопки
@@ -220,8 +222,10 @@ class ToolbarWidget extends Widget
         $titleWidth = $this->topology['title'] ;
         $buttonsWidth  = $this->topology['buttons'] ;
         $paginationWidth = $this->topology['pagination'] ;
+        $widgetWidth =  $this->topology['widget'] ;
         $toolbarTitle = $this->title ;
         $buttons = $this->buttons ;
+        $widgetVar = $this->widgetVar ;
         $indexPages = $this->pagination['indexPages'] ;  // массив страниц для вывода [1,2,3]
         $currentPage = $this->pagination['currentPage'] ;// - текущая страница
         $firstClass = $this->pagination['firstClass'] ;  // разрешение/запрет для терминальных страниц

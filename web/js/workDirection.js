@@ -216,6 +216,20 @@ function ParamSet() {
                     contextItem['controller'] = cnt;
                     contextMap[contextName] = contextItem;
                     break;
+                case 'officeProfileEditWorkGeography' :  // география работ
+                    var html = new WorkDirectionEditHtml();
+                    var ajax = new WorkGeographyEditAjax();
+                    // ------ добавим настройки констант ----- //
+                    // html.init('orderWorkDirectionEdit') ;
+                    html.init(contextName);
+                    contextItem['context']['html'] = html;
+                    contextItem['context']['ajax'] = ajax;
+
+                    var cnt = new EditDataController();
+                    cnt.init(contextName, contextItem['context']);
+                    contextItem['controller'] = cnt;
+                    contextMap[contextName] = contextItem;
+                    break;
 
 
             }
@@ -310,7 +324,7 @@ function EditDataController() {
      * @param newSetId
      * @returns {boolean}
      */
-    this.switchItemsSet = function(newSetId) {
+    this.switchSet = function(newSetId) {
         var setSelector = scheme['setSelector'] ;
         if(!setSelector.isFind(newSetId)) {  // ?????????
 //            return false ;
@@ -347,11 +361,10 @@ function EditDataController() {
     /**
      * переключить элемент
      * @param id
-     * @param newFlag - определяет кнопку выбора множества (true - правая false - левая
      */
-    this.setItemToggle = function(id,newFlag) {
+    this.setItemToggle = function(id) {
         var editImplement = scheme['editImplement'] ;
-        editImplement.setItemToggle(id,newFlag) ;
+        editImplement.setItemToggle(id) ;
 
     } ;
     this.setSubItemStat = function(id) {
@@ -662,8 +675,8 @@ function EditImplement() {
     /**
      * переключить из списка
      */
-    this.setItemToggle = function(id,newFlag) {
-        htmlContext.setItemToggle(id,newFlag) ;
+    this.setItemToggle = function(id) {
+        htmlContext.setItemToggle(id) ;
     } ;
     /**
      * переключить вхождение в списoк
@@ -853,7 +866,7 @@ function WorkDirectionEditHtml() {
         var li = $('<li class="list-group-item" name="" onclick=""></li>') ;
         var elName = htmlPrefix + '-'+setTyp+'-' + setId ;
         li.attr('name',elName) ;
-        var onclick = 'switchItemsSet("'  + elName +'")' ;
+        var onclick = 'switchSet("'  + elName +'")' ;
         li.attr('onclick',onclick) ;
         var a = $('<a href="#" tabindex="-1">беларусь</a>') ;
         a.text(setName) ;
@@ -1182,25 +1195,25 @@ function WorkDirectionEditHtml() {
 
     /**
      * переключить элементы (id сделать текущим)
-     * @param id
-     * @param newFlag (по умолчанию  true)
+     * @param selectedId
      * определяет выбор кнопки и списка, задающих множество(верхний уровень)
      */
-    this.setItemToggle = function(selectedId,newFlag) {
-        newFlag = (newFlag === undefined) ? true : newFlag ;
+    // this.setItemToggle = function(selectedId,newFlag) {
+    this.setItemToggle = function(selectedId) {
+        var newFlag = true  ;
         var bt = '';      // кнопка с именем
         var ul = '' ;      // связанный список
         var imgShow = undefined ;    // картинка
 
-        if (!newFlag) {
-            bt = setBt;      // кнопка с именем
-            ul = setUl ;      // связанный список
-        }else {
+        // if (!newFlag) {
+        //     bt = setBt;      // кнопка с именем
+        //     ul = setUl ;      // связанный список
+        // }else {
             bt = newSetItemBt;      // кнопка с именем
             ul = newSetItemUl ;      // связанный список
-            var imgShow = newSetItemImg;    // картинка
+            imgShow = newSetItemImg;    // картинка
 
-        }
+        // }
         //var bt = newSetItemBt;      // кнопка с именем
         //var ul = newSetItemUl ;      // связанный список
         //var imgShow = newSetItemImg;    // картинка
@@ -1214,6 +1227,13 @@ function WorkDirectionEditHtml() {
             return ;
         }
         // убрать старую отметку
+
+
+
+
+
+
+
 
         var liPrev = ul.children(
         ' [name$="' +  ulName + '"]') ;
@@ -1683,12 +1703,12 @@ function getIdFromElemName(elem) {
  * переключить множество
  * @param elem
  */
-function switchItemsSet(elem) {
+function switchSet(elem) {
     var r = getIdFromElemName(elem) ;
     var id = r['id'] ;
     var contextName = r['context'] ;
     var controller = paramSet.getController(contextName) ;
-    controller.switchItemsSet(id) ;
+    controller.switchSet(id) ;
 }
 /**
  * редавктировать элемент множества
@@ -1710,15 +1730,16 @@ function setItemEdit(elem) {
  * список значений  newSetItemUl
  * @param elem = htmlPrefix - ... - id
  * @param newFlag (умолчание true  - определяет кнопку, задающую множество
- * если newFlag = true, то кнопка в правой части(иначе левая)
+ * если newFlag = true, то кнопка в правой части- (иначе левая - быть не должно,
+ *                      только для области добавить новый itemSet)
  */
-function newSetItemToggle(elem,newFlag) {
-    newFlag = (newFlag === undefined) ? true : newFlag ;
+function newSetItemToggle(elem) {
+    // newFlag = (newFlag === undefined) ? true : newFlag ;
     var r = getIdFromElemName(elem) ;
     var id = r['id'] ;
     var contextName = r['context'] ;
     var controller = paramSet.getController(contextName) ;
-    controller.setItemToggle(id,newFlag) ;
+    controller.setItemToggle(id) ;
 
 }
 /**

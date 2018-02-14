@@ -146,7 +146,7 @@ function OrderMailingProfile() {
     var profileWorks = function() {
         //--  переходим в контекст 'orderMailingWorkDirection - профиль исполнителя --//
         var elem = 'orderEditMailingProfileWorks' + '-' + currentDeveloperId ;
-        switchItemsSet(elem);
+        switchSet(elem);
     } ;
     /**
      * <button id="orderEdit-country-bt" class="btn btn-primary dropdown-toggle"
@@ -187,7 +187,7 @@ function OrderMailingProfile() {
             html.addNewSet(item['id'],item['name']) ;
         }
         var currentSetId = setItems[0]['id'] ;
-        cnt.switchItemsSet(currentSetId) ;
+        cnt.switchSet(currentSetId) ;
     } ;
     var profileAdditional = function() {
             var sendData = {

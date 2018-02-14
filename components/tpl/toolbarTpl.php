@@ -5,8 +5,10 @@
  * @var $titleWidth
  * @var $buttonsWidth
  * @var $paginationWidth
+ * @var $widgetWidth
  * @var $toolbarTitle
  * @var $buttons
+ * @var $widgetVar
  * @var $indexPages    -  массив страниц для вывода [1,2,3]
  * @var $currentPage   - текущая страница
  * @var $firstClass    - разрешение/запрет для терминальных страниц
@@ -20,6 +22,7 @@
 use app\components\PaginationWidget;
 $buttonClass = "btn btn-primary btn-sm" ;
 ?>
+
 <div class="row">
     <?php
     if ($titleWidth > 0) {
@@ -69,6 +72,23 @@ $buttonClass = "btn btn-primary btn-sm" ;
         <?php
     }
     ?>
+    <?php
+    if ($widgetWidth > 0){
+    ?>
+
+    <div class="col-md-<?= $widgetWidth ?>" name="toolBarWidget">
+        <?php
+          $name = $widgetVar['name'] ;
+          $par =  $widgetVar['par'] ;
+        widgetCase($name,$par) ;
+//        echo app\components\GeographySimpleWidget::widget($par);
+        ?>
+
+    </div>
+        <?php
+        }
+        ?>
+
 
     <?php
        if ($paginationWidth > 0){
