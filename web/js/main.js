@@ -427,7 +427,7 @@ function dropDownSelect(elem) {
    }
    var bt = $('#' + groupName + '-bt') ;
     var ul = $('#' + groupName + '-ul') ;
-    var item = ul.children('[name="'+ elem + '"]') ;
+    var item = ul.children('[name$="-'+ id + '"]') ;
     bt.attr('name',elem) ;
     ul.attr('name',elem) ;
 
@@ -444,9 +444,11 @@ function dropDownSelect(elem) {
         }
         item = $(items[ind]) ;
         var name = item.attr('name') ;
+        var arr = name.split('-') ;
+        var itemId = arr[arr.length -1] ;    // id - последний элемент в составном имени
         var cl = item.attr('class') ;
         var activeFlag = (cl.indexOf('active') > 0 ) ;
-        if (name === elem) {
+        if (id - 0 === itemId - 0) {
             if (!activeFlag) {
                 item.addClass('active') ;
             }

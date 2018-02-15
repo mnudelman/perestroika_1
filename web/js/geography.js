@@ -33,160 +33,14 @@ function simpleGeographyRestore() {
     });
 
 }
-function simpleGeographyOnClick(elName,refTypes,procFinished) {
-    if (elName === undefined) {
-        if (typeof(procFinished) === "object" ) {
-            procFinished.setReady(true) ;
-        }
-        return ;
-    }
-    var nameSeparator = '-' ;    // разделитель в имени элемента
-    var arr = elName.split(nameSeparator) ;
-    var htmlPrefixId = arr[0] ;
-    var ln = arr.length ;
-    var selectedTyp = arr[ln - 2] ;
-    var selectedId =  arr[ln - 1] ;
-
-    var btId = htmlPrefixId + '-' + selectedTyp + '-bt' ;
-
-    var bt = $('#' + htmlPrefixId + '-' + selectedTyp + '-bt') ;      // кнопка с именем
-    var ul = $('#' + htmlPrefixId + '-' + selectedTyp + '-ul') ;      // связанный список
-
-
-
-
-
-    var ulName = ul.attr('name') ;
-    arr = ulName.split('-') ;
-    var currentId = arr[1] ;
-    if (selectedId === currentId) {     // нет изменений
-        if (typeof(procFinished) === "object" ) {
-            procFinished.setReady(true) ;
-        }
-        return ;
-    }
- // убрать старую отметку
-       dropDownSelect(elName) ;
-//     var liPrev = $('#' + htmlPrefixId + '-'+ selectedTyp + '-ul' +
-//                                   ' [name="' + htmlPrefixId+'-' + ulName + '"]') ;
-//     liPrev.attr('class','list-group-item') ;
-//
-//     var li = $('#' + htmlPrefixId + '-' + selectedTyp + '-ul' + ' [name="' +  elName + '"]') ;
-//     li.attr('class','list-group-item active') ;
-//     var li_a = li.children()[0] ;
-//     var liNodeName = li_a.textContent ;
-// //    var span = bt.find('span .caret') ;
-// // новое имя на кнопку
-//     bt.empty() ;
-//     bt.append(liNodeName +  ' ') ;
-//
-//     bt.append('<span class="caret"></span>') ;
-//
-//
-//     ul.attr('name',selectedTyp + '-' + selectedId) ;
-    var data = {
-        "opcod" : 'get',
-        "type" : selectedTyp,
-        "id" : selectedId
-    } ;
-    $.ajax({
-        url: 'index.php?r=geography%2Findex',
-        data: data,
-        type: 'POST',
-        success: function (res) {
-//            showError(res,'res from simpleGeographyOnClick') ;
-            var rr = JSON.parse(res);
-//  что-бы сохранить позицию экрана  --
-            $('#' + btId).focus() ;
-
-            var success = rr['success'];
-            var message = rr['message'];
-            if (rr['success'] === true) {
-               geographyNewPoint(htmlPrefixId,selectedTyp,selectedId,rr,refTypes) ;
-                if (typeof(procFinished) === "object" ) {
-                    procFinished.setReady(true) ;
-                }
-            }
-        },
-        error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-            var responseText = event.responseText; // html - page
-            showError(responseText,'simpleGeographyOnClick') ;
-
-        }
-    });
-}
-/**
- * формирует связанные списки ст екущим типом
- * например, если тек тип country, то переформировываться будут связанные списки: region, city
- * @param selectedTyp - тип компонента адреса (country | region | city)
- * @param selectedId  - ид выбранного элемента
- * @param rr - результат, пришедший от ajax содержит списки компонентов адреса
- * @refTypes - список связанных типов, если нет, то взять из таблицы
- */
-function geographyNewPoint(htmlPrefix,selectedTyp,selectedId,rr,refTypes) {
-    // связанные типы
-    var referTypes = {
-        'all' : ['country','region','city'],
-        'country' : ['region','city'],
-        'region' :  ['city'],
-        'city' : [],
-        'countryOnly': ['country'],
-        'regionOnly': ['region'],
-        'cityOnly': ['city']
-    } ;
-    var referSelected = (refTypes === undefined || refTypes.length == 0) ? referTypes[selectedTyp] : refTypes ;
-//    var selectedList = rr[selectedTyp + 'List'] ;
-//    geographyNodesBuild(selectedTyp,selectedId,selectedList) ;  // только для списков нижнего уровня
-//  перестроить связанные компоненты адреса
-    for (var i = 0; i < referSelected.length; i++) {
-        var referType = referSelected[i] ;
-        var referList =  rr[referType + 'List'] ;
-//        var referId = referList[0]['id'] ;
-        var referId = rr[referType + '_id'] ;
-        geographyNodesBuild(htmlPrefix,referType,referId,referList) ;
-    }
-}
-/**
- * обновить имя на кнопке, пересоздать связанный список
- * @param selectedTyp
- * @param selectedId
- * @param selectedList   [{'id' => ..., 'name' => ...}, ....]
- */
-function geographyNodesBuild(htmlPrefix,selectedTyp,selectedId,selectedList) {
-    var liOrderClass = 'list-group-item' ;           // класс обычного элемента списка
-    var liActiveClass = 'list-group-item active' ;           // класс выделенного элемента списка
-    var bt = $('#' + htmlPrefix +'-'+ selectedTyp + '-bt') ;      // кнопка с именем
-    var ul = $('#' + htmlPrefix +'-'+ selectedTyp + '-ul') ;      // связанный список
-    var functionOnClick = 'simpleGeographyOnClick' ;
-    var span = bt.children('span') ;              // это стрелочка рядом с именем
-    var btNewName = '' ;      //  новое имя для кнопки
-
-    ul.attr('name',selectedTyp + '-' + selectedId) ;
-    ul.empty() ;
-
-    for (var i = 0; i < selectedList.length; i++) {
-        var itemId = selectedList[i]['id'] ;
-        var itemName = selectedList[i]['name'] ;
-        var li = $('<li></li>') ;
-        li.attr('name',htmlPrefix + '-' +selectedTyp + '-' + itemId) ;
-        var li_a = $('<a href="#" tabindex="-1"></a>') ;
-//        li.attr('name',selectedTyp + '-' + itemId) ;
-
-        var arg = htmlPrefix + '-' + selectedTyp + '-' + itemId ;
-        var newValue = functionOnClick + '("' + arg + '")' ;
-        li.attr('onclick',newValue) ;
-        li.attr('class',liOrderClass) ;
-        if (selectedId - 0 === itemId - 0) {
-            li.attr('class',liActiveClass) ;
-            btNewName = itemName ;
-        }
-        li_a[0].textContent = itemName  ;
-        li.append(li_a) ;
-        ul.append(li) ;
-    }
-    bt.empty() ;
-    bt.append(btNewName +  ' ') ;
-    bt.append('<span class="caret"></span>') ;
+function simpleGeographyOnClick(elName) {
+         var controllerName = 'simpleGeographyController' ;
+         var cnt = paramSet.getObj(controllerName) ;
+         if (cnt === null) {
+             cnt = new SimpleGeography() ;
+             paramSet.putObj(controllerName,cnt) ;
+          }
+          cnt.simpleGeographyOnClick(elName) ;
 }
 
 /**
@@ -198,11 +52,9 @@ function geographyNodesBuild(htmlPrefix,selectedTyp,selectedId,selectedList) {
  * @constructor
  */
 function SimpleGeography() {
-   var geographyItems = {} ; // список географических точек
-   // var currentGeographyItem = {} ;
-   var currentHtmlPrefix ;
+   var htmlPrefix ;
    var currentType;     // 'country' | 'region' | 'city'
-    var referTypes = {           // связанные типы
+    var referTypes = {           // связанные подчинённые типы
         'all' : ['country','region','city'],
         'country' : ['region','city'],
         'region' :  ['city'],
@@ -212,60 +64,59 @@ function SimpleGeography() {
         'cityOnly': ['city']
     } ;
 
-    var url = 'index.php?r=geography%2Findex' ;
+   var url = 'index.php?r=geography%2Findex' ;
    var ajaxExe = null ;
    var _this = this ;
 //------------------------------------------------//
-   this.init = function(htmlPrefix) {
-        if (geographyItems[htmlPrefix] === undefined) {
-            geographyItems[htmlPrefix] = newGeographyItem() ;
-        }
-       if (ajaxExe === null) {
-           ajaxExe = new AjaxExecutor(); // собственный исполнитель запроса
-       }
-
-
+   this.init = function() {
+       ajaxExe = new AjaxExecutor(); // собственный исполнитель запроса
    } ;
-   var newGeographyItem = function() {
-       return {
-           'country' : {'id':'', 'name':''},
-           'region' : {'id':'', 'name':''},
-           'city' : {'id':'', 'name':''}} ;
-   } ;
+   // var newGeographyItem = function() {
+   //     return {
+   //         'country' : {'id':'', 'name':''},
+   //         'region' : {'id':'', 'name':''},
+   //         'city' : {'id':'', 'name':''}} ;
+   // } ;
 
     this.simpleGeographyOnClick = function(elName) {
+        if (ajaxExe === null) {
+            _this.init() ;
+        }
         var nameSeparator = '-' ;    // разделитель в имени элемента
         var arr = elName.split(nameSeparator) ;
-        currentHtmlPrefix = arr[0] ;
+
         var ln = arr.length ;
         var selectedTyp = arr[ln - 2] ;
         var selectedId =  arr[ln - 1] ;
-        // var btId = currentHtmlPrefix + '-' + selectedTyp + '-bt' ;
+        htmlPrefix = arr[0] ;
+        //  в  htmlPrefix возможно составной
+        for (var i = 1; i < ln - 2; i++) {
+            htmlPrefix += nameSeparatorar +arr[i] ;
+        }
+
+        // if (geographyItems[currentHtmlPrefix] === undefined) {
+        //     geographyItems[currentHtmlPrefix] = newGeographyItem() ;
+        // }
         currentType = selectedTyp ;
-        geographyItems[currentHtmlPrefix][selectedTyp]['id'] = selectedId ;
-
-        // var bt = $('#' + currentHtmlPrefix + '-' + selectedTyp + '-bt') ;      // кнопка с именем
-        var ul = $('#' + currentHtmlPrefix + '-' + selectedTyp + '-ul') ;      // связанный список
-
-
-
-
-
+        // geographyItems[currentHtmlPrefix][selectedTyp]['id'] = selectedId ;
+// текущий id хранится в атрибуте name
+        var ul = $('#' + htmlPrefix + '-' + selectedTyp + '-ul') ;      // связанный список
         var ulName = ul.attr('name') ;
         arr = ulName.split('-') ;
-        var currentId = arr[1] ;
+        var currentId = arr[arr.length -1] ;
         if (selectedId === currentId) {     // нет изменений
             return ;
         }
-        // заменить отметку
+        // заменить отметку на выбранный
         dropDownSelect(elName) ;
+// получить связанные элементы
         var data = {
             "opcod" : 'get',
             "type" : selectedTyp,
             "id" : selectedId
         } ;
 
-        ajaxExe.setUrl('url') ;
+        ajaxExe.setUrl(url) ;
         ajaxExe.setData(data) ;
         ajaxExe.setCallback(simpleGeographyShow) ;
         ajaxExe.go() ;
@@ -308,12 +159,11 @@ function SimpleGeography() {
     var geographyNodesBuild = function(selectedTyp,selectedId,selectedList) {
         var liOrderClass = 'list-group-item' ;           // класс обычного элемента списка
         var liActiveClass = 'list-group-item active' ;           // класс выделенного элемента списка
-        var bt = $('#' + currentHtmlPrefix +'-'+ selectedTyp + '-bt') ;      // кнопка с именем
-        var ul = $('#' + currentHtmlPrefix +'-'+ selectedTyp + '-ul') ;      // связанный список
+        var bt = $('#' + htmlPrefix +'-'+ selectedTyp + '-bt') ;      // кнопка с именем
+        var ul = $('#' + htmlPrefix +'-'+ selectedTyp + '-ul') ;      // связанный список
         var functionOnClick = 'simpleGeographyOnClick' ;
         var span = bt.children('span') ;              // это стрелочка рядом с именем
         var btNewName = '' ;      //  новое имя для кнопки
-
         ul.attr('name',selectedTyp + '-' + selectedId) ;
         ul.empty() ;
 
@@ -321,11 +171,11 @@ function SimpleGeography() {
             var itemId = selectedList[i]['id'] ;
             var itemName = selectedList[i]['name'] ;
             var li = $('<li></li>') ;
-            li.attr('name',currentHtmlPrefix + '-' +selectedTyp + '-' + itemId) ;
+            li.attr('name',htmlPrefix + '-' +selectedTyp + '-' + itemId) ;
             var li_a = $('<a href="#" tabindex="-1"></a>') ;
 //        li.attr('name',selectedTyp + '-' + itemId) ;
 
-            var arg = currentHtmlPrefix + '-' + selectedTyp + '-' + itemId ;
+            var arg = htmlPrefix + '-' + selectedTyp + '-' + itemId ;
             var newValue = functionOnClick + '("' + arg + '")' ;
             li.attr('onclick',newValue) ;
             li.attr('class',liOrderClass) ;
@@ -341,7 +191,4 @@ function SimpleGeography() {
         bt.append(btNewName +  ' ') ;
         bt.append('<span class="caret"></span>') ;
     } ;
-
-
-
 }

@@ -726,7 +726,7 @@ function processExecute(processName) {
  * Взаимодействие с БД. подготовка, отправление и приём сообщений
  */
 function WorkGeographyEditAjax() {
-    var urlController = 'work-direction' ;
+    var urlController = 'work-geography' ;
     var buttonsForSubItems ;    //  если будет [], то небудет кнопки редактиования
     var _this = this ;
     //-----------------------------------------------//
@@ -783,10 +783,11 @@ function WorkGeographyEditAjax() {
      * @returns {{opCod: string, url: string, data: {workDirection: *, workItems: *}}}
      */
     var getSetItemsFactAjaxParam = function(params) {
-        var url = 'index.php?r=' + urlController + '%2Fget-fact-work-direction' ;
+        var url = 'index.php?r=' + urlController + '%2Fget-work-region' ;
         var opCod = 'getFactWorkDirection' ;
         var data = {
-            workDirectionId : params['setId']
+            countryId : params['setId'],
+            objectType : 'user'
         } ;
         return {
             opCod : opCod,

@@ -221,7 +221,7 @@ function ParamSet() {
                     var ajax = new WorkGeographyEditAjax();
                     // ------ добавим настройки констант ----- //
                     // html.init('orderWorkDirectionEdit') ;
-                    html.init(contextName);
+                    html.init(contextName,'country');
                     contextItem['context']['html'] = html;
                     contextItem['context']['ajax'] = ajax;
 
@@ -801,9 +801,9 @@ function WorkDirectionEditHtml() {
      * @param prefix
      * @param setTyp - имя типа, задающего множество (например ,'country')
      */
-    this.init = function(prefix,setTypName) {
+    this.init = function(prefix,setTyp) {
         htmlPrefix = prefix ; // уникальность блока на странице
-        setTyp = (setTypName === undefined) ? 'direct' : setTypName ;
+        setTyp = (setTyp === undefined) ? 'direct' : setTyp ;
 
         setBt = $('#'+ htmlPrefix + '-' + setTyp +'-bt') ; //   перключатель множества
         setUl = $('#'+ htmlPrefix + '-' + setTyp +'-ul') ; //   перключатель множества -  список
@@ -844,7 +844,10 @@ function WorkDirectionEditHtml() {
             return {} ;
         }
         for(var key in liList) {
-            var li = liList[key] ;
+            if (isNaN(key)) {
+                break ;
+            }
+            var li = $(liList[key]) ;
             var liName = li.attr('name') ;
             var arr = liName.split('-') ;
             var id = arr[arr.length - 1] ;

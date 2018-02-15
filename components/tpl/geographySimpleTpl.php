@@ -17,6 +17,8 @@ $styleDropdown = 'overflow-y:auto;max-height:400px;white-space: pre-wrap;';
  * @var $htmlPrefix - обеспечивает уникальность
  * @var $onClickFunction -
  * @var $disabled
+ * @var $typeName
+ * @var $itemList
  *
  */
 ?>
@@ -27,7 +29,8 @@ $liList = [];
 //        $currentName = (isset($this->currentCountry['name'])) ? $this->currentCountry['name'] : false;
 for ($i = 0; $i < sizeof($itemList); $i++) {
     $item = $itemList[$i];
-    $elName =$htmlPrefix .'-' .$typeName . '-' . $item['id'];
+    $elName =$htmlPrefix .'-' . $typeName . '-' . $item['id'];
+    $liName = $typeName . '-' . $item['id'];
     $name = $item['name'];
     $activeFlag = ($currentName === $name);     // текущий элемент в списке
     $liList[] = [
@@ -35,7 +38,7 @@ for ($i = 0; $i < sizeof($itemList); $i++) {
         'url' => '#',
         'options' => [
             'class' => 'list-group-item' . (($activeFlag) ? ' active' : ''),
-            'name' => $elName,
+            'name' => $liName,
             'onclick' => $onClickFunction .'("' . $elName . '")'
         ]
     ];
