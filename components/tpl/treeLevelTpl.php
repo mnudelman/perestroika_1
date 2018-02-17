@@ -79,17 +79,18 @@
                         <!--                    <ul class="list-group" >-->
                         <a class="btn btn-default" role="button" data-toggle="collapse" style="width:82%"
                            aria-expanded="true" href="#<?= $htmlPrefix ?>-edit-collapse"
-                           aria-controls="<?= $htmlPrefix ?>-edit-collapse" id="workRegionEdit-name">
+                           aria-controls="<?= $htmlPrefix ?>-edit-collapse"
+                           id="<?=$htmlPrefix?>-editSetItem-bt">
                             <span> Свердловская обл.</span><b class="caret"></b>
                         </a>
                         <a class="btn btn-default" role="button" title="region fully in work geography"
-                           id="workRegionEdit-fully"
-                           onclick="setSubItemStat(<?=$htmlPrefix?>'-fully')">
+                           id="<?=$htmlPrefix?>-fully-bt"
+                           onclick="setSubItemStat(<?=$htmlPrefix?>'-fully-bt')">
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
                         <a class="btn btn-default" role="button" title="region removed from work gegraphy"
-                           id="workRegionEdit-delete"
-                           onclick="setSubItemStat(<?=$htmlPrefix?>'-delete')">
+                           id="<?=$htmlPrefix?>-delete-bt"
+                           onclick="setSubItemStat(<?=$htmlPrefix?>'-delete-bt')">
                             <span class="glyphicon glyphicon-minus"></span>
                         </a>
 

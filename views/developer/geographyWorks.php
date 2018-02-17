@@ -216,7 +216,7 @@ $addRegionToolbarPar = [
     'pagination' => [],
 ];
 $addNewRegionPar = [
-    'htmlIdPrefix' => $htmlPrefix . 'AddNewWorkRegion',
+    'htmlIdPrefix' => $htmlPrefix . 'NewSetItem',
     'geographyItems' => ['country', 'region'],
     'listDirectUp' => false,
     'currentCountry' => $userCountry,

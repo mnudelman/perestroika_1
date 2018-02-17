@@ -784,9 +784,9 @@ function WorkGeographyEditAjax() {
      */
     var getSetItemsFactAjaxParam = function(params) {
         var url = 'index.php?r=' + urlController + '%2Fget-work-region' ;
-        var opCod = 'getFactWorkDirection' ;
+        var opCod = 'get' ;
         var data = {
-            countryId : params['setId'],
+            countryId : params['id'],
             objectType : 'user'
         } ;
         return {
@@ -817,14 +817,16 @@ function WorkGeographyEditAjax() {
     } ;
     /**
      * получить список связанных элементов
-     * @param params = {id:..}
+     *
+     * @param params = {id: item['id'],setId:setId, name: item['name']} ;
      */
     var getSubItemsGetAjaxParam = function(params) {
 //        var url = 'index.php?r=work-direction%2Fget-work-items' ;
-        var url = 'index.php?r=' + urlController + '%2Fget-work-items' ;
-        var opCod = 'getWorkItems' ;
+        var url = 'index.php?r=' + urlController + '%2Fget-work-city' ;
+        var opCod = 'get' ;
         var data = {
-            workDirectionId : params['id']
+            countryId : params['setId'],
+            regionId :  params['id']
         } ;
         return {
             opCod : opCod,
@@ -869,28 +871,39 @@ function WorkGeographyEditAjax() {
         return {success: success,message: rr['message']} ;
     } ;
     /**
-     * массив элементов надо привести к виду {id:   , name: ,fullyFlag: }
+     *        $answ = [
+     'success' => $success,
+     'workCountry' => $wCountry ,
+     'workRegionList' => $wRegionList,
+     'z-end' => 'end'
+     * 'workRegionList[i] = {... fully_flag: '0', region:{id: , name: } }
+     * workCountry.country{id: , name: }
      * @param rr
+     * @return {success: success, setItemList: setItemList}
      */
     var getSetItemsFactParseAjaxRes = function(rr) {
         var success = rr['success'] ;
-        var factWorkDirectionList = rr['factWorkDirectionList'] ;
+        var factList = rr['workRegionList'] ;
+        var set = rr['workCountry']['country'] ;
+        var setId = set['id'] ;
+        var setName = set['name'] ;
         var setItemList = [] ;
-        for (var key in factWorkDirectionList) {
-            var item = factWorkDirectionList[key] ;
-            var id = item['work_direction_id'] ;
+        for (var key in factList) {
+            var item = factList[key] ;
+            var reg = item.region ;
+            var id = reg['id'] ;
+            var name = reg['name'] ;
             var fullyFlag = item['fully_flag'] ;
             fullyFlag = (typeof(fullyFlag) === 'string') ?
                 (fullyFlag === 'true' || fullyFlag == '1') : fullyFlag ;
 
-            var name = item['workDirection']['name_ru'] ;
             var newElem = {} ;
             newElem['id'] = id ;
             newElem['name'] = name ;
             newElem['fullyFlag'] = fullyFlag ;
             setItemList.push(newElem) ;
         }
-        return {success: success, setItemList: setItemList} ;
+        return {success: success, setId: setId,setName: setName,setItemList: setItemList} ;
 
     } ;
     var getSubItemsParseAjaxRes = function(rr) {
@@ -910,27 +923,42 @@ function WorkGeographyEditAjax() {
         return {success:success, setItem: wdItem,
             subItemsList: workList, subItemsFactList: workListFact, buttons: buttons} ;
     } ;
-
+    /**
+     * $answ = [
+     'success' => $success,
+     'message' => [],
+     'workCountry' => $wCountry ,
+     'workRegion' => $wRegion,
+     'workCityList' => $workCityList,
+     'cityList' => $cityList,
+     'z-end' => 'end'
+     * @param rr
+     * @return {{success: *, setItem: {id: *, fullyFlag: boolean, name: *}, subItemsList: *, subItemsFactList: Array, buttons: *}}
+     */
     var getSubItemsSimpleParseAjaxRes = function(rr) {
         var success = rr['success'] ;
-        var dWorkDirection = rr['developerWorkDirection'] ;
-        var wdItemName = dWorkDirection['workDirection']['name_ru'] ;
-        var fullyFlag  = (dWorkDirection['fully_flag'] === '1') ;
-        var wdItem = {
+        var workRegion = rr['workRegion'] ;
+        var itemName = workRegion['region']['name'] ;
+        var itemId = workRegion['region']['id'] ;
+        var fullyFlag  = (workRegion['fully_flag'] === '1') ;
+        var setItem = {
             //workDirectionId: dWorkDirection['work_direction_id'],
             //id: dWorkDirection['id'],
-            id: dWorkDirection['work_direction_id'],
+            id: itemId,
             fullyFlag: fullyFlag,
-            name: wdItemName
+            name: itemName
         } ;
-        var workList = rr['workItemList'] ;     // полный список по направлению
-        var workListFact = rr['developerWorkItemList'] ; // фактический список по направлению
+        var subItemsList = rr['cityList'] ;     // полный список по направлению
+        var workCityList = rr['workCityList'] ; // фактический список по направлению
         var subItemsFact = [] ;
-        for (var ind in workListFact) {
-            var workItem = workListFact[ind]['workItem'] ;
+        for (var ind in workCityList) {
+            if (isNaN(ind)) {
+                break ;
+            }
+            var workCity = workCityList[ind]['city'] ;
             var subItem = {
-                id: workItem['id'],
-                name: workItem['name_ru']
+                id: workCity['id'],
+                name: workCity['name']
             } ;
             subItemsFact.push(subItem) ;
         }
@@ -938,8 +966,8 @@ function WorkGeographyEditAjax() {
         var buttons = buttonsForSubItems ;
 
 
-        return {success:success, setItem: wdItem,
-            subItemsList: workList, subItemsFactList: subItemsFact, buttons:buttons} ;
+        return {success:success, setItem: setItem,
+            subItemsList: subItemsList, subItemsFactList: subItemsFact, buttons:buttons} ;
     } ;
 
 }

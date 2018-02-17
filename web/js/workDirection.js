@@ -222,6 +222,11 @@ function ParamSet() {
                     // ------ добавим настройки констант ----- //
                     // html.init('orderWorkDirectionEdit') ;
                     html.init(contextName,'country');
+                   // - внешняя функция смены региона в области новый
+                    var extFunc = {
+                        'newSetItemToggle' : 'geographySetItemToggle'
+                    } ;
+                    html.setExtFunctions(extFunc) ;
                     contextItem['context']['html'] = html;
                     contextItem['context']['ajax'] = ajax;
 
@@ -352,20 +357,25 @@ function EditDataController() {
      * например, workDirection
      * найти элемент в левой части и скопировать для редактирования в
      * область редактирования
-     * @param id
+     * @param setItemId
      */
-    this.setItemEdit = function(id) {
+    this.setItemEdit = function(setItemId) {
+        var setSelector = scheme['setSelector'] ;
+        var setId = setSelector.getCurrentSetId() ;
+
         var editImplement = scheme['editImplement'] ;
-        editImplement.setItemEdit(id) ;
+
+        editImplement.setItemEdit(setItemId,setId) ;
     };
     /**
      * переключить элемент
      * @param id
      */
     this.setItemToggle = function(id) {
-        var editImplement = scheme['editImplement'] ;
-        editImplement.setItemToggle(id) ;
-
+        // var editImplement = scheme['editImplement'] ;
+//        editImplement.setItemToggle(id) ;
+        var setSelector = scheme['setSelector'] ;
+        setSelector.setItemToggle(id) ;
     } ;
     this.setSubItemStat = function(id) {
         var editImplement = scheme['editImplement'] ;
@@ -411,9 +421,14 @@ function EditDataSetSelector() {
         ajaxContext = contextItem['ajax'] ;
         ajaxExe = new AjaxExecutor() ; // собственный исполнитель запроса
         factSets = htmlContext.getFactSets() ;
+        currentSet.id = htmlContext.getFactSetId() ;
+
     } ;
     this.isFind = function(setId) {
         return (factSets[setId] !== undefined) ;
+    } ;
+    this.setItemToggle = function(setItemId) {
+        htmlContext.setItemToggle(setItemId,currentSet.id) ;
     } ;
     /**
      * новое множество добавляется в  html document и в БД
@@ -438,6 +453,9 @@ function EditDataSetSelector() {
     } ;
     var newItem = function(id,name) {
         return {id: id, name: name} ;
+    } ;
+    this.getCurrentSetId = function() {
+       return currentSet.id ;
     } ;
     /**
      * надо запрашивать список элементов
@@ -608,8 +626,8 @@ function EditImplement() {
      * 1. перенести в область редактирования
      * @param setItemid
      */
-    this.setItemEdit = function(setItemId) {
-        var sendPar = {id: setItemId} ;
+    this.setItemEdit = function(setItemId,setId) {
+        var sendPar = {id: setItemId,setId:setId} ;
         var  ajaxPar = ajaxContext.getAjaxParam('getSubItems',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
         ajaxExe.setData(ajaxPar['data']) ;
@@ -631,21 +649,22 @@ function EditImplement() {
             htmlContext.setItemEditMessage(message) ;
             return
         }
+/////////////////////////////////////////////////////
+        var rr = ajaxContext.parseAjaxRes('getSubItemsSimple', res);
 
-
-
-        var rr = ajaxContext.parseAjaxRes('getSubItems', res);
+/////////////////////////////////////////////////////
+//         var rr = ajaxContext.parseAjaxRes('getSubItems', res);
         var setItem = rr['setItem'] ;
         var id = setItem['id'] ;
-        var workDirectionId = setItem['workDirectionId'] ;
+        // var workDirectionId = setItem['workDirectionId'] ;
         var name = setItem['name'] ;
         var fullyFlag = setItem['fullyFlag'] ;
         var deleteFlag =false ;
 
-        currentSetItem['id'] = workDirectionId ;  // ссылка на справочник
-        currentSetItem['name'] = name ;
-        currentSetItem['fullyFlag'] = fullyFlag ;
-        currentSetItem['deleteFlag'] = deleteFlag ;
+        // currentSetItem['id'] = workDirectionId ;  // ссылка на справочник
+        // currentSetItem['name'] = name ;
+        // currentSetItem['fullyFlag'] = fullyFlag ;
+        // currentSetItem['deleteFlag'] = deleteFlag ;
 
         htmlContext.setItemEditNode(id,name,fullyFlag,deleteFlag) ;
 
@@ -781,6 +800,7 @@ function WorkDirectionEditHtml() {
     var setUl = $('#'+ htmlPrefix + '-set-ul') ; //   перключатель множества -  список
     var setItemsUl = $('#'+ htmlPrefix + '-ul') ; // список элементо тек множества
     var newSetBt = null ;                         // кнопка нового множества
+    var newSetUl = null ;                         // кнопка нового множества
     var newSetItemBt = $('#'+ htmlPrefix + '-newSetItem-bt')  ; // кнопка нового элемента множества
     var newSetItemUl = $('#'+ htmlPrefix + '-newSetItem-ul')  ; // список нового элемента множества
     var newSetItemImg = $('#'+ htmlPrefix + '-newSetItem-img')  ; // картинка множества
@@ -792,8 +812,17 @@ function WorkDirectionEditHtml() {
     var setItemEditUl = $('#'+ htmlPrefix + '-editSetItem-ul') ; // редактируемый элемент множества
     var fullyName = '(полностью)' ;
     var onlySelectedShowGroup = $('#' + htmlPrefix + '-onlySelectedShow') ; // уровень показа
-    var setItemEditArea = $('#'+htmlPrefix + '-area') ;  // область редактирования hidden перед редактированием
+    var setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
     var setItemEditMessage = $('#'+htmlPrefix + '-message') ;  // область редактирования hidden перед редактированием
+   //-- возможность включать внешние функции
+    var extFunctions = {
+        newSetItemToggle: null      // преключение элемнта в области добавления
+    } ;
+    var setLevelNames = {
+        'set' : 'country',
+        'setItem' : 'region',
+        'subSetItem' : 'city'
+    } ;
     var _this = this ;
 //----------------------------------------------------------------------//
     /**
@@ -812,9 +841,24 @@ function WorkDirectionEditHtml() {
 
 
         setItemsUl = $('#'+ htmlPrefix + '-ul') ; // список элементо тек множества
-        newSetBt = null ;                         // кнопка нового множества
-        newSetItemBt = $('#'+ htmlPrefix + '-newSetItem-bt')  ; // кнопка нового элемента множества
-        newSetItemUl = $('#'+ htmlPrefix + '-newSetItem-ul')  ; // список нового элемента множества
+
+        // newSetBt = $('#'+ htmlPrefix + '-newSet-bt') ;                         // кнопка нового множества
+        // newSetUl = $('#'+ htmlPrefix + '-newSet-ul') ;                         // кнопка нового множества
+        //
+        //
+        // newSetItemBt = $('#'+ htmlPrefix + '-newSetItem-bt')  ; // кнопка нового элемента множества
+        // newSetItemUl = $('#'+ htmlPrefix + '-newSetItem-ul')  ; // список нового элемента множества
+
+        newSetBt = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['set'] + '-bt') ;                         // кнопка нового множества
+        newSetUl = $('#'+ htmlPrefix  + 'NewSetItem-' +setLevelNames['set'] + '-ul') ;                         // кнопка нового множества
+
+
+        newSetItemBt = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['setItem'] + '-bt')  ; // кнопка нового элемента множества
+        newSetItemUl = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['setItem'] + '-ul')  ; // список нового элемента множества
+
+
+
+
         newSetItemImg = $('#'+ htmlPrefix + '-newSetItem-img')  ; // картинка множества
         addNewSetItemBt = $('#'+ htmlPrefix + 'addNewSetItem-bt')  ;
         // кнопка (+) - команда добавить
@@ -823,7 +867,7 @@ function WorkDirectionEditHtml() {
         setItemEditDeleteBt = $('#'+ htmlPrefix + '-delete-bt') ;
         setItemEditUl = $('#'+ htmlPrefix + '-editSetItem-ul') ; // редактируемый элемент множества
         onlySelectedShowGroup = $('#' + htmlPrefix + '-onlySelectedShow') ; // уровень показа
-        setItemEditArea = $('#'+htmlPrefix + '-area') ;  // область редактирования hidden перед редактированием
+        setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
         setItemEditMessage = $('#'+htmlPrefix + '-message') ;  // область редактирования hidden перед редактированием
     } ;
     this.addNewSet = function(setId,setName) {
@@ -831,6 +875,16 @@ function WorkDirectionEditHtml() {
         setUl.append(li) ;
 
     } ;
+    this.setExtFunctions = function(extFunc) {
+       for(var funcType in extFunctions) {
+           if (extFunc[funcType] !== undefined) {
+               extFunctions[funcType] = extFunc[funcType] ;
+           }
+       }
+    } ;
+    this.setSetLevelNames = function(levelNames) {
+
+    }
     this.setEmpty = function() {
         setUl.empty() ;
     } ;
@@ -839,9 +893,12 @@ function WorkDirectionEditHtml() {
      */
     this.getFactSets = function() {
         var factSetList = {} ;
+        if (setUl.length === 0) {  // наличие кнопки выбора множества
+            return {} ;
+        }
         var liList = setUl.children('li') ;
         if (liList.length === 0) {
-            return {} ;
+            return null ;
         }
         for(var key in liList) {
             if (isNaN(key)) {
@@ -859,6 +916,18 @@ function WorkDirectionEditHtml() {
             factSetList[id] = item ;
         }
         return factSetList ;
+    } ;
+    /**
+     * получить Id текущего множества
+     * Id - последний компонент в имени setUl
+     */
+    this.getFactSetId = function() {
+        if (setUl.length === 0) {  // наличие кнопки выбора множества
+            return null ;
+        }
+        var name = setUl.attr('name') ;
+        var arr = name.split('-') ;
+        return arr[arr.length -1] ;
     } ;
     /**
      * создать элемент списка множеств
@@ -1194,15 +1263,51 @@ function WorkDirectionEditHtml() {
 
     } ;
 
-
-
+    /**
+     * замена id в имени элемента
+     * id - последняя компонента имени
+     * @param name
+     * @param newId
+     */
+    var putInNameNewId = function (name,newId) {
+       var arr = name.split('-') ;
+       var newName = arr[0] ;
+       var ln = arr.length ;
+       for (var i = 1; i < ln - 1; i++) {
+           newName += '-' + arr[i] ;
+       }
+       newName += '-' + newId ;
+       return newName ;
+    } ;
     /**
      * переключить элементы (id сделать текущим)
-     * @param selectedId
+     * @param setItemId
      * определяет выбор кнопки и списка, задающих множество(верхний уровень)
      */
     // this.setItemToggle = function(selectedId,newFlag) {
-    this.setItemToggle = function(selectedId) {
+    this.setItemToggle = function(setItemId,setId) {
+        if (extFunctions['newSetItemToggle'] !== null ||
+            extFunctions['newSetItemToggle'] !== undefined) {
+            var par = {newSetBtName: null,
+                       newSetItemBtName: null} ;
+            var funcName = extFunctions['newSetItemToggle'] ;
+            var newSetBtName = null ;
+            var newSetItemBtName = null ;
+            if (newSetBt.length > 0) {
+                newSetBtName = putInNameNewId(newSetBt.attr('id'),setId) ;
+            }
+            if (newSetItemBt.length > 0) {
+                newSetItemBtName = putInNameNewId(newSetItemBt.attr('id'),setItemId) ;
+            }
+            par.newSetBtName = newSetBtName ;
+            par.newSetItemBtName = newSetItemBtName ;
+            extFunctionDo(funcName,par) ;
+            return ;
+        }
+
+
+
+
         var newFlag = true  ;
         var bt = '';      // кнопка с именем
         var ul = '' ;      // связанный список
@@ -1226,7 +1331,7 @@ function WorkDirectionEditHtml() {
         //var htmlPrefix = arr[0] ;
         var selectedType = arr[arr.length-2] ;
         var currentId = arr[arr.length-1] ;
-        if (selectedId === currentId) {     // нет изменений
+        if (setItemId === currentId) {     // нет изменений
             return ;
         }
         // убрать старую отметку
@@ -1241,7 +1346,7 @@ function WorkDirectionEditHtml() {
         var liPrev = ul.children(
         ' [name$="' +  ulName + '"]') ;
         liPrev.attr('class','list-group-item') ;
-        var newName = htmlPrefix + '-' + selectedType + '-' + selectedId ;
+        var newName = htmlPrefix + '-' + selectedType + '-' + setItemId ;
         var li = ul.children(' [name="' +  newName + '"]') ;
         li.attr('class','list-group-item active') ;
         var li_a = li.children()[0] ;
@@ -1260,6 +1365,13 @@ function WorkDirectionEditHtml() {
         ul.attr('name',newName) ;
 
     };
+    var extFunctionDo = function (funcName,par) {
+       switch (funcName) {
+           case 'geographySetItemToggle' :
+               geographySetItemToggle(par) ;
+               break ;
+       }
+    } ;
     /**
      * кнопка переключения уровня показа: только отмеченные / все
      * @param onlySelectedShow
@@ -1732,9 +1844,6 @@ function setItemEdit(elem) {
  * кнопка с именем newSetItemBt,
  * список значений  newSetItemUl
  * @param elem = htmlPrefix - ... - id
- * @param newFlag (умолчание true  - определяет кнопку, задающую множество
- * если newFlag = true, то кнопка в правой части- (иначе левая - быть не должно,
- *                      только для области добавить новый itemSet)
  */
 function newSetItemToggle(elem) {
     // newFlag = (newFlag === undefined) ? true : newFlag ;

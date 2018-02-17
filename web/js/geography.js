@@ -44,6 +44,32 @@ function simpleGeographyOnClick(elName) {
 }
 
 /**
+ * переключатель имни региона в области новый
+ * @param par = {setBtName: , setItemBtName}
+ */
+function geographySetItemToggle(par) {
+    var btSetName = par['newSetBtName'] ;
+    var btSetItemName = par['newSetItemBtName'] ;
+    var controllerName = 'simpleGeographyController' ;
+    var cnt = paramSet.getObj(controllerName) ;
+    if (cnt === null) {
+        cnt = new SimpleGeography() ;
+        paramSet.putObj(controllerName,cnt) ;
+    }
+    if (btSetName !== null) {
+        cnt.setReadyFlag(false) ;
+        cnt.simpleGeographyOnClick(btSetName) ;
+    }else {
+        cnt.setReadyFlag(true) ;
+    }
+    var tmpTimer = setTimeout(function () {
+        if (cnt.getReadyFlag()) {
+            cnt.simpleGeographyOnClick(btSetItemName) ;
+            clearTimeout(tmpTimer) ;
+        }
+    }, 50);
+}
+/**
  * котроллер управления представлением географической точки в
  * форме страна, регион, город
  *  одновременно на одной странице может присуствовать несколько
@@ -63,7 +89,7 @@ function SimpleGeography() {
         'regionOnly': ['region'],
         'cityOnly': ['city']
     } ;
-
+   var readyFlag = false ;
    var url = 'index.php?r=geography%2Findex' ;
    var ajaxExe = null ;
    var _this = this ;
@@ -77,7 +103,12 @@ function SimpleGeography() {
    //         'region' : {'id':'', 'name':''},
    //         'city' : {'id':'', 'name':''}} ;
    // } ;
-
+    this.setReadyFlag = function(flag) {
+       readyFlag = flag ;
+    } ;
+    this.getReadyFlag = function() {
+       return readyFlag ;
+    } ;
     this.simpleGeographyOnClick = function(elName) {
         if (ajaxExe === null) {
             _this.init() ;
@@ -105,6 +136,7 @@ function SimpleGeography() {
         arr = ulName.split('-') ;
         var currentId = arr[arr.length -1] ;
         if (selectedId === currentId) {     // нет изменений
+            readyFlag = true ;
             return ;
         }
         // заменить отметку на выбранный
@@ -148,7 +180,7 @@ function SimpleGeography() {
             var referId = rr[referType + '_id'] ;
             geographyNodesBuild(referType,referId,referList) ;
         }
-
+        readyFlag = true ;
     } ;
     /**
      * обновить имя на кнопке, пересоздать связанный список
@@ -161,6 +193,9 @@ function SimpleGeography() {
         var liActiveClass = 'list-group-item active' ;           // класс выделенного элемента списка
         var bt = $('#' + htmlPrefix +'-'+ selectedTyp + '-bt') ;      // кнопка с именем
         var ul = $('#' + htmlPrefix +'-'+ selectedTyp + '-ul') ;      // связанный список
+        if (bt.length === 0 ) {    // кнопка не существует
+            return ;
+        }
         var functionOnClick = 'simpleGeographyOnClick' ;
         var span = bt.children('span') ;              // это стрелочка рядом с именем
         var btNewName = '' ;      //  новое имя для кнопки
