@@ -10,4 +10,6 @@
 -- country.name = 'Израиль'
 -- order by city.name ;
 
-SELECT * FROM city where region_id = 349 ;
+SELECT * FROM region where country_id = 3159 ;
+SELECT * FROM country where country.name = 'Россия' order by country.name ;
+SELECT city.* FROM city where region_id = '4593' ;

@@ -106,7 +106,7 @@ class WorkGeographyController extends BaseController {
                 $wRegion = $workRegion->getName($workRegion->id) ;
                 $workRegionId = $workRegion->id ;
                 $city = new City() ;
-                $city->regionId = $workRegionId ;
+                $city->regionId = $regionId ;
                 $cityList = $city->getList() ;
                 $workCity = new WorkCity() ;
                 $workCity->workRegionId = $workRegionId ;

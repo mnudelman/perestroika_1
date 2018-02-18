@@ -242,6 +242,7 @@ $regionEditToolbarPar = [
         ],
         'coveredEye' => [
             'title' => 'только отмеченные',
+            'clickFunction' => 'setSubItemsShowStat',
         ],
     ],
     'pagination' => [],

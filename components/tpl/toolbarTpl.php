@@ -44,16 +44,21 @@ $buttonClass = "btn btn-primary btn-sm" ;
     if ($buttonsWidth > 0) {
         ?>
 
-        <div class="col-md-<?= $buttonsWidth ?>" name="toolBarButtons">
+        <div class="col-md-<?= $buttonsWidth ?>" name="toolBarButtons"
+         id="<?=$htmlPrefix?>-toolbar">
 
         <?php
         foreach ($buttons as $btName => $btItem) {
+            if ($btName === 'coveredEye' || $btName === 'openedEye' ) {
+                $i =1 ;
+            }
             $btTitle = $btItem['title'] ;
             $clickFunction = $btItem['clickFunction'] ;
             $clickAction = $btItem['clickAction'] ;
             $clickArg = $htmlPrefix . (($clickAction !== '') ? '-' : '') . $clickAction  ;
             $onClick = $clickFunction . "('". $clickArg ."')" ;
             $iconClass = $btItem['iconClass'] ;
+            $dataItems = (isset($btItem['dataItems'])) ? $btItem['dataItems']: [] ;
             $id = (isset($btItem['id'])) ? $btItem['id'] : '' ;
             $attrId = ($id !== '') ? ' id="' . $id . '" ' : '' ;
             $disabledFlag = (isset($btItem['disabled'])) ? $btItem['disabled'] : false ;
@@ -61,6 +66,12 @@ $buttonClass = "btn btn-primary btn-sm" ;
         ?>
             <button class="btn btn-primary btn-sm" title="<?=$btTitle?>" <?=$attrId?>
                     <?=$attrDisabled?>
+                    <?php
+                      foreach ($dataItems as $key =>$value) {
+                          $dataitem = 'data-' . $key .'="' . $value .'"' ;
+                          echo $dataitem ;
+                      }
+                    ?>
                     onclick="<?=$onClick?>">
                 <i class="<?=$iconClass?>"></i>
             </button>

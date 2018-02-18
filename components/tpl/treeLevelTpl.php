@@ -78,23 +78,25 @@
                     <div hidden="hidden" id="<?= $htmlPrefix ?>-edit-area">
                         <!--                    <ul class="list-group" >-->
                         <a class="btn btn-default" role="button" data-toggle="collapse" style="width:82%"
-                           aria-expanded="true" href="#<?= $htmlPrefix ?>-edit-collapse"
-                           aria-controls="<?= $htmlPrefix ?>-edit-collapse"
+                           aria-expanded="true"
+                           href="#<?= $htmlPrefix ?>-editSetItem-ul"
+                           aria-controls="<?= $htmlPrefix ?>-editSetItem-ul"
                            id="<?=$htmlPrefix?>-editSetItem-bt">
                             <span> Свердловская обл.</span><b class="caret"></b>
                         </a>
                         <a class="btn btn-default" role="button" title="region fully in work geography"
                            id="<?=$htmlPrefix?>-fully-bt"
-                           onclick="setSubItemStat(<?=$htmlPrefix?>'-fully-bt')">
+                           onclick="setItemStat('<?=$htmlPrefix?>-fully')">
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
                         <a class="btn btn-default" role="button" title="region removed from work gegraphy"
                            id="<?=$htmlPrefix?>-delete-bt"
-                           onclick="setSubItemStat(<?=$htmlPrefix?>'-delete-bt')">
+                           onclick="setItemStat('<?=$htmlPrefix?>-delete')">
                             <span class="glyphicon glyphicon-minus"></span>
                         </a>
 
-                        <ul class="list-group collapse.in" id="<?= $htmlPrefix ?>-edit-collapse"
+                        <ul class="list-group collapse.in"
+                            id="<?= $htmlPrefix ?>-editSetItem-ul"
                             style="overflow:auto; max-height:200px">
                             <li class="list-group-item" name="city-[city_id]">Нижний тагил
                                 <a class="btn btn-default btn-sm" role="button" title="city is in work"

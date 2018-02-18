@@ -56,7 +56,8 @@ class ToolbarWidget extends Widget
         'clickFunction' => '',
         'clickAction' => '',
         'id' => '',
-        'disabled' => false
+        'disabled' => false,
+        'dataItems' => []
     ] ;
     private $paginationDefault = [
         'indexPages' => [1] ,// массив страниц для вывода [1,2,3]
@@ -160,14 +161,23 @@ class ToolbarWidget extends Widget
             'title' => 'opened eye',
             'iconClass' => 'fa fa-eye',
             'clickFunction' => '',
-            'clickAction' => ''
+            'clickAction' => '',
+            'dataItems' => [
+                'img-yes' => 'fa fa-eye',
+                'img-no' => 'fa fa-eye-slach',
+            ],
 
         ],
         'coveredEye' => [                // прикрытый глаз
             'title' => 'covered eye',
             'iconClass' => 'fa fa-eye-slash',
             'clickFunction' => '',
-            'clickAction' => ''
+            'clickAction' => '',
+            'dataItems' => [
+                'img-yes' => 'fa fa-eye',
+                'img-no' => 'fa fa-eye-slach',
+            ],
+
 
         ],
 
@@ -232,7 +242,6 @@ class ToolbarWidget extends Widget
         $prevClass = $this->pagination['prevClass'] ;    //
         $nextClass = $this->pagination['nextClass'] ;
         $lastClass= $this->pagination['lastClass'] ;
-
                 include __DIR__ . '/tpl/toolbarTpl.php';
         return ob_get_clean();
    }

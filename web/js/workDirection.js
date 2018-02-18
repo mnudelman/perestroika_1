@@ -381,9 +381,9 @@ function EditDataController() {
         var editImplement = scheme['editImplement'] ;
         editImplement.setSubItemStat(id) ;
     } ;
-    this.setSubItemOnlySelectedShow = function() {
+    this.setSubItemsOnlySelectedShow = function() {
         var editImplement = scheme['editImplement'] ;
-        editImplement.setSubItemOnlySelectedShow() ;
+        editImplement.setSubItemsOnlySelectedShow() ;
     };
 
     this.setItemStat = function(type) {
@@ -618,8 +618,8 @@ function EditImplement() {
         var arr = name.split('-') ;
         var id = arr[arr.length -1] ;
         _this.setItemEdit(id) ;
-        var onlySelectedShow = false ;      // сбросить выборочный просмотр
-        htmlContext.setSubItemOnlySelectedShowBt(onlySelectedShow) ;
+        onlySelectedShow = false ;      // сбросить выборочный просмотр
+        htmlContext.setSubItemsOnlySelectedShowBt(onlySelectedShow) ;
     } ;
     /**
      * редактировать элемент множества
@@ -627,6 +627,7 @@ function EditImplement() {
      * @param setItemid
      */
     this.setItemEdit = function(setItemId,setId) {
+        onlySelectedShow = false ;      // сбросить выборочный просмотр
         var sendPar = {id: setItemId,setId:setId} ;
         var  ajaxPar = ajaxContext.getAjaxParam('getSubItems',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
@@ -673,7 +674,7 @@ function EditImplement() {
         var simpleArr = [];
         for (var key in subItemsFactList) {
             var item = subItemsFactList[key];
-            simpleArr.push(item['work_item_id'] - 0); // ссылка на справочник
+            simpleArr.push(item['id'] - 0); // ссылка на справочник
         }
         var result = [];
         currentSubItems = {} ;
@@ -682,7 +683,7 @@ function EditImplement() {
 
             var subItem = subItemsList[key];
              id = subItem.id;
-             name = subItem.name_ru;
+             name = (subItem.name_ru === undefined) ? subItem.name : subItem.name_ru ;
             var inWorkFlag = (simpleArr.indexOf(id - 0) >= 0 );
             var resItem = {id: id,name: name, inWorkCurrent:inWorkFlag} ;
             result.push(resItem) ;
@@ -711,9 +712,9 @@ function EditImplement() {
      * перекдючить режим показа -
      * полностью или только отмеченные
      */
-    this.setSubItemOnlySelectedShow = function() {
+    this.setSubItemsOnlySelectedShow = function() {
         onlySelectedShow = !onlySelectedShow ;
-        htmlContext.setSubItemOnlySelectedShowBt(onlySelectedShow) ;
+        htmlContext.setSubItemsOnlySelectedShowBt(onlySelectedShow) ;
         var result = [];
         // ulEditEmpty()
         for (key in currentSubItems) {
@@ -1376,7 +1377,7 @@ function WorkDirectionEditHtml() {
      * кнопка переключения уровня показа: только отмеченные / все
      * @param onlySelectedShow
      */
-    this.setSubItemOnlySelectedShowBt = function(onlySelectedShow) {
+    this.setSubItemsOnlySelectedShowBt = function(onlySelectedShow) {
         var checkBox = onlySelectedShowGroup.find('[type="checkbox"]') ;
         var text = onlySelectedShowGroup.find('[type="text"]') ;
         if (onlySelectedShow) {
@@ -1888,11 +1889,11 @@ function setSubItemStat(elem) {
  * режим отображения : все или отмеченные
  * @param elem
  */
-function setSubItemShowStat(elem) {
+function setSubItemsShowStat(elem) {
     var r = getIdFromElemName(elem) ;
     var contextName = r['context'] ;
     var controller = paramSet.getController(contextName) ;
-    controller.setSubItemOnlySelectedShow() ;
+    controller.setSubItemsOnlySelectedShow() ;
 }
 /**
  * сохранить изменения в setItem
