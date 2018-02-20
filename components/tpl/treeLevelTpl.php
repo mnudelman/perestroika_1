@@ -54,7 +54,7 @@
                         ?>
 
                         <button class="btn btn-success" role="button"
-                                onclick="addNewSetItem(<?=$htmlPrefix?>)"
+                                onclick="addNewSetItem('<?=$htmlPrefix?>')"
                                 title="add item">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>

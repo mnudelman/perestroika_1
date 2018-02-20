@@ -202,7 +202,7 @@ class WorkGeographyController extends BaseController {
         $countryId = $countryPost['countryId'] ;
         $regionId =  $regionPost['regionId'] ;
         $fullyFlag = $regionPost['fullyFlag'] ;
-        $fullyFLag = ($fullyFlag == 'true') ? true : false ;
+        $fullyFlag = ($fullyFlag == 'true') ? true : false ;
         $deleteFLag = $regionPost['deleteFlag'] ;
         $deleteFLag = ($deleteFLag == 'true') ? true : false ;
         $userId = Yii::$app->user->identity->id ;
@@ -254,7 +254,6 @@ class WorkGeographyController extends BaseController {
     }
 
     /**
-     * @param $workCity  - объект WorkCity     -
      * @param $cityListPost - переданный список
      */
 
@@ -265,7 +264,7 @@ class WorkGeographyController extends BaseController {
             $cityId = $item['city_id'] ;
             $inWorkCurrent = $item['inWorkCurrent'] ;
             $inWorkCurrent = ($inWorkCurrent == 'true') ;
-            $inWorkNow = $item['inWorkNow'] ;
+//            $inWorkNow = $item['inWorkNow'] ;
             $opCod = ($inWorkCurrent) ? 'add' : 'del' ;
             $this->workCityAction($opCod,$cityId) ;
 

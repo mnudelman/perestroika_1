@@ -65,7 +65,7 @@ $buttonClass = "btn btn-primary btn-sm" ;
             $attrDisabled = ($disabledFlag) ? ' disabled ' : '' ;
         ?>
             <button class="btn btn-primary btn-sm" title="<?=$btTitle?>" <?=$attrId?>
-                    <?=$attrDisabled?>
+                    <?=$attrDisabled?>  name="toolbar-<?=$btName?>"
                     <?php
                       foreach ($dataItems as $key =>$value) {
                           $dataitem = 'data-' . $key .'="' . $value .'"' ;

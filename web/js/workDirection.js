@@ -347,10 +347,29 @@ function EditDataController() {
     } ;
     /**
      * добавить новый элемент из области "новый"
+     * 1.берём текущие атрибуты кнопок, устанавливающих
+     * новый элемент
+     * 2. запускаем setItemEdit
      */
     this.addNewSetItem = function() {
-        var editImplement = scheme['editImplement'] ;
-        editImplement.addNewSetItem() ;
+        var setSelector = scheme['setSelector'] ;
+        var newBtNames = setSelector.getNewCurrentNames() ;
+        var newSetBtName = newBtNames['newSetBtName'] ;
+        var newSetItemBtName = newBtNames['newSetItemBtName'] ;
+        var arr = newSetBtName.split('-') ;
+        var setId = arr[arr.length -1] ;
+        var setType = arr[arr.length -2] ;
+        setSelector.setCurrentSet(setId,setType) ;
+
+        var arr = newSetItemBtName.split('-') ;
+        var setItemId = arr[arr.length -1] ;
+
+        _this.setItemEdit(setItemId) ;
+
+
+
+        // var editImplement = scheme['editImplement'] ;
+        // editImplement.addNewSetItem() ;
     } ;
     /**
      * редактировать элемент множества
@@ -394,8 +413,19 @@ function EditDataController() {
      * сохранить элемент из области изменений
      */
     this.setItemSave = function() {
+        var setSelector = scheme['setSelector'] ;
+        var currentSet = setSelector.getCurrentSet() ;
+        var currentSetId = currentSet['id'] ;
+        var isFind = setSelector.isFind(currentSetId) ;
+        var factSetId = setSelector.getFactSetId() ;
+        if (!isFind) {    // добавить
+            setSelector.addNewSet(currentSet.id,currentSet.name) ;
+        }
+        if (factSetId !== currentSetId) {   // переключение множества
+            this_.switchSet(currentSetId) ;
+        }
         var editImplement = scheme['editImplement'] ;
-        editImplement.setItemSave() ;
+        editImplement.setItemSave(currentSet) ;
     } ;
 }
 //===================EditDataSetSelector=====================//
@@ -425,10 +455,18 @@ function EditDataSetSelector() {
 
     } ;
     this.isFind = function(setId) {
+        factSets = htmlContext.getFactSets() ;
         return (factSets[setId] !== undefined) ;
     } ;
     this.setItemToggle = function(setItemId) {
         htmlContext.setItemToggle(setItemId,currentSet.id) ;
+    } ;
+    /**
+     * снять имена кнопок, устанавливающих новый элемент
+     * @return {newSetBtName:*, newItemSetBtName: *}
+     */
+    this.getNewCurrentNames = function() {
+        return htmlContext.getNewCurrentNames() ;
     } ;
     /**
      * новое множество добавляется в  html document и в БД
@@ -449,13 +487,25 @@ function EditDataSetSelector() {
     } ;
     var addNewSetRes = function(rr) {
        var success = rr['success'] ;
-
+       if (success){
+           factSets = htmlContext.getFactSets() ;
+       }
     } ;
     var newItem = function(id,name) {
         return {id: id, name: name} ;
     } ;
     this.getCurrentSetId = function() {
        return currentSet.id ;
+    } ;
+    this.getCurrentSet = function() {
+        return currentSet ;
+    };
+    this.getFactSetId = function() {
+        return htmlContext.getFactSetId() ;
+    } ;
+    this.setCurrentSet = function(setId,setName) {
+        currentSet.id = setId ;
+        currentSet.name = setName ;
     } ;
     /**
      * надо запрашивать список элементов
@@ -628,6 +678,7 @@ function EditImplement() {
      */
     this.setItemEdit = function(setItemId,setId) {
         onlySelectedShow = false ;      // сбросить выборочный просмотр
+        htmlContext.setSubItemsOnlySelectedShowBt(onlySelectedShow) ;
         var sendPar = {id: setItemId,setId:setId} ;
         var  ajaxPar = ajaxContext.getAjaxParam('getSubItems',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
@@ -662,10 +713,10 @@ function EditImplement() {
         var fullyFlag = setItem['fullyFlag'] ;
         var deleteFlag =false ;
 
-        // currentSetItem['id'] = workDirectionId ;  // ссылка на справочник
-        // currentSetItem['name'] = name ;
-        // currentSetItem['fullyFlag'] = fullyFlag ;
-        // currentSetItem['deleteFlag'] = deleteFlag ;
+        currentSetItem['id'] = id ;  // ссылка на справочник
+        currentSetItem['name'] = name ;
+        currentSetItem['fullyFlag'] = fullyFlag ;
+        currentSetItem['deleteFlag'] = deleteFlag ;
 
         htmlContext.setItemEditNode(id,name,fullyFlag,deleteFlag) ;
 
@@ -744,15 +795,16 @@ function EditImplement() {
      * currentSetItem = {       // текущий элемент
      *   id: null, name: null,fullyFlag:false, deleteFlag: false};
      * currentSubItems = {}; // массив  подэлементов
-     *
+     * @par currentSet = {id: , name: } - текущее множество
+     * может понадобиться при необходимости добавить множество
      */
-    this.setItemSave = function() {
+    this.setItemSave = function(currentSet) {
        var subItemsForSend = [] ;      // сделать простой массив из currentSubItems
        for (var key in currentSubItems) {
            var subItem = currentSubItems[key] ;
            subItemsForSend.push(subItem) ;
        }
-        var sendPar = {setItem: currentSetItem, subItems: subItemsForSend} ;
+        var sendPar = {set: currentSet, setItem: currentSetItem, subItems: subItemsForSend} ;
         var  ajaxPar = ajaxContext.getAjaxParam('saveSetItem',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
         ajaxExe.setData(ajaxPar['data']) ;
@@ -762,6 +814,7 @@ function EditImplement() {
     } ;
     /**
      * показать setItem в левой части -
+     * здесь не надо парсить ответ, т.к. всё есть
      */
     var setItemToLeftPart = function(res) {
         var success = res['success'] ;
@@ -813,7 +866,9 @@ function WorkDirectionEditHtml() {
     var setItemEditUl = $('#'+ htmlPrefix + '-editSetItem-ul') ; // редактируемый элемент множества
     var fullyName = '(полностью)' ;
     var onlySelectedShowGroup = $('#' + htmlPrefix + '-onlySelectedShow') ; // уровень показа
-    var setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
+
+    var setItemEditPanel = $('#'+htmlPrefix + '-edit-panel') ; // вся область редактирования вместе с toolbar    var setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования вместе с toolbar
+    var setItemEditArea = $('#'+htmlPrefix + '-edit-area') ; // область редактирования вместе с toolbar    var setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
     var setItemEditMessage = $('#'+htmlPrefix + '-message') ;  // область редактирования hidden перед редактированием
    //-- возможность включать внешние функции
     var extFunctions = {
@@ -868,6 +923,7 @@ function WorkDirectionEditHtml() {
         setItemEditDeleteBt = $('#'+ htmlPrefix + '-delete-bt') ;
         setItemEditUl = $('#'+ htmlPrefix + '-editSetItem-ul') ; // редактируемый элемент множества
         onlySelectedShowGroup = $('#' + htmlPrefix + '-onlySelectedShow') ; // уровень показа
+        setItemEditPanel = $('#'+htmlPrefix + '-edit-panel') ; // вся область редактирования вместе с toolbar
         setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
         setItemEditMessage = $('#'+htmlPrefix + '-message') ;  // область редактирования hidden перед редактированием
     } ;
@@ -1281,17 +1337,42 @@ function WorkDirectionEditHtml() {
        return newName ;
     } ;
     /**
+     * имена на кнопках, устанавливающих новый элемент
+     * строится комбинация из атрибутов кнопки id,name
+     */
+    this.getNewCurrentNames = function() {
+        var res = {newSetBtName: null,
+            newSetItemBtName: null} ;
+        var newSetBtName = null ;
+        var newSetItemBtName = null ;
+        var btId = '' ;
+        var btName = '' ;
+        var arr = [] ;
+        if (newSetBt.length > 0) {
+            arr = (newSetBt.attr('name')).split('-') ;
+            btId = arr[arr.length -1] ;
+            newSetBtName = putInNameNewId(newSetBt.attr('id'),btId) ;
+        }
+        if (newSetItemBt.length > 0) {
+            arr = (newSetItemBt.attr('name')).split('-') ;
+            btId = arr[arr.length -1] ;
+            newSetItemBtName = putInNameNewId(newSetItemBt.attr('id'),btId) ;
+        }
+        res.newSetBtName = newSetBtName ;
+        res.newSetItemBtName = newSetItemBtName ;
+        return res ;
+    } ;
+    /**
      * переключить элементы (id сделать текущим)
      * @param setItemId
      * определяет выбор кнопки и списка, задающих множество(верхний уровень)
      */
     // this.setItemToggle = function(selectedId,newFlag) {
     this.setItemToggle = function(setItemId,setId) {
-        if (extFunctions['newSetItemToggle'] !== null ||
+        if (extFunctions['newSetItemToggle'] !== null &&
             extFunctions['newSetItemToggle'] !== undefined) {
             var par = {newSetBtName: null,
                        newSetItemBtName: null} ;
-            var funcName = extFunctions['newSetItemToggle'] ;
             var newSetBtName = null ;
             var newSetItemBtName = null ;
             if (newSetBt.length > 0) {
@@ -1302,6 +1383,8 @@ function WorkDirectionEditHtml() {
             }
             par.newSetBtName = newSetBtName ;
             par.newSetItemBtName = newSetItemBtName ;
+
+            var funcName = extFunctions['newSetItemToggle'] ;
             extFunctionDo(funcName,par) ;
             return ;
         }
@@ -1378,17 +1461,18 @@ function WorkDirectionEditHtml() {
      * @param onlySelectedShow
      */
     this.setSubItemsOnlySelectedShowBt = function(onlySelectedShow) {
-        var checkBox = onlySelectedShowGroup.find('[type="checkbox"]') ;
-        var text = onlySelectedShowGroup.find('[type="text"]') ;
-        if (onlySelectedShow) {
-            checkBox.attr('checked','checked') ;
-            text.css('color','green') ;
-            text.attr('value','просмотр только отмеченных') ;
-        }else {
-            checkBox.removeAttr('checked') ;
-            text.css('color','black') ;
-            text.attr('value','просмотр всех') ;
+
+        var rootNode = setItemEditPanel ;
+        var bt = rootNode.find('[name="toolbar-coveredEye"]') ;
+        if (bt.length === 0) {
+            return ;
         }
+
+        var pictClass = (onlySelectedShow) ? bt.data('imgYes') : bt.data('imgNo') ;
+        var pictNode = $('<i class=""></i>') ;
+        pictNode.addClass(pictClass) ;
+        bt.empty() ;
+        bt.append(pictNode) ;
     };
     this.setItemsClear = function() {
         setItemsUl.empty() ;

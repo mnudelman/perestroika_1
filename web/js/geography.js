@@ -200,6 +200,7 @@ function SimpleGeography() {
         var span = bt.children('span') ;              // это стрелочка рядом с именем
         var btNewName = '' ;      //  новое имя для кнопки
         ul.attr('name',selectedTyp + '-' + selectedId) ;
+        bt.attr('name',selectedTyp + '-' + selectedId) ;
         ul.empty() ;
 
         for (var i = 0; i < selectedList.length; i++) {

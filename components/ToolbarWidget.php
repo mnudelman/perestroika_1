@@ -174,8 +174,8 @@ class ToolbarWidget extends Widget
             'clickFunction' => '',
             'clickAction' => '',
             'dataItems' => [
-                'img-yes' => 'fa fa-eye',
-                'img-no' => 'fa fa-eye-slach',
+                'img-no' => 'fa fa-eye',
+                'img-yes' => 'fa fa-eye-slash',
             ],
 
 

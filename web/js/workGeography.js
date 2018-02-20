@@ -798,15 +798,29 @@ function WorkGeographyEditAjax() {
     } ;
     /**
      *
-     * @param params = {setItem: currentSetItem, subItems: subItemsForSend}
+     * @param params = {set: currentSet,setItem: currentSetItem, subItems: subItemsForSend}
      */
     var saveSetItemGetAjaxParam = function(params) {
-//        var url = 'index.php?r=work-direction%2Fsave-work-direction' ;
-        var url = 'index.php?r=' + urlController + '%2Fsave-work-direction' ;
-        var opCod = 'saveWorkDirection' ;
+        var url = 'index.php?r=' + urlController + '%2Fadd-work-city' ;
+        var opCod = 'save' ;
+        var country = params['set'] ;
+        var region =  params['setItem'] ;
+        var subItems = params['subItems'] ;
+        var cityList = [] ;
+        for (var i = 0; i < subItems.length; i++) {
+            var subItem = subItems[i] ;
+            var city = {city_id: subItem['id'],
+                city_name:  subItem['name'],
+                inWorkCurrent: subItem['inWorkCurrent'] } ;
+            cityList.push(city) ;
+        }
         var data = {
-            workDirection : params['setItem'],
-            workItems: params['subItems']
+            country :{countryId:country['id']},
+            region: {regionId: region['id'],
+                fullyFlag: region['fullyFlag'],
+                deleteFlag: region['deleteFlag'],
+                regionName:region['name']},
+            cityList: cityList
         } ;
         return {
             opCod : opCod,
@@ -863,6 +877,7 @@ function WorkGeographyEditAjax() {
         }
         return res ;
     } ;
+
     var saveSetItemParseAjaxRes = function(rr) {
 
     } ;
