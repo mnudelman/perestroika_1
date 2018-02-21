@@ -353,23 +353,13 @@ function EditDataController() {
      */
     this.addNewSetItem = function() {
         var setSelector = scheme['setSelector'] ;
-        var newBtNames = setSelector.getNewCurrentNames() ;
-        var newSetBtName = newBtNames['newSetBtName'] ;
-        var newSetItemBtName = newBtNames['newSetItemBtName'] ;
-        var arr = newSetBtName.split('-') ;
-        var setId = arr[arr.length -1] ;
-        var setType = arr[arr.length -2] ;
-        setSelector.setCurrentSet(setId,setType) ;
+        var setItemSelectorComponents = setSelector.getNewSetItemSelector() ;
+        var set = setItemSelectorComponents['set'] ;
+        setSelector.setCurrentSet(set['id'],set['name']) ;
 
-        var arr = newSetItemBtName.split('-') ;
-        var setItemId = arr[arr.length -1] ;
+        var setItem = setItemSelectorComponents['setItem'] ;
 
-        _this.setItemEdit(setItemId) ;
-
-
-
-        // var editImplement = scheme['editImplement'] ;
-        // editImplement.addNewSetItem() ;
+        _this.setItemEdit(setItem['id']) ;
     } ;
     /**
      * редактировать элемент множества
@@ -419,10 +409,10 @@ function EditDataController() {
         var isFind = setSelector.isFind(currentSetId) ;
         var factSetId = setSelector.getFactSetId() ;
         if (!isFind) {    // добавить
-            setSelector.addNewSet(currentSet.id,currentSet.name) ;
+//            setSelector.addNewSet(currentSet.id,currentSet.name) ;
         }
         if (factSetId !== currentSetId) {   // переключение множества
-            this_.switchSet(currentSetId) ;
+            _this.switchSet(currentSetId) ;
         }
         var editImplement = scheme['editImplement'] ;
         editImplement.setItemSave(currentSet) ;
@@ -463,10 +453,10 @@ function EditDataSetSelector() {
     } ;
     /**
      * снять имена кнопок, устанавливающих новый элемент
-     * @return {newSetBtName:*, newItemSetBtName: *}
+     * @return {set:{id:*, name:*},setItem: {id:*, name:*}}
      */
-    this.getNewCurrentNames = function() {
-        return htmlContext.getNewCurrentNames() ;
+    this.getNewSetItemSelector = function() {
+        return htmlContext.getNewSetItemSelector() ;
     } ;
     /**
      * новое множество добавляется в  html document и в БД
@@ -679,6 +669,7 @@ function EditImplement() {
     this.setItemEdit = function(setItemId,setId) {
         onlySelectedShow = false ;      // сбросить выборочный просмотр
         htmlContext.setSubItemsOnlySelectedShowBt(onlySelectedShow) ;
+        htmlContext.setItemHighlight(setItemId) ;
         var sendPar = {id: setItemId,setId:setId} ;
         var  ajaxPar = ajaxContext.getAjaxParam('getSubItems',sendPar) ;
         ajaxExe.setUrl(ajaxPar['url']) ;
@@ -1086,6 +1077,26 @@ function WorkDirectionEditHtml() {
             subItemsUl.append(li) ;
         }
     } ;
+    /**
+     * подсветка текущего элемента
+     */
+    this.setItemHighlight = function(setItemId) {
+        var li = setItemsUl.find('[role="button"]') ;
+        li.removeClass('setItemHighlight') ;
+        var currentSetItem = setItemsUl.find('[id$="' + setItemId +'"]') ;
+        if (currentSetItem.length > 0 ) {
+            currentSetItem.addClass('setItemHighlight') ;
+        }
+
+
+
+
+
+
+
+
+    } ;
+
     var newSetItem = function(setItem) {
         var setItemId = setItem['id'] ;
         var setItemName = setItem['name'] ;
@@ -1339,28 +1350,25 @@ function WorkDirectionEditHtml() {
     /**
      * имена на кнопках, устанавливающих новый элемент
      * строится комбинация из атрибутов кнопки id,name
+     * @return {set:{id:*, name:*},setItem: {id:*, name:*}}
      */
-    this.getNewCurrentNames = function() {
-        var res = {newSetBtName: null,
-            newSetItemBtName: null} ;
-        var newSetBtName = null ;
-        var newSetItemBtName = null ;
-        var btId = '' ;
-        var btName = '' ;
-        var arr = [] ;
+    this.getNewSetItemSelector = function() {
+        var res = {set:{id:null, name:null},setItem: {id:null, name:null} } ;
+        var component = {id:null, name:null} ;
         if (newSetBt.length > 0) {
-            arr = (newSetBt.attr('name')).split('-') ;
-            btId = arr[arr.length -1] ;
-            newSetBtName = putInNameNewId(newSetBt.attr('id'),btId) ;
+            res.set =  getNewSetItemComponent(newSetBt) ;
         }
         if (newSetItemBt.length > 0) {
-            arr = (newSetItemBt.attr('name')).split('-') ;
-            btId = arr[arr.length -1] ;
-            newSetItemBtName = putInNameNewId(newSetItemBt.attr('id'),btId) ;
+            res.setItem =  getNewSetItemComponent(newSetItemBt) ;
         }
-        res.newSetBtName = newSetBtName ;
-        res.newSetItemBtName = newSetItemBtName ;
         return res ;
+    } ;
+    var getNewSetItemComponent = function(bt) {
+        var componentName = bt.text() ;
+        var btName = bt.attr('name') ;
+        var arr = (bt.attr('name')).split('-') ;
+        var componentId = arr[arr.length -1] ;
+        return {id: componentId, name: componentName} ;
     } ;
     /**
      * переключить элементы (id сделать текущим)

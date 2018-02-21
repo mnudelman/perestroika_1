@@ -101,3 +101,8 @@ textarea {
     border-color: #0b93d5;
     border-radius: 5px;
 }
+.setItemHighlight {
+    color:green;
+    font-weight: bold;
+    font-size: larger;
+}

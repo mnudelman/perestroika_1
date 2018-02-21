@@ -77,7 +77,7 @@
                     <!--                 <span id="workRegionEdit-placeHolder">Область изменений географии работ</span>-->
                     <div hidden="hidden" id="<?= $htmlPrefix ?>-edit-area">
                         <!--                    <ul class="list-group" >-->
-                        <a class="btn btn-default" role="button" data-toggle="collapse" style="width:82%"
+                        <a class="btn btn-default setItemHighlight" role="button" data-toggle="collapse" style="width:82%"
                            aria-expanded="true"
                            href="#<?= $htmlPrefix ?>-editSetItem-ul"
                            aria-controls="<?= $htmlPrefix ?>-editSetItem-ul"

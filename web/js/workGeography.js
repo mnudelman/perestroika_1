@@ -771,10 +771,21 @@ function WorkGeographyEditAjax() {
      * это может быть страна (для географии)
      * в случае с направлением работ - множество единственное(
      * заказ или пользователь, в зависимости от задачи)
-     * @param params
+     * @param params = {id:*, name: *}
      */
 
     var addNewSetAjaxParam = function(params)  {
+        var url = 'index.php?r=' + urlController + '%2Fget-work-region' ;
+        var opCod = 'add' ;
+        var data = {
+            countryId : params['id'],
+            objectType : 'user'
+        } ;
+        return {
+            opCod : opCod,
+            url : url,
+            data: data
+        } ;
 
     };
     /**
