@@ -19,7 +19,7 @@
  *           simpleGeographyWidget - выбор множества (страны)
  *           CollapsibleListWidget - список регионов (элементов множества)
  * правая панель:
- *    раздел "Добавить регион" (добавить элеинт множества):
+ *    раздел "Добавить регион" (добавить элемент множества):
  *              toolbarWidget - панель инструментов
  *              simpleGeographyWidget - выбор нового региона (страна + регион)
  *    раздел "Редактировать регион"
@@ -98,11 +98,12 @@ if (empty($wkGCurrentCountry)) {
 
 }
 $pageItemFile = 'profile/workGeography';
-$ruleContentId = 'workGeography-form-collapseOne';
+//$ruleContentId = 'workGeography-form-collapseOne';
 include('workEditLabels.php');     // подписи для  формы
 ?>
 <?php
 $tooltipsPar = [
+    'htmlPrefix' => $htmlPrefix,
     'tooltips' => [
         'itemFully' => [
             'yes' => $toolTipItemFullyYes,

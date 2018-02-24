@@ -362,6 +362,16 @@ function EditDataController() {
         _this.setItemEdit(setItem['id']) ;
     } ;
     /**
+     * источник редактирования левая половина
+     * @param setItemId
+     */
+    this.setItemEditFromLeftPart = function(setItemId) {
+        var setSelector = scheme['setSelector'];
+        var factSet = setSelector.getFactSet();
+        setSelector.setCurrentSet(factSet['id'], factSet['name']);
+        _this.setItemEdit(setItemId);
+    } ;
+    /**
      * редактировать элемент множества
      * например, workDirection
      * найти элемент в левой части и скопировать для редактирования в
@@ -409,13 +419,31 @@ function EditDataController() {
         var isFind = setSelector.isFind(currentSetId) ;
         var factSetId = setSelector.getFactSetId() ;
         if (!isFind) {    // добавить
-//            setSelector.addNewSet(currentSet.id,currentSet.name) ;
+            setSelector.addNewSet(currentSet.id,currentSet.name) ;
         }
+        var showCurentSetObjName = 'showCurrentSetReady' ;
+        paramSet.putObj(showCurentSetObjName,false) ;
         if (factSetId !== currentSetId) {   // переключение множества
             _this.switchSet(currentSetId) ;
+        }else {
+            paramSet.putObj(showCurentSetObjName,true) ;
         }
+
         var editImplement = scheme['editImplement'] ;
-        editImplement.setItemSave(currentSet) ;
+
+        var tmpTimer = setInterval(function () {
+            var readyFlag = paramSet.getObj(showCurentSetObjName) ;
+            if (readyFlag) {
+                clearInterval(tmpTimer) ;
+                editImplement.setItemSave(currentSet) ;
+            }
+        }, 50);
+
+
+
+
+
+
     } ;
 }
 //===================EditDataSetSelector=====================//
@@ -469,9 +497,14 @@ function EditDataSetSelector() {
             htmlContext.addNewSet(newSetId,newSetName) ;
             var sendPar = {id: newSetId, name: newSetName} ;
             var  ajaxPar = ajaxContext.getAjaxParam('addNewSet',sendPar) ;
-            ajaxExe.setUrl(ajaxPar['url']) ;
-            ajaxExe.setData(ajaxPar['data']) ;
-            ajaxExe.setCallback(addNewSetRes) ;
+            if (ajaxPar['url'] === null) {   // нет нужды обращаться к БД
+                var rr = {success: true} ;
+                addNewSetRes(rr) ;
+            }else {
+                ajaxExe.setUrl(ajaxPar['url']) ;
+                ajaxExe.setData(ajaxPar['data']) ;
+                ajaxExe.setCallback(addNewSetRes) ;
+            }
 
         }
     } ;
@@ -490,6 +523,13 @@ function EditDataSetSelector() {
     this.getCurrentSet = function() {
         return currentSet ;
     };
+    /**
+     * это множество левой половины
+     * @return set={id:*,name:*}
+     */
+    this.getFactSet = function() {
+        return htmlContext.getFactSet() ;
+    } ;
     this.getFactSetId = function() {
         return htmlContext.getFactSetId() ;
     } ;
@@ -507,7 +547,7 @@ function EditDataSetSelector() {
         if (currentSet['id'] == setId) {
 //            return true ;
         }
-        currentSet['id'] = setId ;
+        // currentSet['id'] = setId ;
 //        currentSet['name'] = setName ;
 
         htmlContext.setItemsClear() ;
@@ -612,6 +652,7 @@ function EditDataSetSelector() {
                 var item = queue.shift() ;
                 if (item['id'] == 'z_end') {
                     clearInterval(tmpTimer)
+                    paramSet.putObj('showCurrentSetReady',true) ; // завершил вывод
                 }else {
                     var setItem = item['setItem'] ;
                     var subItems = item['subItems'] ;
@@ -827,6 +868,7 @@ function EditImplement() {
                 }
             }
             htmlContext.addSetItem(currentSetItem,result) ;
+            htmlContext.setItemHighlight(currentSetItem['id']) ;
         }
 
     } ;
@@ -966,16 +1008,27 @@ function WorkDirectionEditHtml() {
         return factSetList ;
     } ;
     /**
+     * получить текущее множество {id: *, name: *}
+     * @return factset = {id: *, name: *}
+     */
+    this.getFactSet = function() {
+
+        if (setBt.length === 0) {  // наличие кнопки выбора множества
+            return {id: null, name: null};
+        }
+        var attrName = setBt.attr('name') ;
+        var arr = attrName.split('-') ;
+        var setId = arr[arr.length -1] ;
+        var setName = setBt.text() ;
+        return {id:setId, name:setName} ;
+    } ;
+    /**
      * получить Id текущего множества
      * Id - последний компонент в имени setUl
      */
     this.getFactSetId = function() {
-        if (setUl.length === 0) {  // наличие кнопки выбора множества
-            return null ;
-        }
-        var name = setUl.attr('name') ;
-        var arr = name.split('-') ;
-        return arr[arr.length -1] ;
+        var set = _this.getFactSet() ;
+        return set.id ;
     } ;
     /**
      * создать элемент списка множеств
@@ -1920,6 +1973,7 @@ function switchSet(elem) {
 }
 /**
  * редавктировать элемент множества
+ * источник редактирования - элемент на левой панели
  * @param elem
  */
 function setItemEdit(elem) {
@@ -1928,7 +1982,8 @@ function setItemEdit(elem) {
     var id = r['id'] ;
     var contextName = r['context'] ;
     var controller = paramSet.getController(contextName) ;
-    controller.setItemEdit(id) ;
+    controller.setItemEditFromLeftPart(id) ;
+    // controller.setItemEdit(id) ;
 
 }
 /**

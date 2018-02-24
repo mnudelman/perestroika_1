@@ -79,6 +79,7 @@
                         <!--                    <ul class="list-group" >-->
                         <a class="btn btn-default setItemHighlight" role="button" data-toggle="collapse" style="width:82%"
                            aria-expanded="true"
+                           data-set-id="" data-set-item-id=""
                            href="#<?= $htmlPrefix ?>-editSetItem-ul"
                            aria-controls="<?= $htmlPrefix ?>-editSetItem-ul"
                            id="<?=$htmlPrefix?>-editSetItem-bt">

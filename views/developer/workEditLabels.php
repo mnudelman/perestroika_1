@@ -10,6 +10,8 @@ $ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
 $ruleContent = $ruleContentTab['text'];
 
 $tooltips = PageItems::getItemText([$pageItemFile, 'tooltips']);
+$tooltips1 = PageItems::getItemText([$pageItemFile, 'tooltips1']);
+
 $toolTipItemEdit = $tooltips['itemEdit'] ;
 $toolTipItemAdd = $tooltips['itemAdd'] ;
 $btSaveTab = PageItems::getItemText([$pageItemFile, 'buttons','save']);

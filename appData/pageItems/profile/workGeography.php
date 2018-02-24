@@ -145,10 +145,64 @@ $parts = [
     ],
 
 ] ;
+
+
+
+$tooltips1 = [
+    'itemEdit' => [
+            'ru' => 'Редактировать регион',
+            'en' => 'region edit'
+    ],
+    'itemAdd' => [
+            'ru' => 'Добавить новый регион',
+            'en' => 'add new region'
+    ],
+    'subItemInWork' => [
+        'no' => [
+                'ru' => 'Город не включён в работу.Нажмите, чтобы добавить',
+                'en' => 'City removed from work. Click to add'
+        ],
+        'yes' => [
+                'ru' => 'Город включён в работу.Нажмите, чтобы удалить',
+                'en' => 'City in work. Click to remove'
+        ],
+    ],
+
+    'itemFully' => [
+        'yes' => [
+                'ru' => 'Регион весь полностью в работе.Нажмите, чтобы включать только отдельные города',
+                'en' => 'Region fully in work. Click to select individual cities'
+        ],
+        'no' => [
+                'ru' => 'в работе только отмеченные города. Нажмите, чтобы включить весь регион',
+                'en' => 'you may select individual cities. Click to select region fully'
+        ],
+    ],
+    'itemDelete' => [
+        'yes' => [
+                'ru' => 'Регион полностью будет исключён из работы.Нажмите, чтобы включить',
+                'en' => 'Region will be removed from work. Click to add'
+        ],
+        'no' => [
+                'ru' => 'Регион всключён в работы.Нажмите, чтобы исключить',
+                'en' => 'Region will be in work. Click to remove'
+        ],
+    ],
+
+];
+
+
+
+
+
+
+
+
 return [
     'title' => $title,
     'rules' => $rules,
     'tooltips' => $tooltips,
+    'tooltips1' => $tooltips1,
     'partsTitle' => $parts,
     'buttons' => [
         'save' => [

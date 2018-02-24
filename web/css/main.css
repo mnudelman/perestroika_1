@@ -101,8 +101,11 @@ textarea {
     border-color: #0b93d5;
     border-radius: 5px;
 }
-.setItemHighlight {
+.setItemHighlight,.setItemHighlight:hover {
     color:green;
     font-weight: bold;
     font-size: larger;
+}
+.setItemHighlight:hover {
+    /*font-size: large;*/
 }

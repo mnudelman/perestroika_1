@@ -16,6 +16,7 @@ class PageItems {
     private static $instance = null ;
     private static $_currentItemName = null ;
     private static $_currentItemTab = [] ;
+    private static $lang ;
     private function __construct() {
         self::$_pageItemPath = Yii::$app->basePath .'/appData/pageItems' ;
 
@@ -52,27 +53,52 @@ class PageItems {
                 $sourceTab = $sourceTab[$partName] ;
             }
         }
-        $lang = self::getLang() ;
-        return self::getMap($sourceTab,'text',$lang) ;
+        self::$lang = self::getLang() ;
+        return self::getMap($sourceTab,'text') ;
     }
-    private static function getMap($sourceTab,$attrKey,$lang = null) {
+    /**
+     * получить таблицу требуемых элементов целиком
+     * @param array $itemPath
+     */
+    public function getItem(array $itemPath) {
+        $itemName = $itemPath[0] ;
+        self::uploadItemTab($itemName) ;
+
+    }
+    private static function getMap($sourceTab,$attrKey) {
+        $lang = self::$lang ;
         $result = [] ;
         foreach ($sourceTab as $key => $attrValue) {
             if (empty($attrKey)) {
                 $result[$key] = $attrValue ;
             } elseif (isset($attrValue[$attrKey])) {
-                $val = (is_null($lang)) ? $attrValue[$attrKey] : $attrValue[$attrKey][$lang] ;
+                $simpleVal = $attrValue[$attrKey] ;
+
+                $val = (!is_null($lang) && isset($simpleVal[$lang])) ? $simpleVal[$lang]: $simpleVal   ;
                 if (!is_null($val)) {
                     $result[$key] = $val ;
                 }
-            }elseif (!is_null($lang) && isset($attrValue[$lang])) {
-                $val = $attrValue[$lang] ;
-                if (!is_null($val)) {
-                    $result[$key] = $val ;
-                }
+            }elseif (!is_null($lang)) {
+                $result = self::getCompositeKey($key,$attrValue,$result) ;
             }
         }
         return $result ;
+    }
+    private static function getCompositeKey($keyStart,$tab,$result) {
+        $lang = self::$lang ;
+        if (!is_array($tab)) {
+            $result[$keyStart] = $tab ;
+        } elseif (isset($tab[$lang])) {
+            $result[$keyStart] = $tab[$lang] ;
+        } else {
+            foreach ($tab as $key => $value ) {
+                self::getCompositeKey($keyStart.'/'.$key,$value,$result) ;
+            }
+        }
+        return $result ;
+
+
+
     }
     private static function getLang() {
         $ln = TaskStore::getParam('currentLanguage') ;
