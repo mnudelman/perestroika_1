@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Прохождение заказа',
         'en' => 'the order passing.'
-    ]
 ];
 $text_ru = <<<TEXT
 
@@ -97,16 +95,12 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Прохождение заказа',
             'en' => 'The order passing'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 return [

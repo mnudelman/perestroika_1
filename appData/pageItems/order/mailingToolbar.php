@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Рассылка. Панель инструментов',
         'en' => 'Mailing Toolbar.'
-    ]
 ];
 $text_ru = <<<TEXT
 <b>Кнопки и их назначение.</b><br>
@@ -21,16 +19,12 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Панель инструментов',
             'en' => 'Toolbar'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 return [

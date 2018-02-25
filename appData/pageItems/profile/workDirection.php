@@ -3,10 +3,8 @@
  * Языковое оформление "Направления работ"
  */
 $title = [
-    'text' => [
         'ru' => 'Направления работ',
         'en' => 'Work direction'
-    ]
 ];
 $text_ru = <<<TEXT
 <b>1. Форма поделена на две половины:</b><br>
@@ -54,94 +52,68 @@ for the translation direction in the area changes.
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'При формировании направлений работ, используйте правила:',
             'en' => 'In the formation of areas of work, use rules:'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 $tooltips = [
     'itemEdit' => [
-        'text' => [
             'ru' => 'Редактировать направление',
             'en' => 'Edit direction'
-        ]
     ],
     'itemAdd' => [
-        'text' => [
             'ru' => 'Добавить новое направление',
             'en' => 'add new direction'
-        ]
     ],
     'subItemInWork' => [
         'no' => [
-        'text' => [
             'ru' => 'Работа не включена в выполняемый список.Нажмите, чтобы добавить',
             'en' => 'Work not included in the running list.Click to add'
-            ]
         ],
         'yes' => [
-            'text' => [
                 'ru' => 'Работа включёна в выполняемый список.Нажмите, чтобы удалить',
                 'en' => 'Work is included in the running list.Click to remove'
-            ]
         ],
     ],
 
     'itemFully' => [
         'yes' => [
-            'text' => [
                 'ru' => 'Направление полностью в работе.Нажмите, чтобы включать только отдельные виды работ',
                 'en' => 'Direction fully at work.Click to include only certain types of work'
-            ]
         ],
         'no' => [
-            'text' => [
                 'ru' => 'В выполняемом списке только отмеченные виды работ. Нажмите, чтобы включить всё направление',
                 'en' => 'In the running list only the selected jobs. Click to turn on all direction'
-            ]
         ],
     ],
     'itemDelete' => [
         'yes' => [
-            'text' => [
                 'ru' => 'Направление полностью будет исключёно.Нажмите, чтобы включить',
                 'en' => 'Region will be removed from work. Click to add'
-            ]
         ],
         'no' => [
-            'text' => [
                 'ru' => 'Направление включёно.Нажмите, чтобы исключить',
                 'en' => 'The direction of inclusive.Click to exclude'
-            ]
         ],
     ],
 
 ];
 $parts = [
     'current' => [
-        'text' => [
             'ru' => 'Выбранные направления',
             'en' => 'The chosen direction'
-        ]
     ],
     'add' => [
-        'text' => [
             'ru' => 'Добавить направление',
             'en' => 'Add direction'
-        ]
     ],
     'edit' => [
-        'text' => [
             'ru' => 'Изменения',
             'en' => 'Changes'
-        ]
     ],
 
 ] ;

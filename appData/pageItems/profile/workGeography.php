@@ -3,10 +3,8 @@
  * Языковое оформление "Географии работ"
  */
 $title = [
-    'text' => [
         'ru' => 'География работ',
         'en' => 'Geography of works'
-    ]
 ];
 $text_ru = <<<TEXT
 <b>1. Форма поделена на две половины:</b><br>
@@ -54,142 +52,74 @@ for the transfer of the region in the area of change.
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'При формировании географии работ, используйте правила:',
             'en' => 'When forming geography works, use the rules:'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 $tooltips = [
     'itemEdit' => [
-        'text' => [
             'ru' => 'Редактировать регион',
             'en' => 'region edit'
-        ]
     ],
     'itemAdd' => [
-        'text' => [
             'ru' => 'Добавить новый регион',
             'en' => 'add new region'
-        ]
     ],
     'subItemInWork' => [
         'no' => [
-        'text' => [
             'ru' => 'Город не включён в работу.Нажмите, чтобы добавить',
             'en' => 'City removed from work. Click to add'
-            ]
         ],
         'yes' => [
-            'text' => [
                 'ru' => 'Город включён в работу.Нажмите, чтобы удалить',
                 'en' => 'City in work. Click to remove'
-            ]
         ],
     ],
 
     'itemFully' => [
         'yes' => [
-            'text' => [
                 'ru' => 'Регион весь полностью в работе.Нажмите, чтобы включать только отдельные города',
                 'en' => 'Region fully in work. Click to select individual cities'
-            ]
         ],
         'no' => [
-            'text' => [
                 'ru' => 'в работе только отмеченные города. Нажмите, чтобы включить весь регион',
                 'en' => 'you may select individual cities. Click to select region fully'
-            ]
         ],
     ],
     'itemDelete' => [
         'yes' => [
-            'text' => [
                 'ru' => 'Регион полностью будет исключён из работы.Нажмите, чтобы включить',
                 'en' => 'Region will be removed from work. Click to add'
-            ]
         ],
         'no' => [
-            'text' => [
                 'ru' => 'Регион всключён в работы.Нажмите, чтобы исключить',
                 'en' => 'Region will be in work. Click to remove'
-            ]
         ],
     ],
 
 ];
 $parts = [
     'current' => [
-        'text' => [
             'ru' => 'Текущие регионы',
             'en' => 'Current regions'
-        ]
     ],
     'add' => [
-        'text' => [
             'ru' => 'Добавить регион',
             'en' => 'Add region'
-        ]
     ],
     'edit' => [
-        'text' => [
             'ru' => 'Изменения',
             'en' => 'Changes'
-        ]
     ],
 
 ] ;
 
 
 
-$tooltips1 = [
-    'itemEdit' => [
-            'ru' => 'Редактировать регион',
-            'en' => 'region edit'
-    ],
-    'itemAdd' => [
-            'ru' => 'Добавить новый регион',
-            'en' => 'add new region'
-    ],
-    'subItemInWork' => [
-        'no' => [
-                'ru' => 'Город не включён в работу.Нажмите, чтобы добавить',
-                'en' => 'City removed from work. Click to add'
-        ],
-        'yes' => [
-                'ru' => 'Город включён в работу.Нажмите, чтобы удалить',
-                'en' => 'City in work. Click to remove'
-        ],
-    ],
-
-    'itemFully' => [
-        'yes' => [
-                'ru' => 'Регион весь полностью в работе.Нажмите, чтобы включать только отдельные города',
-                'en' => 'Region fully in work. Click to select individual cities'
-        ],
-        'no' => [
-                'ru' => 'в работе только отмеченные города. Нажмите, чтобы включить весь регион',
-                'en' => 'you may select individual cities. Click to select region fully'
-        ],
-    ],
-    'itemDelete' => [
-        'yes' => [
-                'ru' => 'Регион полностью будет исключён из работы.Нажмите, чтобы включить',
-                'en' => 'Region will be removed from work. Click to add'
-        ],
-        'no' => [
-                'ru' => 'Регион всключён в работы.Нажмите, чтобы исключить',
-                'en' => 'Region will be in work. Click to remove'
-        ],
-    ],
-
-];
 
 
 
@@ -202,14 +132,11 @@ return [
     'title' => $title,
     'rules' => $rules,
     'tooltips' => $tooltips,
-    'tooltips1' => $tooltips1,
     'partsTitle' => $parts,
     'buttons' => [
         'save' => [
-            'text' => [
                 'ru' => 'сохранить',
                 'en' => 'save'
-            ]
         ]
     ]
 ];

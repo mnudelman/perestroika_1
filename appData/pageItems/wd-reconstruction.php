@@ -83,7 +83,6 @@ Due to this, reconstruction of buildings and structures will be maximum fast and
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Федеральный портал «Перестройка» усиливает присутствие на рынке страны. Реконструкция зданий и сооружений,
 востребованная самыми разными слоями населения, представлена у нас тысячами строительных компаний различного уровня работ,
  технического оснащения и ценовой политики. Создавая заявку в рамках проекта,
@@ -92,14 +91,11 @@ $pieceText = [
 the most popular different segments of the population, we have provided thousands of construction companies at various levels of work
 technical equipment and price policy. Creating the application project
 be confident in the proper selection and fair value ...'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

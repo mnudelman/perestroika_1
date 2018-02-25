@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Рассылка. Список исполнителей',
         'en' => 'The list of performers.'
-    ]
 ];
 $text_ru = <<<TEXT
 Система строит <b>список ИСПОЛНИТЕЛЕЙ</b> на основе сравнения профиля ИМПОЛНИТЕЛЯ и требований ЗАКАЗА<br>
@@ -66,16 +64,12 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Список ИСПОЛНИТЕЛЕЙ',
             'en' => 'The list of performers'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 return [

@@ -49,30 +49,22 @@ $impersonation_en = <<<TEXT
 TEXT;
 $expressForm = [
     'title' => [
-        'text' => [
             'ru' => 'ЭКСПРЕСС РЕГИСТРАЦИЯ',
             'en' => 'EXPRESS REGISTRATION'
-        ],
     ],
     'rules' => [
         'title' => [
-            'text' => [
                 'ru' => 'Для экспресс регистрации используйте правила:',
                 'en' => 'To fill use the rules:'
-            ]
         ],
         'content' => [
-            'text' => [
                 'ru' => $text_ru,
                 'en' => $text_en
-            ]
         ],
         'messages' => [
             'success' => [
-                'text' => [
                     'ru' => 'oK!',
                     'en' => 'oK!.'
-                ]
             ],
             'error' => [
                 'text' => [
@@ -81,16 +73,12 @@ $expressForm = [
                 ]
             ],
             'orNormalLogin'  => [
-                'text' => [
                     'ru' => 'или использовать обычный "login"',
                     'en' => 'or use the normal "login"'
-                ]
             ],
             'impersonation' => [                // подмена пользователя
-                'text' => [
                     'ru' => $impersonation_ru,
                     'en' => $impersonation_en
-                ]
             ]
         ]
 

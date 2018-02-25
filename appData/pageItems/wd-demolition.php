@@ -52,21 +52,17 @@ roof, Windows and apartments;
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Поиск специалистов, способных быстро и качественно провести демонтажные работы, может растянуться на месяцы.
                  Помимо специального оборудования, мастера должны иметь образование в области монтажа-демонтажа,
                  соблюдать технику безопасности и предлагать справедливую цену, соответствующую объему и качеству планируемых работ...',
         'en' => 'Search for specialists that can quickly and efficiently carry out demolition works, can take months.
                  Besides the special equipment, the master must have education in the field of mounting and Dismounting,
                  to comply with safety regulations and offer a fair price, corresponding quantity and quality of planned works...'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

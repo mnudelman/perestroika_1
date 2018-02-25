@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Заказ. Рассылка',
         'en' => 'Order. Mailing'
-    ]
 ];
 $text_ru = <<<TEXT
  <b>1. Форма "Рассылка" поделена на две половины:</b><br>
@@ -46,104 +44,72 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Для выполнения расылки используйте следующее:',
             'en' => 'In the formation of areas of work, use rules:'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 $fields = [
     'orderName' => [
-        'text' => [
             'ru' => 'имя',
             'en' => 'name'
-        ]
     ],
     'description' => [
-        'text' => [
             'ru' => 'описание',
             'en' => 'description'
-        ]
     ],
     'perBeg' => [
-        'text' => [
             'ru' => 'период- начало',
             'en' => 'period- Begin'
-        ]
     ],
     'perEnd' => [
-        'text' => [
             'ru' => 'период- окончание',
             'en' => 'period- the end'
-        ]
     ],
     'city' => [
-        'text' => [
             'ru' => 'город',
             'en' => 'city'
-        ]
     ],
 ] ;
 $infoFields = [
     'name'  => [
-        'text' => [
             'ru' => 'имя',
             'en' => 'name'
-        ]
     ],
     'period'  => [
-        'text' => [
             'ru' => 'период',
             'en' => 'period'
-        ]
     ],
     'description' => [
-        'text' => [
             'ru' => 'описание',
             'en' => 'description'
-        ]
     ],
     'additional' => [
-        'text' => [
             'ru' => 'Дополнительные материалы',
             'en' => 'additional'
-        ]
     ],
     'mailing' => [
-        'text' => [
             'ru' => 'Рассылки всего',
             'en' => 'mailing total'
-        ]
     ],
     'answers' => [
-        'text' => [
             'ru' => 'Ответов',
             'en' => 'answers'
-        ]
     ],
     'selectedYes' => [
-        'text' => [
             'ru' => 'Исполнитель определён.',
             'en' => 'the contractor determined'
-        ]
     ],
     'selectedNo' => [
-        'text' => [
             'ru' => 'Исполнитель не определён.',
             'en' => 'the contractor is not defined'
-        ]
     ],
     'city' => [
-        'text' => [
             'ru' => 'город',
             'en' => 'city'
-        ]
     ],
 
 
@@ -151,50 +117,36 @@ $infoFields = [
 ] ;
 $tooltips = [
     'itemEdit' => [
-        'text' => [
             'ru' => 'Редактировать заказ',
             'en' => 'To edit the order'
-        ]
     ],
     'orderCreate' => [
-        'text' => [
             'ru' => 'Создать новый заказ',
             'en' => 'To create a new order'
-        ]
     ],
     'orderCopy' => [
-        'text' => [
             'ru' => 'Создать новый заказ копированием текущего',
             'en' => 'To create a new order by copying this'
-        ],
     ],
 
     'orderSave' => [
-        'text' => [
             'ru' => 'Сохранить заказ',
             'en' => 'To save the order'
-        ],
     ],
     'orderDelete' => [
-        'text' => [
             'ru' => 'Удалить заказ',
             'en' => 'Delete the order'
-        ],
     ],
 
 ];
 $parts = [
     'current' => [
-        'text' => [
             'ru' => 'Исполнители заказа',
             'en' => 'the executors of the order'
-        ]
     ],
     'edit' => [
-        'text' => [
             'ru' => 'Профиль исполнителя',
             'en' => 'Profile of the contractor'
-        ]
     ],
 
 ] ;

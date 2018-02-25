@@ -17,19 +17,21 @@ use app\service\Files ;
 ?>
 <?php
   $labelTab = PageItems::getItemText(['topMenu']) ;
-  $urlTab = PageItems::getItemAttr('url',['topMenu']) ;
+//  $urlTab = PageItems::getItemAttr('url',['topMenu']) ;
   $langFlag = true ;
   $imgTab = PageItems::getItemAttr('language',['topMenu','images'],$langFlag) ;
   $langImage = $imgTab['language'] ;
   $currentController = Yii::$app->controller->id ;
-$objAction = Yii::$app->controller->action ;
-$currentAction = $objAction->actionMethod ;
+ $objAction = Yii::$app->controller->action ;
+ $currentAction = $objAction->actionMethod ;
   $urlEn = Url::to([$currentController.'/language','ln'=>'en','action'=>$currentAction]) ;
   $urlRu = Url::to([$currentController.'/language','ln'=>'ru','action'=>$currentAction]) ;
   $modalUrl = Url::to([$currentController,'#'=>'myModal']) ;
   $langImages = PageItems::getItemAttr('',['topMenu','images']) ;
-  $langImageRu = 'images/ru.png' ;
-  $langImageEn = 'images/en.png' ;
+//  $LANG_IMAGE_RU = $langImages['images/imgRu'] ;
+//  $LANG_IMAGE_EN = $langImages['images/imgEn'] ;
+  $LANG_IMAGE_RU = 'images/ru.png' ;
+  $LANG_IMAGE_EN = 'images/en.png' ;
   $userIsGuest = Yii::$app->user->isGuest ;
   $guestName =  $labelTab['user-noname'] ;
   $userName = ($userIsGuest) ? $guestName : Yii::$app->user->identity->username ;
@@ -90,8 +92,8 @@ if ($userIsGuest || empty($imgAvatarName)) {
                'role' => "button", 'aria-haspopup' => "true",'aria-expanded'=>"false"])  . $img .
                  '<span class="caret"></span>' . Html::endTag('a') ;
     // тело dropdown
-    $imgRu = Html::img($langImageRu ,['class'=>'img-responsive topmenu-lang-image']) ;
-    $imgEn = Html::img($langImageEn ,['class'=>'img-responsive topmenu-lang-image']) ;
+    $imgRu = Html::img($LANG_IMAGE_RU ,['class'=>'img-responsive topmenu-lang-image']) ;
+    $imgEn = Html::img($LANG_IMAGE_EN ,['class'=>'img-responsive topmenu-lang-image']) ;
 
     // li - ru
     $aRu = Html::beginTag('a', ['href' => $urlRu ]) . $imgRu . $labelTab['lang-russian'] . Html::endTag('a') ;

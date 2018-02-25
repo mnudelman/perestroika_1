@@ -29,32 +29,24 @@ TEXT;
 
 $fields = [
     'name' => [
-        'text' => [
             'ru' => 'имя',
             'en' => 'name'
-        ]
     ],
 ];
 
 
 return [
     'title' => [
-        'text' => [
             'ru' => 'Подтверждение правильности адреса email',
             'en' => 'Validation email'
-        ],
     ],
     'messageOk' => [
-            'text' => [
                 'ru' => $messageOk_ru,
                 'en' => $messageOk_en,
-            ]
     ],
     'messageError' => [
-        'text' => [
             'ru' => $messageError_ru,
             'en' => $messageError_en,
-        ]
     ],
     'fields' => $fields
 ];

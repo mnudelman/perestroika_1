@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Заказ. Рассылка',
         'en' => 'Order. Mailing'
-    ]
 ];
 $text_ru = <<<TEXT
 На этой вкладке ЗАКАЗЧИК управляет рассылкой ИСПОЛНИТЕЛЯМ двух видов предложений:<br>
@@ -35,30 +33,22 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Рассылка предложений ИСПОЛНИТЕЛЯМ',
             'en' => 'Sending suggestions to the PERFORMERS'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 $parts = [
     'current' => [
-        'text' => [
             'ru' => 'Исполнители заказа',
             'en' => 'the executors of the order'
-        ]
     ],
     'edit' => [
-        'text' => [
             'ru' => 'Профиль исполнителя',
             'en' => 'Profile of the contractor'
-        ]
     ],
 
 ] ;

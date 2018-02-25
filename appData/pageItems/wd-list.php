@@ -97,19 +97,16 @@ $content = [
 ];
 $commands = [
     'order' => [
-        'text' => [
             'ru' => 'заказ',
-            'en' => 'order'],
+            'en' => 'order',
     ],
     'developer' => [
-        'text' => [
             'ru' => 'добавить в исполнители',
-            'en' => 'add to developer',],
+            'en' => 'add to developer',
     ],
     'exit' => [
-        'text' => [
             'ru' => 'выход',
-            'en' => 'exit',],
+            'en' => 'exit',
 
     ]
 ];

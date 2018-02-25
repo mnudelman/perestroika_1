@@ -4,10 +4,8 @@
  *
  */
 $title = [
-    'text' => [
         'ru' => 'Список ЗАКАЗОВ B ИСПОЛНИТЕЛЯ',
         'en' => 'performer\'s orders.'
-    ]
 ];
 $text_ru = <<<TEXT
 Каждая строка списка ЗАКАЗОВ имеет следующую структуру: <br>
@@ -50,16 +48,12 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'Список ЗАКАЗОВ',
             'en' => 'Orders list'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 return [

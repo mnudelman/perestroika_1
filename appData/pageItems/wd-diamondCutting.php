@@ -57,7 +57,6 @@ depending on the manufacturer and the various functional and ergonomic differenc
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Алмазное бурение  (сверление), технологических отверстий в железобетонных конструкциях :
                  стенах, перекрытиях, фундаментах, различного диаметра,
                  является современной технологией прохождения материалов.
@@ -66,14 +65,11 @@ $pieceText = [
                  walls, ceilings, and foundations of various diameters,
                  modern technology is passing materials.
                  Designed for installation of engineering communications'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

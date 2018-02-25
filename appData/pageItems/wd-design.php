@@ -80,21 +80,17 @@ the project "Rebuilding" only brings the customer and the contractor, and contro
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Проектные работы по возведению сооружений и зданий — ключевое направление промышленного гражданского строительства.
   Федеральный портал «Перестройка» объединяет тысячи компаний со всей страны, предлагающих проектно-сметные работы,
   изыскательские, ведение проектной документации. Здесь вы можете уточнить срок выполнения и запросить прайс работ.',
         'en' => 'Design work for the construction of structures and buildings is a key area of industrial and civil construction.
 Federal portal "Restructuring" brings together thousands of companies from all over the country, offering design-budget work,
 survey, maintenance of project documentation. Here you can specify the deadline and request price works.'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

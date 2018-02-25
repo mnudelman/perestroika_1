@@ -82,7 +82,6 @@ mixer with concrete needs to spend on the road no more than two hours. Necessari
 a Federal project "Perestroika".
 TEXT;
 $pieceText = [
-    'text' => [
         'ru' => 'Федеральный портал «Перестройка» уделяет внимание не только строительным бригадам — подрядчикам в возведении,
  ремонте и демонтаже зданий и сооружений — но и сопутствующим товарам и услугам.
  Одним из значимых направлений выступает поставка специализированных строительных материалов, анкеров, строительных смесей,
@@ -91,7 +90,6 @@ $pieceText = [
 repair and dismantling of buildings and structures — but related goods and services.
 One of the important directions is the supply of specialized building materials, anchors, mortar,
 steel structures and concrete products ...'
-    ]
 ];
 return [
     'content' => [

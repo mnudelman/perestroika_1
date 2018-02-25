@@ -85,10 +85,8 @@ the violation of the integrity of the entire building. It\'s important not to be
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

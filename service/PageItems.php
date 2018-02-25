@@ -92,7 +92,7 @@ class PageItems {
             $result[$keyStart] = $tab[$lang] ;
         } else {
             foreach ($tab as $key => $value ) {
-                self::getCompositeKey($keyStart.'/'.$key,$value,$result) ;
+                $result = self::getCompositeKey($keyStart.'/'.$key,$value,$result) ;
             }
         }
         return $result ;
@@ -123,6 +123,6 @@ class PageItems {
 
         $lang = ($langFlag) ? self::getLang() : null ;
 
-        return self::getMap($sourceTab,$attrKey,$lang) ;
+        return self::getMap($sourceTab,$attrKey) ;
     }
 }

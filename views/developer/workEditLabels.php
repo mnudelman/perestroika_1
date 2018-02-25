@@ -4,36 +4,31 @@
 */
 use app\service\PageItems ;
 
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
 
 $tooltips = PageItems::getItemText([$pageItemFile, 'tooltips']);
-$tooltips1 = PageItems::getItemText([$pageItemFile, 'tooltips1']);
+$partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
+$buttons = PageItems::getItemText([$pageItemFile, 'buttons']);
+$rules =  PageItems::getItemText([$pageItemFile, 'rules']);
 
-$toolTipItemEdit = $tooltips['itemEdit'] ;
-$toolTipItemAdd = $tooltips['itemAdd'] ;
-$btSaveTab = PageItems::getItemText([$pageItemFile, 'buttons','save']);
-$btSave = $btSaveTab['text'] ;
-$toolTipItemFullyYes = PageItems::getItemText([$pageItemFile, 'tooltips','itemFully','yes']);
-$toolTipItemFullyYes = $toolTipItemFullyYes['text'] ;
-$toolTipItemFullyNo = PageItems::getItemText([$pageItemFile, 'tooltips','itemFully','no']);
-$toolTipItemFullyNo = $toolTipItemFullyNo['text'] ;
-$toolTipItemDeleteYes = PageItems::getItemText([$pageItemFile, 'tooltips','itemDelete','yes']);
-$toolTipItemDeleteYes = $toolTipItemDeleteYes['text'] ;
-$toolTipItemDeleteNo = PageItems::getItemText([$pageItemFile, 'tooltips','itemDelete','no']);
-$toolTipItemDeleteNo = $toolTipItemDeleteNo['text'] ;
-$toolTipSubItemInWorkYes = PageItems::getItemText([$pageItemFile, 'tooltips','subItemInWork','yes']);
-$toolTipSubItemInWorkYes = $toolTipSubItemInWorkYes['text'] ;
-$toolTipSubItemInWorkNo = PageItems::getItemText([$pageItemFile, 'tooltips','subItemInWork','no']);
-$toolTipSubItemInWorkNo = $toolTipSubItemInWorkNo['text'] ;
-$partsTitleCurrent = PageItems::getItemText([$pageItemFile, 'partsTitle','current']);
-$partsTitleCurrent = $partsTitleCurrent['text'] ;
-$partsTitleAdd = PageItems::getItemText([$pageItemFile, 'partsTitle','add']);
-$partsTitleAdd = $partsTitleAdd['text'] ;
-$partsTitleEdit = PageItems::getItemText([$pageItemFile, 'partsTitle','edit']);
-$partsTitleEdit = $partsTitleEdit['text'] ;
-$btSave = PageItems::getItemText([$pageItemFile, 'buttons','save']);
-$btSave = $btSave['text'] ;
+
+
+$ruleTitle = $rules['rules/title'];
+$ruleContent = $rules['rules/content'];
+
+
+$toolTipItemEdit = $tooltips['tooltips/itemEdit'] ;
+$toolTipItemAdd = $tooltips['tooltips/itemAdd'] ;
+
+$btSave = $buttons['buttons/save'] ;
+
+$toolTipItemFullyYes = $tooltips['tooltips/itemFully/yes'] ;
+$toolTipItemFullyNo = $tooltips['tooltips/itemFully/no'] ;
+$toolTipItemDeleteYes = $tooltips['tooltips/itemDelete/yes'] ;
+$toolTipItemDeleteNo = $tooltips['tooltips/itemDelete/no']  ;
+$toolTipSubItemInWorkYes = $tooltips['tooltips/subItemInWork/yes']  ;
+$toolTipSubItemInWorkNo = $tooltips['tooltips/subItemInWork/no']  ;
+$partsTitleCurrent = $parts['parts/current'] ;
+$partsTitleAdd = $parts['parts/add'] ;
+$partsTitleEdit = $parts['parts/edit'] ;
+
 $dirLayoutParts = '../layouts/layoutParts' ;

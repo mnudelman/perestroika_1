@@ -53,11 +53,9 @@ as a professional in the following areas. </p>
 
 TEXT;
 return [
-    'title' => ['text' => $title] ,
+    'title' => $title ,
     'content' => [
-        'text' => [
         'ru' => $text_ru,
         'en' => $text_en,
-    ],
     ],
 ] ;

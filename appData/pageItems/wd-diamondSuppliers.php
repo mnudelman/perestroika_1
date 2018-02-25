@@ -84,7 +84,6 @@ And remember: cutting of concrete or stone the diamond tool best left to profess
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Алмазная резка — важный этап при демонтаже зданий и сооружений, позволяющий быстро и оперативно разделять конструктивные элементы.
  При всем богатстве технических решений и инструментов, методика схожа: распил происходит с помощью диска,
   каната или сверла (алмазной коронки) с высокоуглеродистым напылением, схожим по структуре с настоящим алмазом.
@@ -93,7 +92,6 @@ $pieceText = [
 With all the richness of technical solutions and tools, the technique is similar: cut with the disk,
 rope or drill bit (diamond core bits) with a carbon coating, similar in structure to a real diamond.
 This instrument, in fact, no matter what to destroy...'
-    ]
 ];
 return [
     'content' => [

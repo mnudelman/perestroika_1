@@ -4,10 +4,8 @@
  * Time: 16:10
  */
 $title = [
-    'text' => [
         'ru' => 'Исполнитель. Список заказов',
         'en' => 'Developer. OrderList'
-    ]
 ];
 $text_ru = <<<TEXT
 На этой вкладке показываются все ЗАКАЗЫ, по которым ИСПОЛНИТЕЛЬ получал предложение на участие
@@ -20,16 +18,12 @@ $text_en = <<<TEXT
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'ЗАКАЗЫ ИСПОЛНИТЕЛЯ',
             'en' => 'PERFORMER\'S ORDERS'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 

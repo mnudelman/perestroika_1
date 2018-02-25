@@ -72,7 +72,6 @@ and high — thinking about the justification of prices.
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Федеральный проект «Перестройка» объединяет десятки тысяч заказчиков и исполнителей со всей страны.
 Озадачившись поиском бригады по монтажу-демонтажу зданий и сооружений, вы исследуете сотни сайтов в поисках
 самых выгодных расценок демонтажа. Цена играет важную роль, но выбор зависит от качества, скорости работ и
@@ -81,14 +80,11 @@ $pieceText = [
 Puzzled by search crews on installation-dismantling of buildings and structures, you can explore hundreds of sites in search
 the most favourable rate of removal. Price plays an important role, but the choice depends on the quality, speed of work and
 technical training team ...'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

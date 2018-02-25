@@ -3,10 +3,8 @@
  * Языковое оформление "Направления работ"
  */
 $title = [
-    'text' => [
         'ru' => 'Галлерея',
         'en' => 'Gallery'
-    ]
 ];
 $text_ru = <<<TEXT
 <b>1. Загрузка нового изображения.</b><br>
@@ -66,51 +64,37 @@ try placing a new image deletes the current present in the frame.<br>
 TEXT;
 $rules = [
     'title' => [
-        'text' => [
             'ru' => 'При формировании галереи изображений, используйте правила:',
             'en' => 'In the formation of areas of work, use rules:'
-        ]
     ],
     'content' => [
-        'text' => [
             'ru' => $text_ru,
             'en' => $text_en
-        ]
     ]
 ];
 $parts = [
     'add' => [
-        'text' => [
             'ru' => 'Пополнение галереи',
             'en' => 'Added to the gallery'
-        ]
     ],
     'titleEdit' => [
-        'text' => [
             'ru' => 'Редактировать полпись',
             'en' => ' Title edit'
-        ]
     ],
     'bin' => [
-        'text' => [
             'ru' => 'Корзина удалённых',
             'en' => 'Bin'
-        ]
     ],
     'order' => [
-        'text' => [
             'ru' => 'Порядок просмотра',
             'en' => 'to view'
-        ]
     ],
 
 ] ;
 $buttons = [
     'save' => [
-        'text' => [
             'ru' => 'сохранить',
             'en' => 'save'
-        ]
     ]
 ] ;
 

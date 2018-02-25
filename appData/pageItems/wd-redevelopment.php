@@ -74,21 +74,17 @@ The specialists of "Realignment" associated with each of the contractors and cla
 how long the company operates, what are the successful projects, what are the difficulties citizens face and what they can help.
 TEXT;
 $pieceText = [
-    'text' => [
         'ru' => 'Задумавшись о перепланировке помещений, не обойтись без профессионалов, знакомых с требованиями БТИ, СанПиН, СНиП,
  иной нормативной базой. К счастью, федеральный портал «Перестройка» знает о планировке все и поможет выбрать
  оптимальный вариант по цене, качеству и объему услуг. Ведь большинство специалистов отрасли находятся здесь! ...',
         'en' => 'Thinking about redevelopment areas, can not do without professionals who are familiar with the requirements of the BTI, SanPiN, SNiP,
 a different regulatory framework. Fortunately, the Federal portal "Restructuring" knows all about the layout and help you choose
 best option for price, quality and volume of services. Because most industry professionals are here!'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

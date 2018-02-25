@@ -4,24 +4,20 @@
  */
 return [
     'general' => [
-        'text' => [
             'ru' => 'Общее',
-            'en' => 'General'],
+            'en' => 'General',
     ],
     'geography' => [
-        'text' => [
             'ru' => 'География',
-            'en' => 'Geography'],
+            'en' => 'Geography',
     ],
     'works'  => [
-        'text' => [
             'ru' => 'Работы/услуги',
-            'en' => 'Works/services']
+            'en' => 'Works/services'
         ],
     'gallery'  => [
-        'text' => [
             'ru' => 'Галерея',
-            'en' => 'Gallery']
+            'en' => 'Gallery'
     ],
 
 ] ;

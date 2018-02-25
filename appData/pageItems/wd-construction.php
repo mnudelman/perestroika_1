@@ -83,7 +83,6 @@ Ask for a contract indicating the responsible persons of the construction costs,
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Федеральный проект «Перестройка» знает, как сложно найти бригаду строителей при всем богатстве предложений.
                  От профессионализма мастеров, технической подготовки и  скорости зависит не только прайс работ,
                  но и скорость и качество.
@@ -91,7 +90,6 @@ $pieceText = [
         'en' => 'Federal project "Perestroika" knows how hard it is to find a team of builders with all the richness of proposals.
                  From the professionalism of the masters, technical training and speed depends not only on the price of the work,
                  but the speed and quality.Don\'t search online  "to find inexpensive builders", make a request on the website...'
-    ]
 ];
 return [
     'content' => [

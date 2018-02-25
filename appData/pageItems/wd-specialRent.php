@@ -81,21 +81,17 @@ what is the lifespan of the drivers and mechanics and what is the status of spec
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Федеральный портал «Перестройка» стремится удовлетворить все запросы граждан в области строительства, отделки, монтажа,
 восстановления и демонтажа зданий и сооружений. Помимо приобретения материалов, бетона, металлоконструкций и ЖБИ,
  мы предлагаем воспользоваться арендой специального транспорта с персоналом (и без) для работы на площадке...',
         'en' => 'Federal portal "Restructuring" aims to satisfy all the requests of the citizens in the field of construction, finishes, installation,
 recovery and dismantling of buildings and structures. In addition to the acquisition of materials, concrete, steel structures and concrete
 we offer rental of special transport resources (and without) to work on the site'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

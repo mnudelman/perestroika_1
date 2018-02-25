@@ -19,12 +19,21 @@ $introTitle = $introTab['title'] ;
 $introContent = $introTab['content'];
 // по направлениям работ
 //  список из wd-list
-$wdTitle = PageItems::getItemText(['wd-list','title']) ;
+$wdTab = PageItems::getItemText(['wd-list']) ;
+$wdTitle = $wdTab['title'] ;
 $wdItems = PageItems::getItemText(['wd-list','content']) ;
 $wdImages = PageItems::getItemAttr('img',['wd-list','content']) ;
 $wdCommandLabel = PageItems::getItemText(['wd-list','commands']) ;
 $wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
-$i = 1 ;
+
+
+
+//$wdTitle = PageItems::getItemText(['wd-list','title']) ;
+//$wdItems = PageItems::getItemText(['wd-list','content']) ;
+//$wdImages = PageItems::getItemAttr('img',['wd-list','content']) ;
+//$wdCommandLabel = PageItems::getItemText(['wd-list','commands']) ;
+//$wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
+//$i = 1 ;
 ?>
 <div class="umb-grid">
     <div class="grid-section">

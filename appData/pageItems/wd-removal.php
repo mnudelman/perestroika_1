@@ -82,7 +82,6 @@ You will be able to professionally determine the price of the works and understa
 TEXT;
 
 $pieceText = [
-    'text' => [
         'ru' => 'Вывоз строительных отходов и их утилизация – неотъемлемая часть любого проекта, связанного с возведением или демонтажем
 зданий и сооружений. В поисках надежной бригады мы готовы перебирать интернет и опрашивать знакомых.
  Между тем, заказать вывоз мусора можно на федеральном портале «Перестройка»,
@@ -91,14 +90,11 @@ $pieceText = [
 of buildings and structures. Looking for reliable crews, we are ready to sort out the Internet and interviewing friends.
 Meanwhile, enjoy the garbage can on the Federal portal "Perestroika",
 which is one of the key activities'
-    ]
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];
