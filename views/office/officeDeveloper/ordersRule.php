@@ -7,28 +7,25 @@ use app\service\PageItems;
 use app\components\RuleTextWidget ;
 $ruleItems = [] ;
 $pageItemFile = 'developer/rule';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;
 
 $pageItemFile = 'developer/ordersList';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;
 
 $pageItemFile = 'order/orderPassing';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;

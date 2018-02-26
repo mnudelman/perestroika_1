@@ -23,12 +23,11 @@ $urlUpload = Url::to(['site/upload']) ;
 $uploadFormId = "upload-form" ;
 $avatarImgId = 'avatar-img' ;
 
-$titleTab = PageItems::getItemText(['user','forms','registrationForm','title']) ;
-$title = $titleTab['text'] ;
-$ruleTitleTab = PageItems::getItemText(['user','forms','registrationForm','rules','title']) ;
-$ruleTitle = $ruleTitleTab['text'] ;
-$ruleContentTab = PageItems::getItemText(['user','forms','registrationForm','rules','content']) ;
-$ruleContent = $ruleContentTab['text'] ;
+$title = PageItems::getItemText(['user','forms','registrationForm','title']) ;
+
+$ruleTab = PageItems::getItemText(['user','forms','registrationForm','rules']) ;
+$ruleTitle = $ruleTab['title'] ;
+$ruleContent = $ruleTab['content'] ;
 $buttonsTab = PageItems::getItemText(['user','buttons']) ;
 $uploadBt = $buttonsTab['upload'] ;
 $registrationBt = $buttonsTab['registration'] ;

@@ -29,19 +29,16 @@ $urlUpload = Url::to(['site/upload']) ;
 $uploadFormId = "upload-form" ;
 $avatarImgId = 'avatar-img' ;
 
-$titleTab = PageItems::getItemText(['user','forms','expressForm','title']) ;
-$title = $titleTab['text'] ;
-$ruleTitleTab = PageItems::getItemText(['user','forms','expressForm','rules','title']) ;
-$ruleTitle = $ruleTitleTab['text'] ;
-$ruleContentTab = PageItems::getItemText(['user','forms','expressForm','rules','content']) ;
-$ruleContent = $ruleContentTab['text'] ;
+$title = PageItems::getItemText(['user','forms','expressForm','title']) ;
+$ruleTab = PageItems::getItemText(['user','forms','expressForm','rules']) ;
+$ruleTitle = $ruleTab['title'] ;
+$ruleContent = $ruleTab['content'] ;
 $buttonsTab = PageItems::getItemText(['user','buttons']) ;
 $uploadBt = $buttonsTab['upload'] ;
 $registrationBt = $buttonsTab['registration'] ;
 $loginBt = $buttonsTab['login'] ;
 $continueExpressBt = $buttonsTab['saveExpress'] ;
-$orNormalLogin = PageItems::getItemText(['user','forms','expressForm','rules','messages','orNormalLogin']) ;
-$orNormalLoginText = $orNormalLogin['text'] ;
+$orNormalLoginText = PageItems::getItemText(['user','forms','expressForm','rules','messages','orNormalLogin']) ;
 ?>
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

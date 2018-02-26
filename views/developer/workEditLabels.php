@@ -9,26 +9,27 @@ $tooltips = PageItems::getItemText([$pageItemFile, 'tooltips']);
 $partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
 $buttons = PageItems::getItemText([$pageItemFile, 'buttons']);
 $rules =  PageItems::getItemText([$pageItemFile, 'rules']);
+$parts =  PageItems::getItemText([$pageItemFile, 'partsTitle']);
 
 
+$ruleTitle = $rules['title'];
+$ruleContent = $rules['content'];
 
-$ruleTitle = $rules['rules/title'];
-$ruleContent = $rules['rules/content'];
 
+$toolTipItemEdit = $tooltips['itemEdit'] ;
+$toolTipItemAdd = $tooltips['itemAdd'] ;
 
-$toolTipItemEdit = $tooltips['tooltips/itemEdit'] ;
-$toolTipItemAdd = $tooltips['tooltips/itemAdd'] ;
+$btSave = $buttons['save'] ;
 
-$btSave = $buttons['buttons/save'] ;
+$toolTipItemFullyYes = $tooltips['itemFully/yes'] ;
+$toolTipItemFullyNo = $tooltips['itemFully/no'] ;
+$toolTipItemDeleteYes = $tooltips['itemDelete/yes'] ;
+$toolTipItemDeleteNo = $tooltips['itemDelete/no']  ;
+$toolTipSubItemInWorkYes = $tooltips['subItemInWork/yes']  ;
+$toolTipSubItemInWorkNo = $tooltips['subItemInWork/no']  ;
 
-$toolTipItemFullyYes = $tooltips['tooltips/itemFully/yes'] ;
-$toolTipItemFullyNo = $tooltips['tooltips/itemFully/no'] ;
-$toolTipItemDeleteYes = $tooltips['tooltips/itemDelete/yes'] ;
-$toolTipItemDeleteNo = $tooltips['tooltips/itemDelete/no']  ;
-$toolTipSubItemInWorkYes = $tooltips['tooltips/subItemInWork/yes']  ;
-$toolTipSubItemInWorkNo = $tooltips['tooltips/subItemInWork/no']  ;
-$partsTitleCurrent = $parts['parts/current'] ;
-$partsTitleAdd = $parts['parts/add'] ;
-$partsTitleEdit = $parts['parts/edit'] ;
+$partsTitleCurrent = $parts['current'] ;
+$partsTitleAdd = $parts['add'] ;
+$partsTitleEdit = $parts['edit'] ;
 
-$dirLayoutParts = '../layouts/layoutParts' ;
+//$dirLayoutParts = '../layouts/layoutParts' ;

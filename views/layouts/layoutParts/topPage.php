@@ -18,9 +18,7 @@ use app\service\Files ;
 <?php
   $labelTab = PageItems::getItemText(['topMenu']) ;
 //  $urlTab = PageItems::getItemAttr('url',['topMenu']) ;
-  $langFlag = true ;
-  $imgTab = PageItems::getItemAttr('language',['topMenu','images'],$langFlag) ;
-  $langImage = $imgTab['language'] ;
+  $langImage = PageItems::getItemText(['topMenu','images','language']) ;      //это иконка текущего языка
   $currentController = Yii::$app->controller->id ;
  $objAction = Yii::$app->controller->action ;
  $currentAction = $objAction->actionMethod ;

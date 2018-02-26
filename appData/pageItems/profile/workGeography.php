@@ -132,7 +132,7 @@ return [
     'title' => $title,
     'rules' => $rules,
     'tooltips' => $tooltips,
-    'partsTitle' => $parts,
+    'partsTitle'=> $parts,
     'buttons' => [
         'save' => [
                 'ru' => 'сохранить',

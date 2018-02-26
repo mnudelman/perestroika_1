@@ -55,7 +55,7 @@ $wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
 
 <br/>
 <!--</div>-->
-<h3 class="header-title page-title" > <?=$wdTitle['text']?> </h3>
+<h3 class="header-title page-title" > <?=$wdTitle?> </h3>
 <div class="container">
 <?php
 /**
@@ -95,7 +95,8 @@ $wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
       }
       $wdImg = $wdImages[$wdId]  ;
       $wdTextPiece = PageItems::getItemText(['wd-' . $wdId,'pieceText']) ; ;
-      $a = wdItemBuild($wdId,$wdCap,$wdImg,$wdTextPiece['text']) ;
+//      $a = wdItemBuild($wdId,$wdCap,$wdImg,$wdTextPiece['text']) ;
+      $a = wdItemBuild($wdId,$wdCap,$wdImg,$wdTextPiece) ;
       $block .= Html::beginTag('div',['class' => "col-md-4 block"]) .$a . Html::endTag('div')  ;
       $count++ ;
   }

@@ -95,10 +95,8 @@ This instrument, in fact, no matter what to destroy...'
 ];
 return [
     'content' => [
-        'text' => [
             'ru' => $textRu,
             'en' => $textEn,
-        ],
     ],
     'pieceText' => $pieceText,
 ];

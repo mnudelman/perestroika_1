@@ -68,6 +68,10 @@ class PageItems {
     private static function getMap($sourceTab,$attrKey) {
         $lang = self::$lang ;
         $result = [] ;
+        if (!empty($attrKey) && isset($sourceTab[$lang])) {
+            return $sourceTab[$lang] ;
+
+        }
         foreach ($sourceTab as $key => $attrValue) {
             if (empty($attrKey)) {
                 $result[$key] = $attrValue ;

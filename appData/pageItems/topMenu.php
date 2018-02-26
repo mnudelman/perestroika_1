@@ -58,8 +58,8 @@ return [
     ],
     'images' => [
         'language' => [
-            'imgRu' => 'images/ru.png',
-            'imgEn' => 'images/en.png',
+            'ru' => 'images/ru.png',
+            'en' => 'images/en.png',
         ]
     ]
 ];

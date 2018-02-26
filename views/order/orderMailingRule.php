@@ -13,38 +13,34 @@ use app\components\RuleTextWidget ;
 //$ruleContentId = 'order-rules-content';
 $ruleItems = [] ;
 $pageItemFile = 'order/mailingRule';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;
 
 $pageItemFile = 'order/mailingToolbar';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;
 
 
 $pageItemFile = 'order/mailingDeveloperList';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;
 
 $pageItemFile = 'order/orderPassing';
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
 $ruleItems[] = ['ruleTitle'=>$ruleTitle,
     'ruleContent' => $ruleContent] ;

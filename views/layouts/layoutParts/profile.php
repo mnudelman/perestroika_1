@@ -64,12 +64,10 @@ $avatarImgName = $profile->avatar;
 $avatarImgName = (empty($avatarImgName)) ? 'people.png' : $avatarImgName;
 
 
-$titleTab = PageItems::getItemText(['user', 'forms', 'profileForm', 'title']);
-$title = $titleTab['text'];
-$ruleTitleTab = PageItems::getItemText(['user', 'forms', 'profileForm', 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText(['user', 'forms', 'profileForm', 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$title = PageItems::getItemText(['user', 'forms', 'profileForm', 'title']);
+$ruleTab = PageItems::getItemText(['user', 'forms', 'profileForm', 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 $buttonsTab = PageItems::getItemText(['user', 'buttons']);
 $saveBt = $buttonsTab['saveProfile'];
 $restoreBt = $buttonsTab['restoreProfile'];

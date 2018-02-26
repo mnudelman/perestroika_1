@@ -33,25 +33,21 @@ $galleryNewImgId = $htmlPrefix . 'gallery-new-1-img';
 $pageItemFile = 'profile/workGallery' ;
 $ruleContentId = 'workGallery-form-collapseOne' ;
 
-$ruleTitleTab = PageItems::getItemText([$pageItemFile, 'rules', 'title']);
-$ruleTitle = $ruleTitleTab['text'];
-$ruleContentTab = PageItems::getItemText([$pageItemFile, 'rules', 'content']);
-$ruleContent = $ruleContentTab['text'];
+$ruleTab = PageItems::getItemText([$pageItemFile, 'rules']);
+$ruleTitle = $ruleTab['title'];
+$ruleContent = $ruleTab['content'];
 
-$partsTitleAdd = PageItems::getItemText([$pageItemFile, 'partsTitle','add']);
-$partsTitleAdd = $partsTitleAdd['text'] ;
-$partsTitleEdit = PageItems::getItemText([$pageItemFile, 'partsTitle','titleEdit']);
-$partsTitleEdit = $partsTitleEdit['text'] ;
-$partsTitleBin = PageItems::getItemText([$pageItemFile, 'partsTitle','bin']);
-$partsTitleBin = $partsTitleBin['text'] ;
-$partsTitleOrder = PageItems::getItemText([$pageItemFile, 'partsTitle','order']);
-$partsTitleOrder = $partsTitleOrder['text'] ;
+
+$partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
+$partsTitleAdd = $partsTitle['add'] ;
+$partsTitleEdit = $partsTitle['titleEdit'] ;
+$partsTitleBin = $partsTitle['bin'] ;
+$partsTitleOrder = $partsTitle['order'] ;
 $btSave = PageItems::getItemText([$pageItemFile, 'buttons','save']);
-$btSave = $btSave['text'] ;
 
 $urlPdfShow = Url::to('@web/commands/pdfShow.php') ;
-
 $dirLayoutParts = '../layouts/layoutParts' ;
+
 //$containerNewId_1 = $HTML_PREFIX . '-new-1';
 //$containerNewImg = $HTML_PREFIX . '-new-1-img';
 ?>
@@ -61,9 +57,9 @@ $dirLayoutParts = '../layouts/layoutParts' ;
 
 <div class="container-fluid">
     <div class="row">
-        <?=$this->render($dirLayoutParts . '/ruleAccordion',
-            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
-                'ruleContentId' => $ruleContentId])?>
+<!--<!--        ?//=$this->render($dirLayoutParts . '/ruleAccordion',-->
+<!--//            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,-->
+<!--//                'ruleContentId' => $ruleContentId])?> -->-->
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">

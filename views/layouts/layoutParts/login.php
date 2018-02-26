@@ -17,14 +17,15 @@ $model = new LoginForm() ;
 
 
 
-$titleTab = PageItems::getItemText(['user','forms','loginForm','title']) ;
-$title = $titleTab['text'] ;
-$ruleTitleTab = PageItems::getItemText(['user','forms','loginForm','rules','title']) ;
-$ruleTitle = $ruleTitleTab['text'] ;
-$ruleContentTab = PageItems::getItemText(['user','forms','loginForm','rules','content']) ;
-$ruleContent = $ruleContentTab['text'] ;
+$title = PageItems::getItemText(['user','forms','loginForm','title']) ;
+//$title = $titleTab['text'] ;
+$ruleTab = PageItems::getItemText(['user','forms','loginForm','rules']) ;
+//$ruleTitleTab = PageItems::getItemText(['user','forms','loginForm','rules','title']) ;
+$ruleTitle = $ruleTab['title'] ;
+//$ruleContentTab = PageItems::getItemText(['user','forms','loginForm','rules','content']) ;
+$ruleContent = $ruleTab['content'] ;
 $buttonsTab = PageItems::getItemText(['user','buttons']) ;
-$loginBt = $buttonsTab['login'] ;
+$loginBt = PageItems::getItemText(['user','buttons','login'])
 
 
 

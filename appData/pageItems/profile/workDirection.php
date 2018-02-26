@@ -116,6 +116,7 @@ $parts = [
             'en' => 'Changes'
     ],
 
+
 ] ;
 return [
     'title' => $title,
@@ -124,10 +125,8 @@ return [
     'partsTitle' => $parts,
     'buttons' => [
         'save' => [
-            'text' => [
                 'ru' => 'сохранить',
                 'en' => 'save'
-            ]
         ]
     ]
 ];

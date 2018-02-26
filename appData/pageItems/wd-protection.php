@@ -74,14 +74,12 @@ Ask for the price of the work, ask for a contract specifying persons responsible
 Remember: the result is 50% dependent on properly set objectives. And "Perestroika".
 TEXT;
 $pieceText = [
-    'text' => [
         'ru' => 'Одним из наиболее важных направлений в строительстве является защита и восстановление строительных конструкций.
 В отличие от переноса или демонтажа внутренних перегородок, капитальные конструкции невозможно разобрать без
 нарушения целостности всего здания. И здесь важно не ошибиться с выбором специалистов! ...',
         'en' => 'One of the most important areas in the construction industry is the protection and restoration of building structures.
 In contrast to the transfer or removal of internal partitions, capital structure impossible to understand without
 the violation of the integrity of the entire building. It\'s important not to be mistaken with the choice of the professionals!'
-    ]
 ];
 return [
     'content' => [
