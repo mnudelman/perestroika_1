@@ -78,7 +78,7 @@ $parts = [
             'en' => 'Added to the gallery'
     ],
     'titleEdit' => [
-            'ru' => 'Редактировать полпись',
+            'ru' => 'Редактировать подпись',
             'en' => ' Title edit'
     ],
     'bin' => [

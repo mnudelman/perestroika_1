@@ -54,7 +54,7 @@ $urlUpload = Url::to(['site/upload']);
 
 $uploadFormId = $htmlPrefix . "-upload-form";
 $avatarImgId = $htmlPrefix . '-avatar-img';
-$profileFormId = $htmlPrefix . "-form" ;
+$profileFormId = $htmlPrefix . "-profile-form" ;
 
 $avatarImgName = $profile->avatar;
 $avatar = $profile->getAvatar() ;
@@ -149,7 +149,8 @@ $partsTitleEdit = 'профиль.Основное' ;
                         'action' => '#',
                         'options' => ['enctype' => 'multipart/form-data']]);
                     ?>
-                    <?= $form->field($mdUpload, 'imageFile')->fileInput() ?>
+                    <?= $form->field($mdUpload, 'imageFile')->
+                    fileInput(['id'=> $htmlPrefix . '-profile-imageFile']) ?>
                     <!--                        <div class="form-group">-->
                     <div class="col-lg-11">
                         <?= Html::button('upload',
@@ -171,11 +172,16 @@ $partsTitleEdit = 'профиль.Основное' ;
                     ]);
                     ?>
                     <!---->
-                    <?= $form->field($profile, 'email')->textInput() ?>
-                    <?= $form->field($profile, 'tel')->textInput() ?>
-                    <?= $form->field($profile, 'site')->textInput() ?>
-                    <?= $form->field($profile, 'company')->textarea() ?>
-                    <?= $form->field($profile, 'info')->textarea() ?>
+                    <?= $form->field($profile, 'email')->
+                    textInput(['id'=> $htmlPrefix . '-profile-email']) ?>
+                    <?= $form->field($profile, 'tel')->
+                    textInput(['id'=> $htmlPrefix . '-profile-tel']) ?>
+                    <?= $form->field($profile, 'site')->
+                    textInput(['id'=> $htmlPrefix . '-profile-site']) ?>
+                    <?= $form->field($profile, 'company')->
+                    textarea(['id'=> $htmlPrefix . '-profile-company']) ?>
+                    <?= $form->field($profile, 'info')->
+                    textarea(['id'=> $htmlPrefix . '-profile-info']) ?>
                     <?= $form->field($profile, 'city_id')->
                     widget(GeographySimpleWidget::className(),[
                         'htmlIdPrefix' => $htmlPrefix,

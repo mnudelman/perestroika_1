@@ -69,6 +69,11 @@ $tooltips = [
             'ru' => 'Добавить новый регион',
             'en' => 'add new region'
     ],
+    'itemSave' => [
+        'ru' => 'Сохранить изменения',
+        'en' => 'Save the changes'
+
+    ],
     'subItemInWork' => [
         'no' => [
             'ru' => 'Город не включён в работу.Нажмите, чтобы добавить',
@@ -98,6 +103,17 @@ $tooltips = [
         'no' => [
                 'ru' => 'Регион всключён в работы.Нажмите, чтобы исключить',
                 'en' => 'Region will be in work. Click to remove'
+        ],
+    ],
+    'coveredEye' => [
+        'yes' => [
+            'ru' => 'только отмеченные элементы. Нажмите, чтобы увидеть все',
+            'en' => 'only marked items. Click to see all',
+        ],
+        'no' => [
+            'ru' => 'все элементы. Нажмите, чтобы увидеть только отмеченные',
+            'en' => 'all elements. Click to see only the marked items',
+
         ],
     ],
 
@@ -137,6 +153,9 @@ return [
         'save' => [
                 'ru' => 'сохранить',
                 'en' => 'save'
-        ]
+        ],
+        'coveredEye' => [
+
+        ],
     ]
 ];

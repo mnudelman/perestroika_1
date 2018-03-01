@@ -55,8 +55,11 @@ function ParamSet() {
     var makeContext = function(contextName) {
         if (contextMap[contextName] === undefined) {
             var contextItem = newContextItem();
-
-            switch (contextName) {
+            var contextAlias = contextName ;
+            if (contextName === 'profileEditWorkGeography') {
+                contextAlias = 'officeProfileEditWorkGeography' ;
+            }
+            switch (contextAlias) {
                 case 'workDirectionEdit' :
                     contextItem['context']['html'] = new WorkDirectionEditHtml();
                     contextItem['context']['ajax'] = new WorkDirectionEditAjax();
@@ -1615,7 +1618,8 @@ function WorkDirectionEditHtml() {
                         onClick: 'setItemEdit',
                         btnClass: 'btn-default',
                         btTitle: 'click for edit',
-                        btClass: 'btn-primary'
+                        btClass: 'btn-primary',
+                        btTooltipName: 'itemEdit'
                     }
                 } ;
             }
@@ -1709,7 +1713,7 @@ function WorkDirectionEditHtml() {
         span.addClass(pictureClass) ;
         var bt = $(
             '<button class="btn" role="button" title="click for edit" ' +
-            'onclick="<?=$onClick?>"  ' +
+            'onclick=""  ' +
             ' id="$htmlId . edit-bt">  ' +
             '</button>'
         ) ;
@@ -1720,6 +1724,9 @@ function WorkDirectionEditHtml() {
         bt.attr('id',setItemNodeId + '-' + btKey + '-bt' ) ;
         if (disabledFlag) {
             bt.attr('disabled','disabled') ;
+        }
+        if (buttonDes.btTooltipName !== undefined) {
+            bt.data('tooltipName',buttonDes.btTooltipName) ;
         }
         bt.append(span) ;
         return bt ;

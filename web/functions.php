@@ -7,11 +7,15 @@ function debug($arr){
 function variableWidget($widgetList) {
     if (is_array($widgetList)) {
         foreach ($widgetList as $itemName => $item) {
+            if (!isset($item['name']) || !isset($item['par'])) {
+                continue ;
+            }
+            $type = (isset($item['type'])) ? $item['type'] : 'widget' ;
             $name = $item['name'] ;
             $par =  $item['par'] ;
             if ($itemName === 'html') {
                 htmlWidgetCase($name,$par) ;
-            }else {
+            }elseif ($type === 'widget') {
                 widgetCase($name,$par) ;
             }
 

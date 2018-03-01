@@ -51,11 +51,14 @@
 
                         <?php
                         variableWidget($addPanelBody) ;
+                        $plusButton = $addPanelBody['plusButton'] ;
+
                         ?>
 
                         <button class="btn btn-success" role="button"
                                 onclick="addNewSetItem('<?=$htmlPrefix?>')"
-                                title="add item">
+                                title="<?=$plusButton['title']?>" >
+
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
 
@@ -74,6 +77,12 @@
 
                 </div>
                 <div class="panel-body">
+                    <?php
+                    $deleteButtonTitle = $editPanelBody['deleteButton']['title'] ;
+                    $fullyButtonTitle = $editPanelBody['fullyButton']['title'] ;
+
+                    ?>
+
                     <!--                 <span id="workRegionEdit-placeHolder">Область изменений географии работ</span>-->
                     <div hidden="hidden" id="<?= $htmlPrefix ?>-edit-area">
                         <!--                    <ul class="list-group" >-->
@@ -85,12 +94,14 @@
                            id="<?=$htmlPrefix?>-editSetItem-bt">
                             <span> Свердловская обл.</span><b class="caret"></b>
                         </a>
-                        <a class="btn btn-default" role="button" title="region fully in work geography"
+                        <a class="btn btn-default" role="button"
+                           title="<?=$fullyButtonTitle?>"
                            id="<?=$htmlPrefix?>-fully-bt"
                            onclick="setItemStat('<?=$htmlPrefix?>-fully')">
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
-                        <a class="btn btn-default" role="button" title="region removed from work gegraphy"
+                        <a class="btn btn-default" role="button"
+                           title="<?=$deleteButtonTitle?>"
                            id="<?=$htmlPrefix?>-delete-bt"
                            onclick="setItemStat('<?=$htmlPrefix?>-delete')">
                             <span class="glyphicon glyphicon-minus"></span>

@@ -28,11 +28,11 @@ use app\models\WorkCountry;
 use app\models\WorkRegion;
 use app\models\WorkCity;
 use \app\models\Country;
-use app\components\GeographySimpleWidget;
+//use app\components\GeographySimpleWidget;
 use app\components\UserGeography;
-use app\components\CollapsibleListWidget;
-use app\components\ToolbarWidget;
-use app\components\RuleTextWidget;
+//use app\components\CollapsibleListWidget;
+//use app\components\ToolbarWidget;
+//use app\components\RuleTextWidget;
 use app\components\TreeLevelWidget;
 
 //use Yii ;
@@ -106,18 +106,24 @@ $tooltipsPar = [
     'htmlPrefix' => $htmlPrefix,
     'tooltips' => [
         'itemFully' => [
-            'yes' => $toolTipItemFullyYes,
-            'no' => $toolTipItemFullyNo
+            'yes' => $tooltipItemFullyYes,
+            'no' => $tooltipItemFullyNo
         ],
         'itemDelete' => [
-            'yes' => $toolTipItemDeleteYes,
-            'no' => $toolTipItemDeleteNo
+            'yes' => $tooltipItemDeleteYes,
+            'no' => $tooltipItemDeleteNo
         ],
         'subItemInWork' => [
-            'yes' => $toolTipSubItemInWorkYes,
-            'no' => $toolTipSubItemInWorkNo
+            'yes' => $tooltipSubItemInWorkYes,
+            'no' => $tooltipSubItemInWorkNo
         ],
-
+        'coveredEye' => [
+            'yes' => $tooltipCoveredEyeYes,
+            'no' => $tooltipCoveredEyeNo,
+        ],
+        'itemEdit' => [
+                'yes' => $tooltipItemEdit,
+        ],
     ]
 ];
 $ruleTextWidgetPar = [
@@ -169,7 +175,8 @@ $listRegionPar = [
         'edit' => 'setItemEdit', //'workRegionEditOnClick',      // реакция на кнопку "редактировать"
     ],
     'htmlPrefix' => $htmlPrefix, //'workRegionItem',     // префикс id для обеспечения уникальнгости
-    'btTitle' => $toolTipItemEdit,      // поясняющая подпись для кнопки редактирования
+    'btTitle' => $tooltipItemEdit,      // поясняющая подпись для кнопки редактирования
+    'btTooltipName' => 'itemEdit',
     'listItems' => $regionList,
 ];
 
@@ -205,7 +212,7 @@ $listPanelBody = [
     ],
 ];
 
-$addRegionToolbarPar = [
+$addNewToolbarPar = [
     'htmlPrefix' => $htmlPrefix,
     'topology' => [
         'title' => 12,
@@ -224,12 +231,13 @@ $addNewRegionPar = [
     'currentRegion' => $userRegion,
     'currentCity' => $userCity,];
 $plusButtonPar = [
-    'title' => $toolTipItemAdd,
+    'type' => 'button',
+    'title' => $tooltipItemAdd,
     'onclick' => 'addNewSetItem',//'addWorkGeography',
     'onClickPar' => ''
 ];
 
-$regionEditToolbarPar = [
+$editToolbarPar = [
     'htmlPrefix' => $htmlPrefix,
     'topology' => [
         'title' => 6,
@@ -242,8 +250,9 @@ $regionEditToolbarPar = [
             'clickFunction' => 'setItemSave',    //'saveWorkGeography',
         ],
         'coveredEye' => [
-            'title' => 'только отмеченные',
+            'title' => $tooltipCoveredEyeYes ,
             'clickFunction' => 'setSubItemsShowStat',
+            'tooltipName' => 'coveredEye',
         ],
     ],
     'pagination' => [],
@@ -252,7 +261,7 @@ $regionEditToolbarPar = [
 $addPanelHeading = [
     'toolbar' => [
         'name' => 'ToolBarWidget',
-        'par' => $addRegionToolbarPar
+        'par' => $addNewToolbarPar
     ]
 ];
 $addPanelBody = [
@@ -260,13 +269,30 @@ $addPanelBody = [
         'name' => 'GeographySimpleWidget',
         'par' => $addNewRegionPar
     ],
+    'plusButton' => $plusButtonPar,     // кнопка "ДОБАВИТЬ НОВЫЙ"
 ];
 $editPanelHeading = [
     'toolbar' => [
         'name' => 'ToolBarWidget',
-        'par' => $regionEditToolbarPar
+        'par' => $editToolbarPar
     ],
 ];
+$editPanelBody = [
+     'fullyButton' => [
+    'type' => 'button',
+    'title' => $tooltipItemFullyNo,
+    'tooltipName' => 'itemFully',
+    ],
+    'deleteButton' => [
+        'type' => 'button',
+        'title' => $tooltipItemDeleteNo,
+        'tooltipName' => 'itemDelete', // параметр для data-tooltip-name=".."
+    ],
+
+];
+
+
+
 echo TreeLevelWidget::widget([
     'htmlPrefix' => $htmlPrefix,
     'rootPanel' => $rootPanel,
@@ -275,6 +301,7 @@ echo TreeLevelWidget::widget([
     'addPanelHeading' => $addPanelHeading,
     'addPanelBody' => $addPanelBody,
     'editPanelHeading' => $editPanelHeading,
+    'editPanelBody' => $editPanelBody,
 ]);
 ?>
 

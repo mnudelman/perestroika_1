@@ -28,7 +28,7 @@ $buttonClass = "btn btn-primary btn-sm" ;
     if ($titleWidth > 0) {
         ?>
 
-        <div class="col-md-<?= $titleWidth ?>" name="toolBarTitle">
+        <div class="col-md-<?= $titleWidth ?>" name="toolBarTitle" >
             <h5 class="header-title" style="text-align: left;">
                 <?= $toolbarTitle ?></h5>
         </div>

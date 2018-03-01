@@ -82,11 +82,11 @@ include('workEditLabels.php') ;     // подписи для  формы
 <div class="container-fluid">
     <div id="<?=$htmlPrefix .'-tooltips'?>">
         <input type="text" hidden="hidden" name="itemFully"
-               data-yes="<?=$toolTipItemFullyYes?>" data-no="<?=$toolTipItemFullyNo?>">
+               data-yes="<?=$tooltipItemFullyYes?>" data-no="<?=$tooltipItemFullyNo?>">
         <input type="text" hidden="hidden" name="itemDelete"
-               data-yes="<?=$toolTipItemDeleteYes?>" data-no="<?=$toolTipItemDeleteNo?>">
+               data-yes="<?=$tooltipItemDeleteYes?>" data-no="<?=$tooltipItemDeleteNo?>">
         <input type="text" hidden="hidden" name="subItemInWork"
-               data-yes="<?=$toolTipSubItemInWorkYes?>" data-no="<?=$toolTipSubItemInWorkNo?>">
+               data-yes="<?=$tooltipSubItemInWorkYes?>" data-no="<?=$tooltipSubItemInWorkNo?>">
 
     </div>
     <!--     подсказка  -->
@@ -155,7 +155,7 @@ include('workEditLabels.php') ;     // подписи для  формы
                                  'edit' => 'workRegionEditOnClick' ,      // реакция на кнопку "редактировать"
                              ],
                              'htmlPrefix' => 'workRegionItem',     // префикс id для обеспечения уникальнгости
-                             'btTitle' =>$toolTipItemEdit,      // поясняющая подпись для кнопки редактирования
+                             'btTitle' =>$tooltipItemEdit,      // поясняющая подпись для кнопки редактирования
                              'listItems' => $regionList,
                     ]) ;
                     ?>
@@ -184,7 +184,7 @@ include('workEditLabels.php') ;     // подписи для  формы
 
                         <button class="btn btn-success" role="button"
                                 onclick="addWorkGeography()"
-                                title="<?=$toolTipItemAdd?>">
+                                title="<?=$tooltipItemAdd?>">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
 

@@ -76,8 +76,8 @@ if (isset($_SESSION['lang'])) {
     </div>
 <?=$this->render('layoutParts/login') ;?>
 <?=$this->render('layoutParts/registration') ;?>
-<?=$this->render('layoutParts/profile') ;?>
-<!--//=$this->render('/developer/profile') ;?> -->
+<!--?//=$this->render('layoutParts/profile') ;?> -->
+<!--?=$this->render('/developer/index') ;?> -->
 <?=$this->render('layoutParts/footerPart')?>
 <?=$this->render('layoutParts/errorShow')?>
 

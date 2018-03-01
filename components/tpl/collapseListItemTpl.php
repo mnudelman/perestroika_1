@@ -11,6 +11,7 @@
  * @var $onClick
  * @var $fullyName - ($fullyFlag) ? '(полностью)' : '' ;
  * @var $btTitle -  title для кнопки редалтирования
+ * @var $btTooltipName -  ссылка на tooltips раздел
  * @var $subItems - выпадающий список
  * @var $buttons -  набор кнопок
  */
@@ -40,12 +41,19 @@
         $pictureClass = $btItem['pictureClass']; //- класс изображения на кнопке редактирования
         $onClick = $btItem['onClick'];
         $btTitle = $btItem['btTitle']; // -  title для кнопки редалтирования
+        $btTooltipName = (isset($btItem['btTooltipName'])) ?$btItem['btTooltipName'] : false ;
         $btDisabled = (isset($btItem['disabled'])) ? $btItem['disabled'] : false ;
         $disableText = ($btDisabled) ? 'disabled="disabled"' : '' ;
         $btClass = $btItem['btClass'];
         ?>
         <button class="btn <?=$btClass?>" role="button" title="<?= $btTitle ?>" onclick="<?= $onClick ?>"
-                id="<?= $htmlId . '-' . $key .'-bt' ?>"   <?=$disableText?>>
+                id="<?= $htmlId . '-' . $key .'-bt' ?>"   <?=$disableText?>
+        <?php
+           if (!empty($btTooltipName)) {
+               echo 'data-tooltip-name="' .$btTooltipName .'"' ;
+           }
+        ?>
+        >
             <span class="<?= $pictureClass ?>"></span>
         </button>
     <?php

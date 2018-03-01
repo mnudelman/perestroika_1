@@ -57,6 +57,7 @@ class ToolbarWidget extends Widget
         'clickAction' => '',
         'id' => '',
         'disabled' => false,
+        'tooltipName' => false,
         'dataItems' => []
     ] ;
     private $paginationDefault = [
@@ -196,16 +197,32 @@ class ToolbarWidget extends Widget
      */
     private function buttonsPrepare() {
         foreach ($this->buttons as $btName => $btItem) {
-            if (isset($this->buttonsSet[$btName])) {
+            if (isset($btItem['tooltipName'])) {      // перенести в область dataItem
+               if (!isset($btItem['dataItem'])) {
+                   $btItem['dataItems'] = [] ;
+               }
+                $btItem['dataItems']['tooltip-name'] = $btItem['tooltipName'] ;
+            }
+            if (isset($this->buttonsSet[$btName])) {   // проставить все умолчания
                 $btDefault = $this->buttonsSet[$btName] ;
                 foreach ($this->btEmpty as $key => $value) {
                     if (!isset($btItem[$key]) && isset($btDefault[$key])) {
                         $btItem[$key] = $btDefault[$key] ;
+                    }elseif(isset($btItem[$key]) && isset($btDefault[$key] )) {
+                        $subItems = $btDefault[$key] ;
+                        if (is_array($subItems)) {
+                            foreach ($subItems as $subKey => $subValue) {
+                                if (!isset($btItem[$key][$subKey])) {
+                                    $btItem[$key][$subKey] = $subValue ;
+                                }
+                            }
+                        }
                     }
                 }
                 $this->buttons[$btName] = $btItem ;
             }
         }
+
     }
     private function paginationPrepare() {
         foreach ($this->paginationDefault as $key => $value ) {

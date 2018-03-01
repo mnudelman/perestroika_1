@@ -16,7 +16,7 @@ class CollapsibleListWidget extends Widget {
     public $onClick = [] ;        // реакция на кнопку "редактировать"
     public $htmlPrefix = '' ;     // префикс id для обеспечения уникальнгости
     public $btTitle ='';          // поясняющая подпись для кнопки редактирования
-
+    public $btTooltipName = '' ;  // ссылка на tooltops  раздел
     public $buttons = [] ;       // можно включать несколько кнопок(а не олько редактирование)
                                  // btItem = ['btTitle' => '','pictureClass'=>'','onclick'=> '']
     private $_defaultListItemFormat = [
@@ -47,6 +47,7 @@ class CollapsibleListWidget extends Widget {
                     'pictureClass'=> $this->pictureClass['edit'],
                     'onClick'=> $this->onClick['edit'],
                     'btClass' => 'btn-primary',
+                    'btTooltipName' => $this->btTooltipName,
             ] ;
         }
 
@@ -85,6 +86,7 @@ class CollapsibleListWidget extends Widget {
             $fullyName = ($fullyFlag) ? '(полностью)' : '' ;
             $subItems = $item['subItems'] ;          // выпадающий список
             $btTitle = $this->btTitle ;
+            $btTooltipName = $this->btTooltipName ;
 //         у элемента может быть набор кнопок, отличный от основного
             $itemButtons = (isset($item['buttons'])) ? $item['buttons'] : [] ;
 
