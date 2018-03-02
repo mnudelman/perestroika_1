@@ -7,6 +7,10 @@ return [
             'ru' => 'ГЛАВНАЯ',
             'en' => 'HOME'
     ],
+    'site' => [
+        'ru' => 'ГЛАВНАЯ',
+        'en' => 'HOME'
+    ],
     'order' => [
             'ru' => 'ЗАКАЗ',
             'en' => 'ORDER'
@@ -40,6 +44,11 @@ return [
             'ru' => 'ПРОФИЛЬ',
             'en' => 'profile'
     ],
+    'developer' => [
+        'ru' => 'ПРОФИЛЬ',
+        'en' => 'profile'
+    ],
+
     'office' => [
             'ru' => 'КАБИНЕТ',
             'en' => 'OFFICE'
@@ -61,5 +70,24 @@ return [
             'ru' => 'images/ru.png',
             'en' => 'images/en.png',
         ]
-    ]
+    ],
+    'officeOrder' => [
+        'ru' => 'Я - заказчик',         // имя для вывода
+        'en' => 'I am the customer',
+    ],
+    'officeDeveloper' => [
+        'ru' => 'Я - исполнитель',         // имя для вывода
+        'en' => 'I am the executor',
+    ],
+    'officeProfile' => [
+        'ru' => 'Мой профиль',         // имя для вывода
+        'en' => 'My profile',
+    ],
+    'officeMail' => [
+        'ru' => 'Моя переписка',         // имя для вывода
+        'en' => 'My correspondence',
+    ],
+
+
 ];
+

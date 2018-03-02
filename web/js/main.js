@@ -459,3 +459,19 @@ function dropDownSelect(elem) {
         }
     }
 }
+
+/**
+ * вытащить текст из централизованной по странице подсказки
+ * подсказки по странице собраны в <div id="$htmlPrefix + '-tooltips'" >
+ *  <input name="$tooltipName" data-$variant=text>
+ *  ...................    см. TooltipsWidget
+ * @param htmlPrefix
+ * @param tooltipName
+ * @param variant - по умолчанию 'yes'
+ */
+function getTooltipText(htmlPrefix,tooltipName,variant) {
+     variant = (variant === undefined) ? 'yes' : variant ;
+     var tooltipsNode = $('#' + htmlPrefix +'-tooltips') ;
+     var currentTooltip = tooltipsNode.find('[name="' + tooltipName + '"]') ;
+     return currentTooltip.data(variant) ;
+}

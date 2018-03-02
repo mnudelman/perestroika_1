@@ -1316,12 +1316,13 @@ function WorkDirectionEditHtml() {
     onclick="workRegionCityStat(city_id)">
     <span class="glyphicon glyphicon-ok"></span>
     </a></li>
+    * title определяется через блок подсказок
     */
     var newItemEditSubItem = function(subItem) {
-
-        var tooltipInWork = $('#' + htmlPrefix + '-tooltips [name="subItemInWork"]') ;
-        var titleInWork = tooltipInWork.data('yes') ;
-        var titleRemove = tooltipInWork.data('no') ;
+        var tooltipName = 'subItemInWork' ;
+        // var tooltipInWork = $('#' + htmlPrefix + '-tooltips [name="subItemInWork"]') ;
+        // var titleInWork = tooltipInWork.data('yes') ;
+        // var titleRemove = tooltipInWork.data('no') ;
 
 
 
@@ -1342,8 +1343,14 @@ function WorkDirectionEditHtml() {
         aa.append(span);
         var onClick = "setSubItemStat('" + htmlPrefix + '-' + id + "')";
         aa.attr('onclick', onClick);
-        var title = (inWorkCurrent) ? titleInWork : titleRemove;
+        // var title = (inWorkCurrent) ? titleInWork : titleRemove;
+
+        aa.data('tooltipName','subItemInWork') ;
+
+        var variant = (inWorkCurrent) ? 'yes' : 'no';
+        var title = getTooltipText(htmlPrefix,tooltipName,variant) ;
         aa.attr('title', title);
+
         //----------------------------------------------------//
         var li = $('<li class="list-group-item" name="city-[city_id]" ' +
         'style="white-space:normal;overflow:auto"></li>');
@@ -1381,6 +1388,10 @@ function WorkDirectionEditHtml() {
         }else {
             aa.attr('class','btn btn-default btn-xs') ;
         }
+        var tooltipName = aa.data('tooltipName') ;
+        var variant = (inWorkCurrent) ? 'yes' : 'no' ;
+        var title = getTooltipText(htmlPrefix,tooltipName,variant) ;
+        aa.attr('title',title) ;
         var span = aa.children('span') ;
         span.attr('class',spanClass) ;
 
@@ -1522,6 +1533,7 @@ function WorkDirectionEditHtml() {
     } ;
     /**
      * кнопка переключения уровня показа: только отмеченные / все
+     * имя подсказки из атрибута  data('tooltipName')
      * @param onlySelectedShow
      */
     this.setSubItemsOnlySelectedShowBt = function(onlySelectedShow) {
@@ -1533,6 +1545,10 @@ function WorkDirectionEditHtml() {
         }
 
         var pictClass = (onlySelectedShow) ? bt.data('imgYes') : bt.data('imgNo') ;
+        var variant = (onlySelectedShow) ? 'yes' : 'no' ;
+        var tooltipName = bt.data('tooltipName') ;
+        var title = getTooltipText(htmlPrefix,tooltipName,variant) ;
+        bt.attr('title',title) ;
         var pictNode = $('<i class=""></i>') ;
         pictNode.addClass(pictClass) ;
         bt.empty() ;
@@ -1717,6 +1733,16 @@ function WorkDirectionEditHtml() {
             ' id="$htmlId . edit-bt">  ' +
             '</button>'
         ) ;
+        if (buttonDes.btTooltipName !== undefined) {
+            var tooltipName = buttonDes.btTooltipName ;
+            bt.data('tooltipName',tooltipName) ;
+            title = getTooltipText(htmlPrefix,tooltipName) ;
+            // var tp = $('#' + htmlPrefix + '-tooltips') ;
+            // var tooltipNode = tp.find('[name="' + tooltipName + '"]') ;
+            // title = tooltipNode.data('yes') ;
+
+        }
+
         bt.addClass(btClass) ;
         var onclick = onClick + "('" +setItemNodeId + "')" ;
         bt.attr('onclick',onclick) ;
@@ -1724,9 +1750,6 @@ function WorkDirectionEditHtml() {
         bt.attr('id',setItemNodeId + '-' + btKey + '-bt' ) ;
         if (disabledFlag) {
             bt.attr('disabled','disabled') ;
-        }
-        if (buttonDes.btTooltipName !== undefined) {
-            bt.data('tooltipName',buttonDes.btTooltipName) ;
         }
         bt.append(span) ;
         return bt ;

@@ -5,7 +5,7 @@
 
 namespace app\models;
 use app\service\TaskStore ;
-
+use app\service\PageItems ;
 /**
  * Class MenuPath
  * в списке $menuItems в качестве ключа использовать controllerId
@@ -57,6 +57,12 @@ class MenuPath {
             'prevItem' => 'office', // ссылка на ид предшествующего узла
             'menuBlockId' => 'officeTabHeader', // блок меню
         ],
+        'officeMail' => [
+            'url' => '#',          // url пункта меню
+            'name' => 'Моя переписка',         // имя для вывода
+            'prevItem' => 'office', // ссылка на ид предшествующего узла
+            'menuBlockId' => 'officeTabHeader', // блок меню
+        ],
 
     ] ;
     private $PARAM_NAME = 'menuPath' ; // имя для запоминания в  TaskStore
@@ -91,12 +97,17 @@ class MenuPath {
     }
     public function getMenuPath() {
        $this->restoreMenuPath() ;
+        $labelTab = PageItems::getItemText(['topMenu']) ;
        $res = [] ;
        foreach ($this->menuPath as $i => $itemId) {
            if (false === $itemId) {
                continue ;
            }
-           array_push($res,$this->menuItems[$itemId]) ;
+           $menuItem = $this->menuItems[$itemId] ;
+           if (isset($labelTab[$itemId])) {
+               $menuItem['name'] = $labelTab[$itemId] ;
+           }
+           array_push($res,$menuItem) ;
        }
        if (sizeof($res) === 1) {      // корень не выводится
            $res = [] ;

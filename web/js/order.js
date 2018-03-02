@@ -231,7 +231,7 @@ function expressShow() {
  * объект "Редактирование заказа"
  */
 function OrderDataEdit() {
-    var contextName;               // это htmlPrefix для элементов страницы
+    var htmlPrefix;               // это htmlPrefix для элементов страницы
     var htmlContext;
     var ajaxExe;
     var urlPrefix = 'index.php?r=' + 'order' + '%2F';
@@ -249,9 +249,9 @@ function OrderDataEdit() {
     var _this = this;
     //-------------------------------------------//
     this.init = function (ctxtName, context) {
-        contextName = ctxtName;
+        htmlPrefix = ctxtName;
         htmlContext = context['html'];
-        htmlContext.init(contextName);
+        htmlContext.init(htmlPrefix);
         ajaxExe = new AjaxExecutor(); // собственный исполнитель запроса
     };
     this.orderEdit = function (opCod) {
@@ -433,8 +433,9 @@ function OrderDataEdit() {
         var currentOrder = paramSet.getObj('currentOrder');
         var orderId = null;
         if ((currentOrder === null) || (orderId = currentOrder['orderId']) === null) { // сообщение
-            var text = 'Не определён текущий заказ.<br>' +
-                'Перейдите в закладку "общие" и определите заказ';
+            var text = getTooltipText(htmlPrefix,'orderNotDefinedText') ;
+            // var text = 'Не определён текущий заказ.<br>' +
+            //     'Перейдите в закладку "общие" и определите заказ';
             showError(text);
 
             return;

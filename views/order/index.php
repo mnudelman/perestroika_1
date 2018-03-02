@@ -8,6 +8,7 @@
 use yii\bootstrap\Tabs;
 use app\models\UserProfile ;
 use app\service\PageItems ;
+use \app\components\TooltipsWidget ;
 
 $htmlPrefix = 'orderEdit' ;
 $userIsGuest = Yii::$app->user->isGuest ;
@@ -23,16 +24,29 @@ if (!$userIsGuest) {
 $hideExpressFlag =  (!empty($email) && $confirmationFlag ) ;
 $expressStyle = ($hideExpressFlag) ? 'display:none' : '' ;
 $tabItemName = PageItems::getItemText(['order/tabs']);
-
-
+$messages = PageItems::getItemText(['order/orderMessages']);
+//$messagesTab = PageItems::getItemAttr('',['order/orderMessages']);
 ?>
     <div class="double-panel">
+        <?php
+        echo TooltipsWidget::widget([
+                'htmlPrefix' => $htmlPrefix,
+            'tooltips' => [
+                'orderNotDefined' => [
+                        'yes' => $messages['orderNotDefined'] ],
+                'orderNotDefinedText' => [
+                        'yes' =>$messages['orderNotDefinedText']],
+            ]
+        ]) ;
+        ?>
+
         <div  id="<?= $htmlPrefix ?>-order-label"
              style="color:#00a300;background-color:#d3d3d3;">
-            <p>заказ не определён</p>
+            <p><?=$messages['orderNotDefined']?></p>
         </div>
 
         <?php
+
 echo Tabs::widget([
     'items' => [
         [
