@@ -9,6 +9,7 @@ use yii\bootstrap\Tabs;
 use app\models\UserProfile ;
 use app\service\PageItems ;
 use \app\components\TooltipsWidget ;
+use app\controllers\OrderFunc ;
 
 $htmlPrefix = 'orderEdit' ;
 $userIsGuest = Yii::$app->user->isGuest ;
@@ -26,6 +27,9 @@ $expressStyle = ($hideExpressFlag) ? 'display:none' : '' ;
 $tabItemName = PageItems::getItemText(['order/tabs']);
 $messages = PageItems::getItemText(['order/orderMessages']);
 //$messagesTab = PageItems::getItemAttr('',['order/orderMessages']);
+$orderGeneral = (new OrderFunc())->getOrderGeneral() ;
+$orderLabel = (isset($orderGeneral['orderLabel'])) ? $orderGeneral['orderLabel']: '' ;
+$orderLabel = (empty($orderLabel)) ? $messages['orderNotDefined'] : $orderLabel ;
 ?>
     <div class="double-panel">
         <?php
@@ -42,7 +46,7 @@ $messages = PageItems::getItemText(['order/orderMessages']);
 
         <div  id="<?= $htmlPrefix ?>-order-label"
              style="color:#00a300;background-color:#d3d3d3;">
-            <p><?=$messages['orderNotDefined']?></p>
+            <p><?=$orderLabel?></p>
         </div>
 
         <?php

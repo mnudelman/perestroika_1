@@ -214,15 +214,38 @@ class OrderController extends BaseController {
      * получить основную часть описания ЗАПРОСА
      */
     public function actionGetOrderGeneral() {
-        $this->actionEditOrder() ;
+       return $this->actionEditOrder() ;
+    }
+    private function getOrderId() {
+        $orderId = null ;
+        if (Yii::$app->request->isAjax) {
+            $orderGeneral = Yii::$app->request->post('orderGeneral');
+            $orderId = (isset($orderGeneral['orderId'])) ? $orderGeneral['orderId']:null ;
+        }
+        if (empty($orderId)) {
+            $currentOrder = $this->getCurrentOrder() ;
+            $orderId = $currentOrder['orderId'] ;
+        }
+        return $orderId ;
+    }
+    private function getOrderLabel($order) {
+        $lang = TaskStore::getParam('currentLanguage') ;
+        $orderShow =  ($lang === 'en') ? 'Order' : 'Заказ' ;
+        $byShow =  ($lang === 'en') ? 'by' : 'от' ;
+        $orderId = $order['id'] ;
+        $timeCreate = $order['time_create'] ;
+        return( (empty($orderId)) ? '' :
+            $orderShow . ' N ' . $orderId .' ' . $byShow .' ' . $timeCreate );
     }
     /**
      * редактировать запрос (перенос в область редактирования)
      */
     public function actionEditOrder() {
-        $orderGeneral = Yii::$app->request->post('orderGeneral');
+//        $orderGeneral = Yii::$app->request->post('orderGeneral');
+//        $orderId = $orderGeneral['orderId'] ;
+        $orderId = $this->getOrderId() ;
+
         $orderWork = new OrderWork() ;
-        $orderId = $orderGeneral['orderId'] ;
         $order = $orderWork->getById($orderId) ;
         $success = !empty($order) ;
         $message = $order->errors ;
@@ -236,6 +259,7 @@ class OrderController extends BaseController {
                 'perBeg' => $order['per_beg'],
                 'perEnd' => $order['per_end'],
                 'timeCreate' => $order['time_create'],
+                'orderLabel' => $this->getOrderLabel($order),
             ] ;
             $geography = new UserGeography() ;
             $geography->setCityId($order['city_id']) ;
@@ -255,7 +279,11 @@ class OrderController extends BaseController {
             'orderGeneral' => $orderGeneral,
             'z-end' => 'zend'
         ] ;
-        echo json_encode($answ) ;
+        if (Yii::$app->request->isAjax) {
+            echo json_encode($answ);
+        }else {
+            return $answ ;
+        }
     }
 
     /**

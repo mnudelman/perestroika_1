@@ -315,5 +315,40 @@ class OrderFunc
         $currentPage = $indexPages['currentPage'];
         return $currentPage ;
     }
+    public function getOrderGeneral()
+    {
+//        $orderGeneral = Yii::$app->request->post('orderGeneral');
+//        $orderId = $orderGeneral['orderId'] ;
+        $currentOrder = TaskStore::getParam('currentOrder');
+        $orderId = $currentOrder['orderId'];
 
+        $orderWork = new OrderWork();
+        $order = $orderWork->getById($orderId);
+        $success = !empty($order);
+        $message = [];
+        $orderGeneral = [];
+        if ($success) {
+            $orderGeneral = [
+                'orderId' => $order['id'],
+                'orderName' => $order['order_name'],
+                'orderDescription' => $order['description'],
+                'cityId' => $order['city_id'],
+                'perBeg' => $order['per_beg'],
+                'perEnd' => $order['per_end'],
+                'timeCreate' => $order['time_create'],
+                'orderLabel' => $this->getOrderLabel($order),
+            ];
+
+        }
+        return $orderGeneral ;
+    }
+    private function getOrderLabel($order) {
+        $lang = TaskStore::getParam('currentLanguage') ;
+        $orderShow =  ($lang === 'en') ? 'Order' : 'Заказ' ;
+        $byShow =  ($lang === 'en') ? 'by' : 'от' ;
+        $orderId = $order['id'] ;
+        $timeCreate = $order['time_create'] ;
+        return( (empty($orderId)) ? '' :
+            $orderShow . ' N ' . $orderId .' ' . $byShow .' ' . $timeCreate );
+    }
 }

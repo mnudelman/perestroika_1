@@ -242,9 +242,10 @@ function OrderDataEdit() {
         orderDelete: urlPrefix + 'delete-order',
         orderItemEdit: urlPrefix + 'edit-order',
         orderSetFilter: urlPrefix + 'set-filter-order',
-        orderGetFilter: urlPrefix + 'get-filter-order'
+        orderGetFilter: urlPrefix + 'get-filter-order',
+        getOrderGeneral : urlPrefix + 'get-order-general'
     };
-
+    var resultShowReady = true ;    // завершение вывода
 
     var _this = this;
     //-------------------------------------------//
@@ -253,8 +254,28 @@ function OrderDataEdit() {
         htmlContext = context['html'];
         htmlContext.init(htmlPrefix);
         ajaxExe = new AjaxExecutor(); // собственный исполнитель запроса
+        resultShowReady = false ;
+        setCurrentOrder() ;
+
+
+
+
+
+
+
     };
-    this.orderEdit = function (opCod) {
+    var setCurrentOrder = function() {
+        var opCod = 'getOrder';
+        var generalData = htmlContext.getGeneral();
+        var data = {
+            opCod: opCod
+        };
+        ajaxExe.setUrl(url.getOrderGeneral);
+        ajaxExe.setData(data);
+        ajaxExe.setCallback(resultShow);
+        ajaxExe.go();
+    } ;
+     this.orderEdit = function (opCod) {
         switch (opCod) {
             case 'create' :
                 orderCreate();
@@ -307,7 +328,9 @@ function OrderDataEdit() {
             var name = orderGeneral['orderName'];
             var id = orderGeneral['orderId'];
             var timeCreate = orderGeneral['timeCreate'];
-            htmlContext.orderLabelShow(id, timeCreate);
+            var orderLabel = orderGeneral['orderLabel'];
+
+            htmlContext.orderLabelShow(id, timeCreate,orderLabel);
             htmlContext.showGeneral(orderGeneral);
         }
         // элемент множества для отображения в правой части
@@ -335,6 +358,7 @@ function OrderDataEdit() {
                 htmlContext.deleteOrderFromLeftPart(orderId);
             }
         }
+        resultShowReady = true ;
 
     };
     /**
@@ -419,7 +443,16 @@ function OrderDataEdit() {
         ajaxExe.go();
 
     };
-    /**
+    this.tabInit = function(tabName) {
+        var tmpTimer = setInterval(function () {
+            if (resultShowReady) {
+                clearInterval(tmpTimer);
+                tabInitDo(tabName) ;
+            }
+        }, 50);
+
+    } ;
+     /**
      * запускаются страницы закладок, требующие
      * наличия выбранного заказа
      *             (new OrderLabel()).showLabel('workGalleryEdit') ;
@@ -428,7 +461,7 @@ function OrderDataEdit() {
 
      * @param tabName
      */
-    this.tabInit = function (tabName) {
+    var tabInitDo = function (tabName) {
         (new OrderLabel()).showLabel(tabName);   // № и имя заказа
         var currentOrder = paramSet.getObj('currentOrder');
         var orderId = null;
@@ -436,8 +469,11 @@ function OrderDataEdit() {
             var text = getTooltipText(htmlPrefix,'orderNotDefinedText') ;
             // var text = 'Не определён текущий заказ.<br>' +
             //     'Перейдите в закладку "общие" и определите заказ';
-            showError(text);
+            // var generalHeaderName = htmlPrefix + '-general-header' ;
+            // var gn = $('[name="' + generalHeaderName +'"]') ;
 
+            showError(text);
+            // gn.click() ;
             return;
         }
 
@@ -674,9 +710,12 @@ function OrderDataEditHtml() {
             msgDiv.append(text);
         }
     };
-    this.orderLabelShow = function (orderId, orderTimeCreate) {
-        var $text = ((orderId === undefined || orderId.length === 0)) ? '№ xxxx <strong>(new)</strong>' :
-            '№ ' + orderId + ' от ' + orderTimeCreate;
+    this.orderLabelShow = function (orderId, orderTimeCreate,orderLabel) {
+        orderLabel = (orderLabel === undefined) ? '' : orderLabel ;
+
+        var orderNotDefined = getTooltipText(htmlPrefix,'orderNotDefined') ;
+        var $text = ((orderId === undefined || orderId.length === 0)) ? orderNotDefined :
+            orderLabel ;
         var p = orderLabelNode.children('p');
         p.empty();
         p.append($text);
