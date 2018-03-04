@@ -100,6 +100,17 @@ $tooltips = [
                 'en' => 'The direction of inclusive.Click to exclude'
         ],
     ],
+    'coveredEye' => [
+        'yes' => [
+            'ru' => 'только отмеченные элементы. Нажмите, чтобы увидеть все',
+            'en' => 'only marked items. Click to see all',
+        ],
+        'no' => [
+            'ru' => 'все элементы. Нажмите, чтобы увидеть только отмеченные',
+            'en' => 'all elements. Click to see only the marked items',
+
+        ],
+    ],
 
 ];
 $parts = [

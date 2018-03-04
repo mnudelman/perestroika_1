@@ -332,6 +332,9 @@ function OrderDataEdit() {
 
             htmlContext.orderLabelShow(id, timeCreate,orderLabel);
             htmlContext.showGeneral(orderGeneral);
+//          подсветка
+
+
         }
         // элемент множества для отображения в правой части
         if (rr['orderSetItem'] !== undefined) {
@@ -429,6 +432,7 @@ function OrderDataEdit() {
      * @param orderId
      */
     this.orderItemEdit = function (orderId) {
+        htmlContext.showHighlight(orderId) ;
         var opCod = 'orderSave';
         var generalData = {
             orderId: orderId
@@ -593,7 +597,7 @@ function OrderDataEditHtml() {
     var orderLabelNode;      // метка заказа
     var orderWorksLabelNode = $('#' + htmlPrefixOrderWorks + '-order-label');
     var filterNode = $('#' + htmlPrefix + '-filter');
-
+    var ulItems = $('#' + htmlPrefix + '-ul') ;
     var filterFormPrefix = 'orderfilterform';
     var filterFormId = 'work-order-filter-form';
     var orderFilterNodes = {
@@ -623,8 +627,13 @@ function OrderDataEditHtml() {
         };
         orderLabelNode = $('#' + htmlPrefix + '-order-label');
         filterNode = $('#' + htmlPrefix + '-filter');
+        ulItems = $('#' + htmlPrefix + '-ul') ;
 
     };
+    this.showHighlight = function (itemId) {
+        (ulItems.find('a')).removeClass('setItemHighlight') ;
+        (ulItems.find('[id$="' + itemId + '"]')).addClass('setItemHighlight') ;
+    } ;
     this.getGeneral = function () {
 // это иллюстрация того, как сохранять(усли нужно) среду
         var oF = orderFormName;

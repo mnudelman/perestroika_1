@@ -75,6 +75,7 @@ function ParamSet() {
                     // ------ добавим настройки констант ----- //
                     // html.init('orderWorkDirectionEdit') ;
                     html.init('orderEditWorks');
+                    html.setSetLevelNames('order','workDirection','works') ;
                     ajax.init('order-work-direction');
                     contextItem['context']['html'] = html;
                     contextItem['context']['ajax'] = ajax;
@@ -225,6 +226,7 @@ function ParamSet() {
                     // ------ добавим настройки констант ----- //
                     // html.init('orderWorkDirectionEdit') ;
                     html.init(contextName,'country');
+                    html.setSetLevelNames('country','region','city') ;
                    // - внешняя функция смены региона в области новый
                     var extFunc = {
                         'newSetItemToggle' : 'geographySetItemToggle'
@@ -963,6 +965,27 @@ function WorkDirectionEditHtml() {
         setItemEditArea = $('#'+htmlPrefix + '-edit-area') ;  // область редактирования hidden перед редактированием
         setItemEditMessage = $('#'+htmlPrefix + '-message') ;  // область редактирования hidden перед редактированием
     } ;
+    /**
+     * переопределить кнопки добавления нового элемента
+     * задать имена компонентов 3-х уровневой модели
+      * @param setName      - имя множества
+     * @param setItemName   -     элемента множества
+     * @param subSetItemName -    компоненты элемента
+     */
+    this.setSetLevelNames = function(setName,setItemName,subSetItemName) {
+        setLevelNames.set = setName ;
+        setLevelNames.setItem = setItemName ;
+        setLevelNames.subSetItem = subSetItemName ;
+
+        newSetBt = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['set'] + '-bt') ;                         // кнопка нового множества
+        newSetUl = $('#'+ htmlPrefix  + 'NewSetItem-' +setLevelNames['set'] + '-ul') ;                         // кнопка нового множества
+
+
+        newSetItemBt = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['setItem'] + '-bt')  ; // кнопка нового элемента множества
+        newSetItemUl = $('#'+ htmlPrefix + 'NewSetItem-' + setLevelNames['setItem'] + '-ul')  ; // список нового элемента множества
+
+
+    } ;
     this.addNewSet = function(setId,setName) {
         var li = newLiSet(setId,setName)  ;
         setUl.append(li) ;
@@ -975,9 +998,6 @@ function WorkDirectionEditHtml() {
            }
        }
     } ;
-    this.setSetLevelNames = function(levelNames) {
-
-    }
     this.setEmpty = function() {
         setUl.empty() ;
     } ;

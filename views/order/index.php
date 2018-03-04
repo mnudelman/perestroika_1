@@ -56,7 +56,7 @@ echo Tabs::widget([
         [
             'label' => $tabItemName['express'],
             'content' => $this->render('expressLogin',
-                ['tabTitle' => 'экспресс регистрация']),
+                ['tabTitle' => 'экспресс регистрация','htmlPrefix' => $htmlPrefix]),
             'headerOptions' => ['style'=> $expressStyle,
                 'name'=>$htmlPrefix . '-' . 'express' . '-header'],
             'options' => ['style'=> $expressStyle,
@@ -65,14 +65,16 @@ echo Tabs::widget([
         ],
         [
             'label' => $tabItemName['general'],
-            'content' => $this->render('orderGeneral',['tabTitle' => 'Общие сведения']),
+            'content' => $this->render('orderGeneral',
+                ['tabTitle' => 'Общие сведения','htmlPrefix' => $htmlPrefix]),
             'options' => ['name'=>$htmlPrefix . '-' . 'general' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'general' . '-header'],
             'active' => $hideExpressFlag
         ],
         [
             'label' => $tabItemName['works'],
-            'content' => $this->render('orderWorks',['tabTitle' => 'Общие сведения',]),
+            'content' => $this->render('orderWorks',
+                ['tabTitle' => 'Общие сведения','htmlPrefix' => $htmlPrefix]),
 
             'options' => ['name'=>$htmlPrefix . '-' . 'works' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'works' . '-header'],
@@ -81,13 +83,15 @@ echo Tabs::widget([
             'label' => $tabItemName['additional'],
             'options' => ['name'=>$htmlPrefix . '-' . 'additional' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'additional' . '-header'],
-            'content' => $this->render('orderAdditional',['tabTitle' => 'Дополнительные материалы']),
+            'content' => $this->render('orderAdditional',
+                ['tabTitle' => 'Дополнительные материалы','htmlPrefix' => $htmlPrefix]),
         ],
         [
             'label' => $tabItemName['mailing'],
             'options' => ['name'=>$htmlPrefix . '-' . 'mailing' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'mailing' . '-header'],
-            'content' => $this->render('orderMailing',['tabTitle' => 'Рассылка']),
+            'content' => $this->render('orderMailing',
+                ['tabTitle' => 'Рассылка','htmlPrefix' => $htmlPrefix]),
 
         ],
     ]

@@ -248,7 +248,7 @@ class OrderController extends BaseController {
         $orderWork = new OrderWork() ;
         $order = $orderWork->getById($orderId) ;
         $success = !empty($order) ;
-        $message = $order->errors ;
+        $message = [] ; //$order->errors ;
         $orderGeneral = [] ;
         if ($success) {
             $orderGeneral = [

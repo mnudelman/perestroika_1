@@ -303,6 +303,6 @@ echo TreeLevelWidget::widget([
     'editPanelHeading' => $editPanelHeading,
     'editPanelBody' => $editPanelBody,
 ]);
-?>
+
 
 
