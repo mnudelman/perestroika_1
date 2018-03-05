@@ -13,7 +13,8 @@
  */
 ?>
 <?php
-
+use yii\helpers\Html ;
+use yii\helpers\Url ;
 ?>
 <div class="container-fluid">
     <?php
@@ -49,20 +50,44 @@
 
                     <div class="row">
 
+                     <div class="col-md-6">
                         <?php
                         variableWidget($addPanelBody) ;
                         $plusButton = $addPanelBody['plusButton'] ;
-
+                        $newSetItemImg = (isset($addPanelBody['newSetItemImg'])) ?
+                            $addPanelBody['newSetItemImg'] : '' ;
+                        ;
                         ?>
-
+                     </div>
+                        <div class="col-md-2">
                         <button class="btn btn-success" role="button"
                                 onclick="addNewSetItem('<?=$htmlPrefix?>')"
                                 title="<?=$plusButton['title']?>" >
 
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
+                        </div>
+                        <div class="col-md-4">
+                        <?php
+                         if (!empty($newSetItemImg)) {  // ! есть картинка
 
+                          $picture = $newSetItemImg['picture'] ;
+                          $imgClick = "newSetItemPictureToggle('" . $htmlPrefix .
+                              "NewSetItem-workDirection-bt').click()" ;
+                        ?>
+                        <a href="#" onclick="<?=$imgClick?>">
+                            <?= Html::img('@web/images/' . $picture,
+                                ['height' => '50px',
+                                    'id' => $htmlPrefix . '-newSetItem-img',
+                                    'data-dir' => Url::to('@web/images/'),
+                                ]); ?>
+                        </a>
 
+                        <?php
+
+                        }
+                        ?>
+                        </div>
                     </div>
 
                 </div>
@@ -86,7 +111,8 @@
                     <!--                 <span id="workRegionEdit-placeHolder">Область изменений географии работ</span>-->
                     <div hidden="hidden" id="<?= $htmlPrefix ?>-edit-area">
                         <!--                    <ul class="list-group" >-->
-                        <a class="btn btn-default setItemHighlight" role="button" data-toggle="collapse" style="width:82%"
+                        <a class="btn btn-default setItemHighlight" role="button" data-toggle="collapse"
+                           style="width:82%; white-space: normal;"
                            aria-expanded="true"
                            data-set-id="" data-set-item-id=""
                            href="#<?= $htmlPrefix ?>-editSetItem-ul"

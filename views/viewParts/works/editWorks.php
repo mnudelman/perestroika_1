@@ -24,7 +24,7 @@ $picture = $liList[0]['options']['data-img'];
 // левая часть - что имееем      ****
 $listItems = [] ;
 switch ($objectType) {
-    case 'user' :
+    case 'user' :                   // profile
         $listItems = developerWorkDirectionList() ;
         break ;
     case 'order' :
@@ -208,6 +208,9 @@ $addPanelBody = [
         'par' => $addNewRegionPar
     ],
     'plusButton' => $plusButtonPar,     // кнопка "ДОБАВИТЬ НОВЫЙ"
+    'newSetItemImg' => [
+        'picture' => $picture,
+    ],
 ];
 $editPanelHeading = [
     'toolbar' => [

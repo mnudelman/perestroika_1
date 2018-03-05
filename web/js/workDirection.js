@@ -59,24 +59,40 @@ function ParamSet() {
             if (contextName === 'profileEditWorkGeography') {
                 contextAlias = 'officeProfileEditWorkGeography' ;
             }
-            switch (contextAlias) {
-                case 'workDirectionEdit' :
-                    contextItem['context']['html'] = new WorkDirectionEditHtml();
-                    contextItem['context']['ajax'] = new WorkDirectionEditAjax();
-                    var cnt = new EditDataController(contextName, contextItem['context']);
-                    cnt.init(contextName, contextItem['context']);
-                    contextItem['controller'] = cnt;
-                    contextMap[contextName] = contextItem;
+            if (contextName === 'workDirectionEdit') {
+                contextAlias = 'orderEditWorks' ;
+            }
+            if (contextName.indexOf('WorkDirection') >= 0) {
+                contextAlias = 'orderEditWorks' ;
+            }
 
-                    break;
+            switch (contextAlias) {
+                // case 'workDirectionEdit' :
+                //     contextItem['context']['html'] = new WorkDirectionEditHtml();
+                //     contextItem['context']['ajax'] = new WorkDirectionEditAjax();
+                //     var cnt = new EditDataController(contextName, contextItem['context']);
+                //     cnt.init(contextName, contextItem['context']);
+                //     contextItem['controller'] = cnt;
+                //     contextMap[contextName] = contextItem;
+                //
+                //     break;
+
+
+
                 case 'orderEditWorks' :           // работы, включённые в заказ
                     var html = new WorkDirectionEditHtml();
                     var ajax = new WorkDirectionEditAjax();
                     // ------ добавим настройки констант ----- //
                     // html.init('orderWorkDirectionEdit') ;
-                    html.init('orderEditWorks');
+                    html.init(contextName);
                     html.setSetLevelNames('order','workDirection','works') ;
-                    ajax.init('order-work-direction');
+                    if ((contextName.toUpperCase()).indexOf('ORDEREDIT') >= 0) {
+                        ajax.init('order-work-direction');
+                    }else {
+                        ajax.init('work-direction');
+                    }
+
+
                     contextItem['context']['html'] = html;
                     contextItem['context']['ajax'] = ajax;
 
@@ -85,7 +101,7 @@ function ParamSet() {
                     contextItem['controller'] = cnt;
                     contextMap[contextName] = contextItem;
                     // алиас
-                    contextMap['orderEditWorks'] = contextItem;
+                    contextMap[contextName] = contextItem;
                     break;
                 case 'orderEdit' :           // заказ - general
                     var html = new OrderDataEditHtml();
@@ -421,17 +437,22 @@ function EditDataController() {
         var setSelector = scheme['setSelector'] ;
         var currentSet = setSelector.getCurrentSet() ;
         var currentSetId = currentSet['id'] ;
-        var isFind = setSelector.isFind(currentSetId) ;
-        var factSetId = setSelector.getFactSetId() ;
-        if (!isFind) {    // добавить
-            setSelector.addNewSet(currentSet.id,currentSet.name) ;
-        }
         var showCurentSetObjName = 'showCurrentSetReady' ;
-        paramSet.putObj(showCurentSetObjName,false) ;
-        if (factSetId !== currentSetId) {   // переключение множества
-            _this.switchSet(currentSetId) ;
-        }else {
-            paramSet.putObj(showCurentSetObjName,true) ;
+        paramSet.putObj(showCurentSetObjName,true) ;
+        if (currentSetId !== null) {
+            var isFind = setSelector.isFind(currentSetId) ;
+            var factSetId = setSelector.getFactSetId() ;
+
+            if (!isFind) {    // добавить
+                setSelector.addNewSet(currentSet.id,currentSet.name) ;
+            }
+            paramSet.putObj(showCurentSetObjName,false) ;
+            if (factSetId !== currentSetId) {   // переключение множества
+                _this.switchSet(currentSetId) ;
+            }else {
+                paramSet.putObj(showCurentSetObjName,true) ;
+            }
+
         }
 
         var editImplement = scheme['editImplement'] ;
@@ -1159,7 +1180,7 @@ function WorkDirectionEditHtml() {
     this.setItemHighlight = function(setItemId) {
         var li = setItemsUl.find('[role="button"]') ;
         li.removeClass('setItemHighlight') ;
-        var currentSetItem = setItemsUl.find('[id$="' + setItemId +'"]') ;
+        var currentSetItem = setItemsUl.find('[id$="-' + setItemId +'"]') ;
         if (currentSetItem.length > 0 ) {
             currentSetItem.addClass('setItemHighlight') ;
         }
