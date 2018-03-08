@@ -5,6 +5,6 @@
 ?>
 <?php
 $baseGalleryEditScel = '/viewParts/editGallery' ;
-$htmlPrefix = 'workGalleryEdit';
+//$htmlPrefix = 'workGalleryEdit';
 ?>
 <?=$this->render($baseGalleryEditScel,['htmlPrefix'=>$htmlPrefix])?>

@@ -6,9 +6,12 @@
 $( function() {
     $('[name$="-header"]').click(function() {
         var name = $(this).attr('name') ;
-        if (name === 'profileEdit-gallery-header') {
+        if ((name.toUpperCase()).indexOf('profileEdit-Gallery'.toUpperCase()) >= 0 ) {
+            var arr = name.split('-') ;
+            var htmlPrefix = arr[0] + 'Gallery' ;
             paramSet.putObj('phpGalleryController','work-gallery') ;  // доступ
-            (new GalleryController()).init() ;
+            var gallery = new GalleryController() ;
+            gallery.init(htmlPrefix) ;
         }
     }) ;
 }) ;

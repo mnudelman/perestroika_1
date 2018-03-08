@@ -50,12 +50,30 @@ function Pagination() {
            opCod : opCod,
            page : page
        } ;
-       var act = (action[htmlPrefix] === undefined) ? actionDefault : action[htmlPrefix] ;
-       var url = urlPrefix[htmlPrefix] + act ;
+       var htmlPrefixAlias = getPrefixAlias() ;
+       // var act = (action[htmlPrefix] === undefined) ? actionDefault : action[htmlPrefix] ;
+       // var url = urlPrefix[htmlPrefix] + act ;
+
+       var act = (action[htmlPrefixAlias] === undefined) ? actionDefault : action[htmlPrefixAlias] ;
+       var url = urlPrefix[htmlPrefixAlias] + act ;
+
+
        ajaxExe.setUrl(url) ;
        ajaxExe.setData(data) ;
        ajaxExe.setCallback(newPageShow) ;
        ajaxExe.go() ;
+   } ;
+   var getPrefixAlias = function() {
+       var alias = '' ;
+       var htmlPrefixUpper = htmlPrefix.toUpperCase() ;
+        for (var key in urlPrefix) {
+            if (htmlPrefixUpper.indexOf(key.toUpperCase()) >= 0) {
+                if (key.length > alias.length) {
+                    alias = key ;
+                }
+            }
+        }
+        return alias ;
    } ;
    var newPageShow = function(rr) {
        var html = new WorkDirectionEditHtml() ;

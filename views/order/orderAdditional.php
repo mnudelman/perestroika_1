@@ -6,6 +6,6 @@
 ?>
 <?php
 $baseGalleryEditScel = '/viewParts/editGallery' ;
-$htmlPrefix = 'orderEditAdditional';
+//$htmlPrefix = 'orderEditAdditional';
 ?>
 <?=$this->render($baseGalleryEditScel,['htmlPrefix'=>$htmlPrefix])?>

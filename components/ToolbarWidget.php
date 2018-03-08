@@ -182,6 +182,12 @@ class ToolbarWidget extends Widget
 
         ],
 
+        'trash' => [                // прикрытый глаз
+            'title' => 'clear the trash',
+            'iconClass' => 'fa fa-trash',
+            'clickFunction' => '',
+            'clickAction' => '',
+        ],
 
 
 

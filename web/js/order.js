@@ -16,11 +16,13 @@ $(function () {
         var name = $(this).attr('name');
         var arr = name.split('-');
         var contextName = arr[0];
-        if (contextName === 'orderEdit') {    // отправляем диспетчерезацию в контроллер
+        // if (contextName === 'orderEdit') {    // отправляем диспетчерезацию в контроллер
+        if ((contextName.toUpperCase()).indexOf('orderEdit'.toUpperCase()) >= 0)
+        {    // отправляем диспетчерезацию в контроллер
             var tabName = arr[1];       // закладка имя
             var tabNames = ['works', 'additional', 'mailing']; // список диспетчерезуемых разделов
             if (tabNames.indexOf(tabName) >= 0) {
-                var contextName = 'orderEdit';
+                // var contextName = 'orderEdit';
                 var controller = paramSet.getController(contextName);
                 controller.tabInit(tabName);       ///   orderWorkEdit() ;
             }
@@ -32,34 +34,34 @@ $(function () {
  * информационная строка о № текущего заказа
  * @constructor
  */
-function OrderLabel() {
-    var generalHtmlPrefix = 'orderEdit';
-    var currentHtmlPrefix = '';
-    var orderLabelNode = $('#' + 'htmlPrefix' + '-order-label');
-    var generalOrderLabelNode = $('#' + generalHtmlPrefix + '-order-label');
-    var generalOrderNameField = $('#orderwork-order_name');
-    this.init = function (htmlPrefix) {
-        currentHtmlPrefix = htmlPrefix;
-    };
-    this.showLabel = function (htmlPrefix) {
-        var label = makeLabel();
-        var firstLetter = (htmlPrefix.substr(0, 1)).toUpperCase();
-        var tail = htmlPrefix.substr(1);
-        var currentPart = firstLetter + tail;
-        orderLabelNode = $('#' + generalHtmlPrefix + currentPart + '-order-label');
-        var p = orderLabelNode.children('p');
-        p.empty();
-        p.append(label);
-
-    };
-    var makeLabel = function () {
-        var p = generalOrderLabelNode.children('p');
-        var orderNumber = p.text();
-        var name = generalOrderNameField.val();
-        var label = orderNumber + ' - ' + name;
-        return label;
-    };
-}
+// function OrderLabel() {
+//     var generalHtmlPrefix = 'orderEdit';
+//     var currentHtmlPrefix = '';
+//     var orderLabelNode = $('#' + 'htmlPrefix' + '-order-label');
+//     var generalOrderLabelNode = $('#' + generalHtmlPrefix + '-order-label');
+//     var generalOrderNameField = $('#orderwork-order_name');
+//     this.init = function (htmlPrefix) {
+//         currentHtmlPrefix = htmlPrefix;
+//     };
+//     this.showLabel = function (htmlPrefix) {
+//         var label = makeLabel();
+//         var firstLetter = (htmlPrefix.substr(0, 1)).toUpperCase();
+//         var tail = htmlPrefix.substr(1);
+//         var currentPart = firstLetter + tail;
+//         orderLabelNode = $('#' + generalHtmlPrefix + currentPart + '-order-label');
+//         var p = orderLabelNode.children('p');
+//         p.empty();
+//         p.append(label);
+//
+//     };
+//     var makeLabel = function () {
+//         var p = generalOrderLabelNode.children('p');
+//         var orderNumber = p.text();
+//         var name = generalOrderNameField.val();
+//         var label = orderNumber + ' - ' + name;
+//         return label;
+//     };
+// }
 
 /**
  * Created by michael on 17.02.17.
@@ -466,7 +468,7 @@ function OrderDataEdit() {
      * @param tabName
      */
     var tabInitDo = function (tabName) {
-        (new OrderLabel()).showLabel(tabName);   // № и имя заказа
+        // (new OrderLabel()).showLabel(tabName);   // № и имя заказа
         var currentOrder = paramSet.getObj('currentOrder');
         var orderId = null;
         if ((currentOrder === null) || (orderId = currentOrder['orderId']) === null) { // сообщение
@@ -488,10 +490,12 @@ function OrderDataEdit() {
                 break;
             case 'additional' :   // доп материалы
                 paramSet.putObj('phpGalleryController', 'order-work-gallery');  // меняем контроллер для галлереи
-                (new GalleryController()).init('orderEditAdditional');
+                var gallery = new GalleryController() ;
+                gallery.init(htmlPrefix + 'Gallery');
+                // (new GalleryController()).init('orderEditAdditional');
                 break;
             case 'mailing' :      // рассылка
-                var cnt = paramSet.getController('orderEditMailing');
+                var cnt = paramSet.getController(htmlPrefix + 'Mailing');
                 cnt.tabInit();
                 break;
         }
@@ -518,10 +522,12 @@ function OrderDataEdit() {
         }
         if (orderId !== null) {
             //var elem = 'orderWorkDirectionEdit' + '-' + orderId ;
-            var elem = 'orderEditWorks' + '-' + orderId;
+            // var elem = 'orderEditWorks' + '-' + orderId;
+            var elem = htmlPrefix + 'WorkDirection-' + orderId;
+
             switchSet(elem);
         } else {    // ссобщение с переходом на вкладку general
-            var elem = 'orderEditWorks' + '-' + 'NULL';
+            var elem = htmlPrefix + 'WorkDirection-' + 'NULL';
             switchSet(elem);
 
         }
@@ -734,13 +740,9 @@ function OrderDataEditHtml() {
         var p = orderLabelNode.children('p');
         return p.text();
     };
-    this.orderWorksLabelShow = function () {
-        (new OrderLabel()).showLabel(htmlPrefixOrderWorks);
-        //var p = orderWorksLabelNode.children('p') ;
-        //p.empty() ;
-        //p.append(label) ;
-
-    };
+    // this.orderWorksLabelShow = function () {
+    //     (new OrderLabel()).showLabel(htmlPrefixOrderWorks);
+    // };
     /**
      * очистить саписок существующих заказов
      * вывести заново

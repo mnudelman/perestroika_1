@@ -32,7 +32,7 @@ use app\views\viewParts\OrderViewPrepare ;
 ?>
 
 <?php
-$htmlPrefix = 'orderEditMailing';
+$htmlPrefix = $htmlPrefix . 'Mailing' ; //'orderEditMailing';
 $partsTitleCurrent = 'Текущие заказы';
 $ruleTitle = 'Правила оформления заказа';
 $ruleContent = 'Заполняйте правильно!!';

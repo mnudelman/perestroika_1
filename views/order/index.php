@@ -1,7 +1,7 @@
 <?php
 /**
  * Я-заказчик - меню
- *
+ * @var $htmlPrefix
  */
 ?>
 <?php
@@ -11,7 +11,7 @@ use app\service\PageItems ;
 use \app\components\TooltipsWidget ;
 use app\controllers\OrderFunc ;
 
-$htmlPrefix = 'orderEdit' ;
+$htmlPrefix = (isset($htmlPrefix))? $htmlPrefix . 'OrderEdit' : 'orderEdit' ;
 $userIsGuest = Yii::$app->user->isGuest ;
 $email = '' ;
 $confirmationFlag = false ;

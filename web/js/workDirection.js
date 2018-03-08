@@ -59,12 +59,20 @@ function ParamSet() {
             if (contextName === 'profileEditWorkGeography') {
                 contextAlias = 'officeProfileEditWorkGeography' ;
             }
-            if (contextName === 'workDirectionEdit') {
+            // if (contextName === 'workDirectionEdit') {
+            //     contextAlias = 'orderEditWorks' ;
+            // }
+            if (contextName.indexOf('WorkDirection') >= 0) { // это терминальный контекст
+                                                             // если он есть, то он главный
                 contextAlias = 'orderEditWorks' ;
+            }else if (contextName.indexOf('MailingProfile') >= 0) {
+                contextAlias = 'orderEditMailingProfile' ;
+            }else if ((contextName.toUpperCase()).indexOf('orderEditMailing'.toUpperCase()) >= 0) {
+                contextAlias = 'orderEditMailing' ;
+            } else if ((contextName.toUpperCase()).indexOf('orderEdit'.toUpperCase()) >= 0) {
+                contextAlias = 'orderEdit' ;
             }
-            if (contextName.indexOf('WorkDirection') >= 0) {
-                contextAlias = 'orderEditWorks' ;
-            }
+
 
             switch (contextAlias) {
                 // case 'workDirectionEdit' :

@@ -61,7 +61,7 @@ $( function() {
  * @constructor
  */
 function OrderMailingProfile() {
-    var contextName ;               // это htmlPrefix (orderEditMailingProfile) для элементов страницы
+    var htmlPrefix ;               // это htmlPrefix (orderEditMailingProfile) для элементов страницы
     var htmlContext ;
     var currentDeveloperId ;
     var ajaxExe ;
@@ -83,9 +83,9 @@ function OrderMailingProfile() {
      * @param context
      */
     this.init = function(ctxtName,context) {
-        contextName = ctxtName;
+        htmlPrefix = ctxtName;
         htmlContext = context['html'];
-        htmlContext.init(contextName);
+        htmlContext.init(htmlPrefix);
         ajaxExe = new AjaxExecutor(); // собственный исполнитель запроса
     } ;
     this.tabInit = function(id) {

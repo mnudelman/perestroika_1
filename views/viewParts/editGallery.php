@@ -11,11 +11,13 @@ use yii\widgets\ActiveForm;
 use app\models\UploadForm;
 use yii\helpers\Url;
 use app\service\PageItems ;
+use app\components\ToolbarWidget ;
 ?>
 
 
 <?php
 //$htmlPrefix = 'workGalleryEdit';
+$htmlPrefix = (isset($htmlPrefix)) ? $htmlPrefix . 'Gallery' : 'galleryEdit';
 $containerNewId = $htmlPrefix . '-new';
 $containerEditId = $htmlPrefix . '-edit';
 $containerBinId = $htmlPrefix . '-bin';
@@ -56,10 +58,52 @@ $dirLayoutParts = '../layouts/layoutParts' ;
 
 
 <div class="container-fluid">
+   <?=\app\components\RuleTextWidget::widget([
+    'htmlPrefix' => $htmlPrefix,
+    'ruleTitle' => '',
+    'ruleItems' => [
+    ['ruleTitle' => $ruleTitle,
+    'ruleContent' => $ruleContent]
+    ]
+    ]);
+   ?>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <?=ToolbarWidget::widget([
+            'htmlPrefix' => $htmlPrefix,
+            'topology' => [
+            'title' => 4,
+            'buttons' => 8,
+            'pagination' => 0
+            ],
+            'title' => 'редактировать изображения',
+            'buttons' => [
+            'help' => [
+            ],
+            'save' => [
+            'title' => 'save',
+            'clickFunction' => 'gallerySave',
+            'clickAction' => ''
+            ],
+            'trash' => [
+            'title' => 'to clear the trash',
+            'clickFunction' => 'orderEditClick',
+            'clickAction' => 'delete'
+            ]
+            ],
+            'pagination' => [],
+            ]) ;
+            ?>
+        </div><br>
+
     <div class="row">
 <!--<!--        ?//=$this->render($dirLayoutParts . '/ruleAccordion',-->
 <!--//            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,-->
 <!--//                'ruleContentId' => $ruleContentId])?> -->-->
+
+
+
+
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -154,7 +198,9 @@ $dirLayoutParts = '../layouts/layoutParts' ;
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" onclick="gallerySave()">
-        <?=$btSave?>
-    </button>
+<!--    <button class="btn btn-primary" onclick="gallerySave()">-->
+<!--        ?//=$btSave?>-->
+<!--    </button>-->
+
+    </div>
 </div>

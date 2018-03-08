@@ -17,6 +17,7 @@ use app\components\TreeLevelWidget ;
 include_once __DIR__ . '/editWorksFunction.php';
 // это правая часть - изменения
 //$htmlPrefix = 'workDirectionEdit';
+$htmlPrefix = (isset($htmlPrefix)) ? $htmlPrefix.'WorkDirection' : 'workDirectionEdit';
 $type = 'workDirection';
 $liList = workDirectionList($htmlPrefix,$type) ;
 

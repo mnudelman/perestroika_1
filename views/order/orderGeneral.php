@@ -25,7 +25,7 @@ use app\models\OrderFilterForm;
 ?>
 
 <?php
-$htmlPrefix = 'orderEdit';
+//  $htmlPrefix = 'orderEdit';
 $partsTitleCurrent = 'Текущие заказы';
 //-------------------------------------------
 $toolTipItemEdit = 'редактирование заказа';
