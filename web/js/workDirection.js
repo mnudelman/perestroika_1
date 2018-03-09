@@ -63,8 +63,10 @@ function ParamSet() {
             //     contextAlias = 'orderEditWorks' ;
             // }
             if (contextName.indexOf('WorkDirection') >= 0) { // это терминальный контекст
-                                                             // если он есть, то он главный
-                contextAlias = 'orderEditWorks' ;
+                // если он есть, то он главный
+                contextAlias = 'orderEditWorks';
+            }else if (contextName.indexOf('MailingProfileGeography') >= 0) {
+                contextAlias = 'orderEditMailingProfileGeography' ;
             }else if (contextName.indexOf('MailingProfile') >= 0) {
                 contextAlias = 'orderEditMailingProfile' ;
             }else if ((contextName.toUpperCase()).indexOf('orderEditMailing'.toUpperCase()) >= 0) {
@@ -75,17 +77,6 @@ function ParamSet() {
 
 
             switch (contextAlias) {
-                // case 'workDirectionEdit' :
-                //     contextItem['context']['html'] = new WorkDirectionEditHtml();
-                //     contextItem['context']['ajax'] = new WorkDirectionEditAjax();
-                //     var cnt = new EditDataController(contextName, contextItem['context']);
-                //     cnt.init(contextName, contextItem['context']);
-                //     contextItem['controller'] = cnt;
-                //     contextMap[contextName] = contextItem;
-                //
-                //     break;
-
-
 
                 case 'orderEditWorks' :           // работы, включённые в заказ
                     var html = new WorkDirectionEditHtml();

@@ -95,20 +95,7 @@ include('workEditLabels.php') ;     // подписи для  формы
 
 ?>
 <div class="container-fluid">
-    <div id="<?=$htmlPrefix .'-tooltips'?>">
-        <input type="text" hidden="hidden" name="itemFully"
-               data-yes="<?=$tooltipItemFullyYes?>" data-no="<?=$tooltipItemFullyNo?>">
-        <input type="text" hidden="hidden" name="itemDelete"
-               data-yes="<?=$tooltipItemDeleteYes?>" data-no="<?=$tooltipItemDeleteNo?>">
-        <input type="text" hidden="hidden" name="subItemInWork"
-               data-yes="<?=$tooltipSubItemInWorkYes?>" data-no="<?=$tooltipSubItemInWorkNo?>">
-
-    </div>
-
     <div class="row">
-        <?=$this->render($dirLayoutParts . '/ruleAccordion',
-            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,
-                'ruleContentId' => $ruleContentId])?>
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -120,11 +107,11 @@ include('workEditLabels.php') ;     // подписи для  формы
                     echo CollapsibleListWidget::widget([
                         'listName' => '',        // например. 'workRegion' - регионы работ
                         'pictureClass' => [     // картинки, обозначающие действия (см. defaultPictures)
-//                                 'edit' => [],
                         ],
-                        'onClick' => [
-                            'edit' => 'setItemEdit',      // реакция на кнопку "редактировать"
+                        'buttons' => [
+                            'null' => []
                         ],
+                        'onClick' => [],      // реакция на кнопку "редактировать"
                         'htmlPrefix' => $htmlPrefix ,     // префикс id для обеспечения уникальнгости
                         'btTitle' => $tooltipItemEdit,      // поясняющая подпись для кнопки редактирования
                         'listItems' => $listItems,

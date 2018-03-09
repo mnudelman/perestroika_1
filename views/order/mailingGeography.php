@@ -4,25 +4,18 @@
  * Time: 20:31
  * @var $htmlPrefix
  */
-use yii\bootstrap\ButtonDropdown;
-use yii\bootstrap\Dropdown;
 use app\models\WorkCountry ;
 use app\models\WorkRegion ;
 use app\models\WorkCity ;
 use \app\models\Country ;
-use app\components\GeographySimpleWidget ;
 use app\components\UserGeography ;
 use app\components\CollapsibleListWidget ;
-//use Yii ;
-use app\service\PageItems ;
+use \app\components\ToolbarWidget ;
 ?>
 <?php
 $ug = new UserGeography() ;
 $ownGeography = $ug->getOwnGeography() ;
-//    $userCountry = ['id' => $country->id,'name' => $country->name ] ;
-//    $userRegion = ['id' => $region->id,'name' => $region->name ] ;
-//    $userCity = ['id' => $city->id,'name' => $city->name ] ;
-$htmlPrefix .= 'Geography' ;
+$htmlPrefix .= 'Geography';
 $userCountry = $ownGeography['userCountry'] ;
 $userRegion = $ownGeography['userRegion'] ;
 $userCity =  $ownGeography['userCity'] ;
@@ -79,26 +72,13 @@ $ruleContentId = 'workGeography-form-collapseOne' ;
 include('workEditLabels.php') ;     // подписи для  формы
 ?>
 <div class="container-fluid">
-    <div id="<?=$htmlPrefix .'-tooltips'?>">
-        <input type="text" hidden="hidden" name="itemFully"
-               data-yes="<?=$tooltipItemFullyYes?>" data-no="<?=$tooltipItemFullyNo?>">
-        <input type="text" hidden="hidden" name="itemDelete"
-               data-yes="<?=$tooltipItemDeleteYes?>" data-no="<?=$tooltipItemDeleteNo?>">
-        <input type="text" hidden="hidden" name="subItemInWork"
-               data-yes="<?=$tooltipSubItemInWorkYes?>" data-no="<?=$tooltipSubItemInWorkNo?>">
-
-    </div>
-
 
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h5 class="header-title" style="text-align: left;"><?=$partsTitleCurrent?></h5></div>
-                <div class="panel-body">
                     <?php
-                    // текущая страна
-                    echo GeographySimpleWidget::widget([
+                    $geographySetSelectPar = [
                         'htmlIdPrefix' => $htmlPrefix ,
                         'geographyItems' => ['country'],
                         'listDirectUp' => false,
@@ -107,10 +87,28 @@ include('workEditLabels.php') ;     // подписи для  формы
                         'currentCity' => [],
                         'onClickFunction' => 'workRegionChangeCountry',
                         'countryList' => $wkGCountryList,
+                    ];
 
-                    ]) ;
+                    echo ToolbarWidget::widget([
+                        'htmlPrefix' => $htmlPrefix,
+                        'topology' => [
+                            'title' => 4,
+                            'buttons' => 2,
+                            'widget' => 6,
+                            'pagination' => 0
+                        ],
+                        'title' => $partsTitleCurrent,
+                        'buttons' => [],
+                        'widgetVar' => [
+                            'name' => 'GeographySimpleWidget',
+                            'par' => $geographySetSelectPar
+                        ],
+                        'pagination' => [],
+                    ]);
+
                     ?>
-                    <br><br>
+                </div>
+                <div class="panel-body">
 
                     <?php
                     echo CollapsibleListWidget::widget([

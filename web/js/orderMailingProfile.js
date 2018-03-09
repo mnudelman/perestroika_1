@@ -48,7 +48,7 @@ $( function() {
         var name = $(this).attr('name') ;
         var arr = name.split('-') ;
         var  contextName = arr[0] ;
-        if (contextName === 'orderEditMailingProfile') {    // отправляем диспетчерезацию в контроллер
+        if ((contextName.toUpperCase()).indexOf('orderEditMailingProfile'.toUpperCase())) {    // отправляем диспетчерезацию в контроллер
             var tabName = arr[arr.length - 2];       // закладка имя
             var controller = paramSet.getController(contextName);
             controller.tabSelect(tabName);       ///   orderWorkEdit() ;
@@ -171,7 +171,9 @@ function OrderMailingProfile() {
         ajaxExe.go() ;
     } ;
     var profileGeographyShow = function(rr) {
-        var contextName = 'orderEditMailingProfileGeography' ;
+        // var contextName = 'orderEditMailingProfileGeography' ;
+        var contextName = htmlPrefix + 'Geography' ;
+
         var context = paramSet.getContext(contextName) ;
         var html = context['html'] ;
         html.init(contextName,'country') ;

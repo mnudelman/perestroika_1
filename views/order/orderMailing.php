@@ -61,16 +61,6 @@ $partsTitle = PageItems::getItemText([$pageItemFile, 'partsTitle']);
 $partsTitleCurrent = 'Выбор исполнителя';
 $partsTitleEdit = $partsTitle['edit'];
 //-----------------------------------------------
-//$ug = new UserGeography();
-//$ownGeography = $ug->getOwnGeography();
-//$userCountry = $ownGeography['userCountry'];
-//$userRegion = $ownGeography['userRegion'];
-//$userCity = $ownGeography['userCity'];
-//$orderModel = new OrderWork();
-//$orderModel->per_beg = date('Y-m-d', time());
-//$orderModel->per_end = date('Y-m-d', time());
-// формировать надо вот это
-//$orderList = $orderModel->getList();
 $ln = TaskStore::getParam('currentLanguage');
 $newText = (empty($ln) || $ln == 'ru') ? 'новый' : 'new';
 $orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';

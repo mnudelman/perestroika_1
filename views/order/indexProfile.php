@@ -5,11 +5,13 @@
  * @var $hideExpressFlag
  */
 use yii\bootstrap\Tabs;
+use app\service\PageItems ;
 $htmlPrefix .= 'Profile' ;
+$tabItemName = PageItems::getItemText(['profile/tabs']);
 echo Tabs::widget([
     'items' => [
         [
-            'label' => 'основные', //$tabItemName['general'],
+            'label' => $tabItemName['general'], //'основные', //$tabItemName['general'],
             'content' => $this->render('mailingProfile',
                 ['tabTitle' => 'Общие сведения','htmlPrefix' => $htmlPrefix,]),
             'options' => ['name' => $htmlPrefix . '-' . 'general' . '-content'],
@@ -18,7 +20,7 @@ echo Tabs::widget([
         ],
 
         [
-            'label' => 'география работ', //$tabItemName['general'],
+            'label' => $tabItemName['geography'], //'география работ', //$tabItemName['general'],
             'content' => $this->render('mailingGeography',
                 ['tabTitle' => 'география работ','htmlPrefix' => $htmlPrefix,]),
             'options' => ['name' => $htmlPrefix . '-' . 'geography' . '-content'],
@@ -29,7 +31,7 @@ echo Tabs::widget([
 
 
                 [
-                    'label' => 'работы', //$tabItemName['works'],
+                    'label' => $tabItemName['works'], //'работы', //$tabItemName['works'],
                     'content' => $this->render('mailingWorks',
                         ['tabTitle' => 'Общие сведения','htmlPrefix' => $htmlPrefix,]),
 
@@ -37,7 +39,7 @@ echo Tabs::widget([
                     'headerOptions' => ['name' => $htmlPrefix . '-profile-works' . '-header'],
                 ],
         [
-            'label' => 'дополнительно', // $tabItemName['additional'],
+            'label' => $tabItemName['gallery'], //'дополнительно', // $tabItemName['additional'],
             'content' => $this->render('mailingAdditional',
                 ['tabTitle' => 'Дополнительные материалы','htmlPrefix' => $htmlPrefix,]),
             'options' => ['name' => $htmlPrefix . '-' . 'additional' . '-content'],

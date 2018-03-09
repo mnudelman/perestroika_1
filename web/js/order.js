@@ -311,6 +311,7 @@ function OrderDataEdit() {
 
     };
     var resultShow = function (rr) {
+        var orderId = '' ;
         var success = rr['success'];
         if (success) {
             if (rr['currentOrder'] !== undefined) {
@@ -328,11 +329,10 @@ function OrderDataEdit() {
         if (rr['orderGeneral'] !== undefined) {
             var orderGeneral = rr['orderGeneral'];
             var name = orderGeneral['orderName'];
-            var id = orderGeneral['orderId'];
+            orderId = orderGeneral['orderId'];
             var timeCreate = orderGeneral['timeCreate'];
             var orderLabel = orderGeneral['orderLabel'];
-
-            htmlContext.orderLabelShow(id, timeCreate,orderLabel);
+            htmlContext.orderLabelShow(orderId, timeCreate,orderLabel);
             htmlContext.showGeneral(orderGeneral);
 //          подсветка
 
@@ -359,12 +359,14 @@ function OrderDataEdit() {
         }
         if (rr['opCod'] !== undefined) {
             if (rr['opCod'] === 'orderDelete') {
-                var orderId = rr['orderId'];
+                orderId = rr['orderId'];
                 htmlContext.deleteOrderFromLeftPart(orderId);
             }
         }
         resultShowReady = true ;
-
+        if (orderId.length > 0) {
+            htmlContext.showHighlight(orderId) ;
+        }
     };
     /**
      * создать копированием текущего
