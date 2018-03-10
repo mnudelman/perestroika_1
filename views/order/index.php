@@ -56,7 +56,8 @@ echo Tabs::widget([
         [
             'label' => $tabItemName['express'],
             'content' => $this->render('expressLogin',
-                ['tabTitle' => 'экспресс регистрация','htmlPrefix' => $htmlPrefix]),
+                ['tabTitle' => 'экспресс регистрация',
+                    'htmlPrefix' => $htmlPrefix,]),
             'headerOptions' => ['style'=> $expressStyle,
                 'name'=>$htmlPrefix . '-' . 'express' . '-header'],
             'options' => ['style'=> $expressStyle,
@@ -66,7 +67,9 @@ echo Tabs::widget([
         [
             'label' => $tabItemName['general'],
             'content' => $this->render('orderGeneral',
-                ['tabTitle' => 'Общие сведения','htmlPrefix' => $htmlPrefix]),
+                ['tabTitle' => 'Общие сведения',
+                    'htmlPrefix' => $htmlPrefix,
+                    'orderGeneral' => $orderGeneral]),
             'options' => ['name'=>$htmlPrefix . '-' . 'general' . '-content'],
             'headerOptions' => ['name'=>$htmlPrefix . '-' . 'general' . '-header'],
             'active' => $hideExpressFlag

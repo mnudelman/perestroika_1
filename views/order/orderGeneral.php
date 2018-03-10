@@ -1,7 +1,10 @@
 <?php
 /**
  * Заказ - generalPart
- * Time: 19:45
+ * @var $htmlPrefix
+ * @var $orderGeneral - основные данные о заказе
+ * ['orderId' => *,'orderName' => *,
+ * 'orderDescription' => *,'perBeg' => *,'perEnd' => *]
  */
 ?>
 <?php
@@ -49,13 +52,20 @@ $res = (new OrderFunc())->getOrderList();
 $listItems = $res['listItems'] ;
 $indexPagesVect = $res['indexPages'] ;
 
-$ln = TaskStore::getParam('currentLanguage');
-$newText = (empty($ln) || $ln == 'ru') ? 'не определён' : 'not defined';
-$orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';
-$orderLabel = $orderText . ' № xxxxxxx (<b>' . $newText . '</b>)';
+//$ln = TaskStore::getParam('currentLanguage');
+//$newText = (empty($ln) || $ln == 'ru') ? 'не определён' : 'not defined';
+//$orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';
+//$orderLabel = $orderText . ' № xxxxxxx (<b>' . $newText . '</b>)';
+$orderId = (isset($orderGeneral['orderId'])) ? $orderGeneral['orderId']:'' ;
+
 $orderModel = new OrderWork();
-$orderModel->per_beg = date('Y-m-d', time());
-$orderModel->per_end = date('Y-m-d', time());
+$orderModel->per_beg = (empty($orderId)) ?
+    date('Y-m-d', time()) : $orderGeneral['perBeg'];
+$orderModel->per_end = (empty($orderId)) ?
+    date('Y-m-d', time()) : $orderGeneral['perEnd'];
+$orderModel->order_name = (empty($orderId)) ? '' :$orderGeneral['orderName'];
+$orderModel->description = (empty($orderId)) ? '' :
+                       $orderGeneral['orderDescription'];
 $ug = new UserGeography();
 $ownGeography = $ug->getOwnGeography();
 $userCountry = $ownGeography['userCountry'];

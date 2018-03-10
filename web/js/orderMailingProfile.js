@@ -48,7 +48,8 @@ $( function() {
         var name = $(this).attr('name') ;
         var arr = name.split('-') ;
         var  contextName = arr[0] ;
-        if ((contextName.toUpperCase()).indexOf('orderEditMailingProfile'.toUpperCase())) {    // отправляем диспетчерезацию в контроллер
+        if ((contextName.toUpperCase()).
+            indexOf('orderEditMailingProfile'.toUpperCase()) >= 0) {    // отправляем диспетчерезацию в контроллер
             var tabName = arr[arr.length - 2];       // закладка имя
             var controller = paramSet.getController(contextName);
             controller.tabSelect(tabName);       ///   orderWorkEdit() ;
