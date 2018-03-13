@@ -19,6 +19,8 @@ class CollapsibleListWidget extends Widget {
     public $btTooltipName = '' ;  // ссылка на tooltops  раздел
     public $buttons = [] ;       // можно включать несколько кнопок(а не олько редактирование)
                                  // btItem = ['btTitle' => '','pictureClass'=>'','onclick'=> '']
+    public $currentItemId = false ;   // текущий ItemId
+    public $currentItemClass = false ; // class для выделения текущего item
     private $_defaultListItemFormat = [
         'id' => 'id',
         'name' => 'name',
@@ -75,6 +77,9 @@ class CollapsibleListWidget extends Widget {
     private function tplInclude() {
         foreach ($this->listItems as $ind => $item) {
             $id = $item['id'] ;
+            $currentItemFlag = ($this->currentItemId == $id) ;
+            $currentItemClass = $this->currentItemClass ;
+
             $itemName = $item['name'] ;
             $editFlag = $item['editFlag'] ;          // можно редактировать
             $fullyFlag = $item['fullyFlag'];        // флаг - все возможные sumItems включены

@@ -20,11 +20,16 @@ $(function () {
         if ((contextName.toUpperCase()).indexOf('orderEdit'.toUpperCase()) >= 0)
         {    // отправляем диспетчерезацию в контроллер
             var tabName = arr[1];       // закладка имя
-            var tabNames = ['works', 'additional', 'mailing']; // список диспетчерезуемых разделов
-            if (tabNames.indexOf(tabName) >= 0) {
-                // var contextName = 'orderEdit';
-                var controller = paramSet.getController(contextName);
-                controller.tabInit(tabName);       ///   orderWorkEdit() ;
+            if (tabName === 'general') {
+               paginationClick(contextName + '-0') ;
+            }else{
+                var tabNames = ['works', 'additional', 'mailing']; // список диспетчерезуемых разделов
+                if (tabNames.indexOf(tabName) >= 0) {
+                    // var contextName = 'orderEdit';
+                    var controller = paramSet.getController(contextName);
+                    controller.tabInit(tabName);       ///   orderWorkEdit() ;
+                }
+
             }
         }
     });
@@ -487,6 +492,9 @@ function OrderDataEdit() {
 
 
         switch (tabName) {
+            // case 'general' :
+                // paginationClick('orderEdit-0') ;
+                // break ;
             case 'works' :        // работы
                 _this.orderWorkEdit();
                 break;
@@ -563,7 +571,7 @@ function OrderDataEdit() {
         if (success) {
             var orderList = rr['orderList'];
 //            htmlContext.newLeftPart(orderList) ;
-            paginationClick('orderEdit-1');
+            paginationClick(htmlPrefix + '-1');
             htmlContext.hideFilter();
         }
 

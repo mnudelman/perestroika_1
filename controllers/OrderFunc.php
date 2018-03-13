@@ -6,6 +6,7 @@
 //namespace app\controllers;
 namespace app\controllers ;
 use app\components\UserGeography;
+use app\views\viewParts\OrderViewPrepareGeneral;
 use yii\widgets\ActiveForm;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
@@ -114,6 +115,8 @@ class OrderFunc
             $listItems[] = $this->orderItemShowPrepare($orderItem) ;
 
         }
+        $listItems = (new OrderViewPrepareGeneral())->getItemsForShow($listItems) ;
+
         return [
             'listItems' => $listItems,
             'indexPages' => $indexPages
@@ -150,7 +153,16 @@ class OrderFunc
             $listItems[] = $this->orderItemShowPrepare($orderItem) ;
 
         }
+
+        $resListItems = (new OrderViewPrepareGeneral())->getItemsForShow($listItems) ;
+
+        $listItems = $resListItems['setItems'] ;
+        $buttons = $resListItems['buttons'] ;
+
+
+
         return [
+            'buttons' => $buttons,
             'listItems' => $listItems,
             'indexPages' => $indexPages
         ] ;

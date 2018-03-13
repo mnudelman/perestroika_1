@@ -14,12 +14,19 @@
  * @var $btTooltipName -  ссылка на tooltips раздел
  * @var $subItems - выпадающий список
  * @var $buttons -  набор кнопок
+ * @var $currentItemFlag - текущий элемент
+ * @var $currentItemClass - класс для выделения текущего элемента
  */
  $width = 100 - sizeof($buttons) * 8  - 1;
 ?>
 <div class="row">
     <!--Голова списка-->
-    <a class="btn btn-default" role="button" data-toggle="collapse"
+    <?php
+    $highLightClass = ($currentItemFlag && !empty($currentItemClass)) ?
+        $currentItemClass : '' ;
+    ?>
+
+    <a class="btn btn-default <?=$highLightClass?>" role="button" data-toggle="collapse"
        style="width:<?=$width?>%;white-space:normal"
        id="<?= $htmlId ?>"
        aria-expanded="false" href="#<?= $htmlSubItemId ?>" aria-expanded="true"
@@ -29,10 +36,6 @@
 
 
     <?php
-    //'btTitle' => $this->btTitle,
-    // 'pictureClass'=> $this->pictureClass,
-    // 'onclick'=> $this->onClick,
-//    for ($i = 0; $i < sizeof($buttons); $i++) {
     foreach ($buttons as $key=>$btItem) {
         if ($key === 'null') {
             continue ;

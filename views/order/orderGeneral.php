@@ -49,8 +49,12 @@ $partsTitleEdit = $partsTitle['edit'];
 
 $res = (new OrderFunc())->getOrderList();
 
-$listItems = $res['listItems'] ;
+$resListItems = $res['listItems'] ;
 $indexPagesVect = $res['indexPages'] ;
+$listItems = $resListItems['setItems'] ;
+$buttons = $resListItems['buttons'] ;
+
+
 
 //$ln = TaskStore::getParam('currentLanguage');
 //$newText = (empty($ln) || $ln == 'ru') ? 'не определён' : 'not defined';
@@ -103,6 +107,9 @@ $filterForm = new OrderFilterForm();
                         'pictureClass' => [ ],
                         'onClick' => ['edit' => 'orderItemEdit',      // реакция на кнопку "редактировать"
                         ],
+                        'buttons' => $buttons,
+                        'currentItemId' => $orderId,
+                        'currentItemClass' => 'setItemHighlight',
                         'htmlPrefix' => $htmlPrefix,     // префикс id для обеспечения уникальнгости
                         'btTitle' => $toolTipItemEdit,      // поясняющая подпись для кнопки редактирования
                         'listItems' => $listItems,]);
@@ -175,8 +182,8 @@ $filterForm = new OrderFilterForm();
                     ]);
                     ?>
                     <!---->
-                    <?= $form->field($orderModel, 'order_name')->textInput() ?>
-                    <?= $form->field($orderModel, 'description')->textarea() ?>
+                    <?= $form->field($orderModel, 'order_name')->textInput(['id'=>$htmlPrefix . '-orderName']) ?>
+                    <?= $form->field($orderModel, 'description')->textarea(['id'=>$htmlPrefix . '-description']) ?>
                     <?= $form->field($orderModel, 'per_beg')->widget(DatePicker::classname(), [
                         'language' => 'en',
                         'dateFormat' => 'yyyy-MM-dd',
@@ -188,7 +195,7 @@ $filterForm = new OrderFilterForm();
                         ],
                         'options' => [
                             'class' => 'picker-per-beg',
-
+                            'id' => $htmlPrefix . '-perBeg',
 
                         ],
                         // inline too, not bad
@@ -199,7 +206,8 @@ $filterForm = new OrderFilterForm();
                             'language' => 'ru',
                             'dateFormat' => 'yyyy-MM-dd',
                             'options' => [
-                                'class' => 'picker-per-end'
+                                'class' => 'picker-per-end',
+                                'id' => $htmlPrefix . '-perEnd',
                             ],
                             'clientOptions' => [
                                 'changeYear' => true,

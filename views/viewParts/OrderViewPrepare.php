@@ -282,6 +282,15 @@ class OrderViewPrepare
             'onClick' => 'orderLockClick',
             'disabled' => true
         ],
+        'orderEdit' => [
+            'btTitle' =>
+                'Редактировать заказ',
+            'btClass' => 'btn btn-primary',
+            'pictureClass' => 'glyphicon glyphicon-edit',
+            'onClick' => 'orderItemEdit',
+            'disabled' => false
+        ],
+
 
     ];
 
