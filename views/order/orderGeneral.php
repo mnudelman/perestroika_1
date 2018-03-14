@@ -14,17 +14,11 @@ use app\components\UserGeography;
 use yii\widgets\ActiveForm;
 use app\components\GeographySimpleWidget;
 use app\models\OrderWork;
-//use app\models\OrderAdditional;
-//use app\models\OrderMailing;
 use app\service\PageItems;
 use yii\jui\DatePicker;
-use app\service\TaskStore;
 use app\controllers\OrderFunc;
 use app\models\OrderFilterForm;
-//use app\models\Pagination ;
-//use app\components\PaginationWidget ;
-//use app\components\RuleTextWidget ;
-//use dosamigos\datepicker\DatePicker ;
+use app\models\Pagination ;
 ?>
 
 <?php
@@ -47,19 +41,14 @@ $partsTitleCurrent = $partsTitle['current'];
 $partsTitleEdit = $partsTitle['edit'];
 //-----------------------------------------------
 
-$res = (new OrderFunc())->getOrderList();
+//$res = (new OrderFunc())->getOrderList();
 
-$resListItems = $res['listItems'] ;
+$res = (new OrderFunc())->getOrderPage(Pagination::PAGE_NUM,-1);
+
+$listItems = $res['listItems'] ;
 $indexPagesVect = $res['indexPages'] ;
-$listItems = $resListItems['setItems'] ;
-$buttons = $resListItems['buttons'] ;
+$buttons = $res['buttons'] ;
 
-
-
-//$ln = TaskStore::getParam('currentLanguage');
-//$newText = (empty($ln) || $ln == 'ru') ? 'не определён' : 'not defined';
-//$orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';
-//$orderLabel = $orderText . ' № xxxxxxx (<b>' . $newText . '</b>)';
 $orderId = (isset($orderGeneral['orderId'])) ? $orderGeneral['orderId']:'' ;
 
 $orderModel = new OrderWork();

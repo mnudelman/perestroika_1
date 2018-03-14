@@ -23,7 +23,7 @@ class Pagination  {
     //--------------------------------------------//
     public function __construct($pagName,$clearFlag = false) {
         $this->paginationName = $pagName ;
-        if($clearFlag || $this->getFromTaskStore() === null) {  // нет вектора -> создать вектор
+        if($clearFlag || false === $this->getFromTaskStore()) {  // нет вектора -> создать вектор
             $this->saveToTaskStore() ;
         }
 
@@ -67,7 +67,7 @@ class Pagination  {
         $vectName = $this->getVectName() ;
         $vect = TaskStore::getParam($vectName) ;
         if (is_null($vect)) {
-            return null ;
+            return false ;
         }
             $this->totalRows = $vect['totalRows'] ;
             $this->rowsPerPage = $vect['perPage'] ;
@@ -108,7 +108,7 @@ class Pagination  {
         $this->indexPages = $indexPages ;
     }
     public function getLimitOffset($pageType,$pageNum) {
-        $this->getFromTaskStore() ;
+        $currentFlag = $this->getFromTaskStore() ;
         switch ($pageType) {
             case (self::PAGE_FIRST) :
                 $this->currentPage = 1 ;
@@ -117,6 +117,9 @@ class Pagination  {
                 $this->currentPage-- ;
                 break ;
             case (self::PAGE_NUM) :
+                if ($pageNum < 0 && $currentFlag) {
+                    $pageNum = $this->currentPage ;
+                }
                 $this->currentPage = $pageNum ;
                 break ;
 

@@ -115,9 +115,13 @@ class OrderFunc
             $listItems[] = $this->orderItemShowPrepare($orderItem) ;
 
         }
-        $listItems = (new OrderViewPrepareGeneral())->getItemsForShow($listItems) ;
+        $resListItems = (new OrderViewPrepareGeneral())
+                        ->getItemsForShow($listItems) ;
 
+        $listItems = $resListItems['setItems'] ;
+        $buttons = $resListItems['buttons'] ;
         return [
+            'buttons' => $buttons,
             'listItems' => $listItems,
             'indexPages' => $indexPages
         ] ;

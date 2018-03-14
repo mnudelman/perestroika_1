@@ -117,7 +117,7 @@ class OrderController extends BaseController {
         $orderId = ($order['isNew']) ? null : $order['orderId'] ;
         $orderAttributes = [
             'order_name' => $orderGeneral['orderName'],
-            'description' => $orderGeneral['orderDescription'],
+            'description' => $orderGeneral['description'],
             'city_id' => $orderGeneral['cityId'],
             'per_beg' => $orderGeneral['perBeg'],
             'per_end' => $orderGeneral['perEnd'],

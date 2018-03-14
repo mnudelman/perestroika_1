@@ -636,7 +636,7 @@ function OrderDataEditHtml() {
         htmlPrefix = contextName;
         general = {
             orderName: orderFormName + '-' + 'order_name',
-            orderDescription: orderFormName + '-' + 'description',
+            description: orderFormName + '-' + 'description',
             perBeg: orderFormName + '-' + 'per_beg',
             perEnd: orderFormName + '-' + 'per_end',
             cityId: htmlPrefix + '-' + 'city-ul'
@@ -657,14 +657,16 @@ function OrderDataEditHtml() {
 // -----------------------------------
         var result = {};
         for (var key in general) {
-            var node = general[key];
+            var nodeName = key ; //    general[key];
             if (key === 'cityId') {
-                var nodeName = $('#' + node).attr('name');
-                var arr = nodeName.split('-');
+                nodeName = general[key];
+                var name = $('#' +  nodeName).attr('name');
+                var arr = name.split('-');
                 var cityId = arr[arr.length - 1];
                 result[key] = cityId;
             } else {
-                var value = $('#' + node).val();
+
+                var value = $('#' + htmlPrefix + '-' + nodeName).val();
                 result[key] = value;
             }
 
@@ -679,7 +681,7 @@ function OrderDataEditHtml() {
      */
     this.showGeneral = function (generalData) {
         for (var key in generalData) {
-            var node = general[key];
+            var nodeName = key ;        //general[key];
             if (key === 'orderPlace') {
                 var countryReady = new processExecute();
                 var regionReady = new processExecute();
@@ -714,7 +716,11 @@ function OrderDataEditHtml() {
                 }, 300);
             } else {
                 var value = generalData[key];
-                $('#' + node).val(value);
+                var node = $('#' + htmlPrefix + '-' + nodeName) ;
+                if (node.length > 0) {
+                    $('#' + htmlPrefix + '-' + nodeName).val(value);
+                }
+
             }
         }
     };
