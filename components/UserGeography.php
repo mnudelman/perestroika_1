@@ -15,7 +15,7 @@ use app\models\City ;
 class UserGeography
 {
     private $_baseModelName = 'app\models\UserProfile' ;
-    private $_cityId = null ;
+    private $_cityId = false ;
     private $_userCountry = [];
     private $_userRegion = [];
     private $_userCity = [];
@@ -23,7 +23,7 @@ class UserGeography
 //==================================================//
     public function getOwnGeography()
     {
-        if(sizeof($this->_userCountry) == 0 || !is_null($this->_cityId) ) {
+        if(sizeof($this->_userCountry) == 0 || !empty($this->_cityId) ) {
             $this->prepareOwnGeography() ;
         }
         return [

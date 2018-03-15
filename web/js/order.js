@@ -683,37 +683,16 @@ function OrderDataEditHtml() {
         for (var key in generalData) {
             var nodeName = key ;        //general[key];
             if (key === 'orderPlace') {
-                var countryReady = new processExecute();
-                var regionReady = new processExecute();
-                var cityReady = new processExecute();
-                //for (var key in workRegionList) {
-                var iStep = 0;
-                var placeComponents = ['country', 'region', 'city'];
-                var componentsReady = {
-                    country: countryReady,
-                    region: regionReady,
-                    city: cityReady
-                };
-                iStep = 0;
+
                 var orderPlace = generalData['orderPlace'];
-                var tmpTimer = setInterval(function () {
-                    var stepName = placeComponents[iStep];
-                    var readyObj = componentsReady[stepName];
-                    var startFlag = readyObj.getStarted();
-                    if (!startFlag) {
-                        readyObj.setStarted();
-                        var userStep = 'user' + (stepName[0]).toUpperCase() + stepName.substr(1);
-                        var elem = orderPlace[userStep];
-                        var elName = htmlPrefix + '-' + stepName + '-' + elem['id'];
-                        simpleGeographyOnClick(elName, '', readyObj);
-                    }
-                    if (readyObj.getReady()) {
-                        iStep++;
-                        if (iStep >= placeComponents.length) {
-                            clearInterval(tmpTimer);
-                        }
-                    }
-                }, 300);
+                var place = {
+                    country : orderPlace['userCountry']['id'],
+                    region : orderPlace['userRegion']['id'],
+                    city: orderPlace['userCity']['id']
+                } ;
+
+                geographyPlaceShow(htmlPrefix,place) ;
+
             } else {
                 var value = generalData[key];
                 var node = $('#' + htmlPrefix + '-' + nodeName) ;

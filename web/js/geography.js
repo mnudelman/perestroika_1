@@ -44,6 +44,66 @@ function simpleGeographyOnClick(elName) {
 }
 
 /**
+ * асихронный вывод компонентов географии
+ * @param htmlPrefix
+ * @param place = {country: id, region:id, city:id}
+ */
+function geographyPlaceShow(htmlPrefix,place) {
+    var components = ['country', 'region', 'city'];
+
+    var controllerName = 'simpleGeographyController' ;
+    var cnt = paramSet.getObj(controllerName) ;
+    if (cnt === null) {
+        cnt = new SimpleGeography() ;
+        paramSet.putObj(controllerName,cnt) ;
+    }
+
+    var iStep = -1 ;
+    for (var i = 0; i < components.length; i++) {
+        var componentName = components[i] ;
+        var componentId = place[componentName] ;
+        if (componentId === undefined || componentId === null ||
+            (typeof(componentId) === 'string' && componentId.length === 0 ) ) {
+            continue ;
+        }
+        iStep = i ;
+        break ;
+
+    }
+    if (iStep === -1) {
+        return ;
+    }
+    var iStepMax = components.length - 1 ;
+    cnt.setReadyFlag(false) ;
+    componentName = components[iStep] ;
+    componentId = place[componentName] ;
+    var btName = htmlPrefix + '-' + componentName +'-' + componentId ;
+    cnt.simpleGeographyOnClick(btName) ;
+    var tmpTimer = setInterval(function () {
+        if (cnt.getReadyFlag()) {
+            if (iStep < iStepMax) {
+                iStep ++ ;
+                cnt.setReadyFlag(false) ;
+                componentName = components[iStep] ;
+                componentId = place[componentName] ;
+                btName = htmlPrefix + '-' + componentName +'-' + componentId ;
+                cnt.simpleGeographyOnClick(btName) ;
+            }else {
+                clearInterval(tmpTimer) ;
+            }
+        }
+    }, 50);
+
+
+
+
+
+
+
+}
+
+
+/**
  * переключатель имни региона в области новый
  * @param par = {setBtName: , setItemBtName}
  */
@@ -124,12 +184,7 @@ function SimpleGeography() {
         for (var i = 1; i < ln - 2; i++) {
             htmlPrefix += nameSeparatorar +arr[i] ;
         }
-
-        // if (geographyItems[currentHtmlPrefix] === undefined) {
-        //     geographyItems[currentHtmlPrefix] = newGeographyItem() ;
-        // }
         currentType = selectedTyp ;
-        // geographyItems[currentHtmlPrefix][selectedTyp]['id'] = selectedId ;
 // текущий id хранится в атрибуте name
         var ul = $('#' + htmlPrefix + '-' + selectedTyp + '-ul') ;      // связанный список
         var ulName = ul.attr('name') ;
@@ -174,12 +229,17 @@ function SimpleGeography() {
         }
         var referSelected = referTypes[currentType] ;  // ссылка на младшие компоненты
 //  перестроить связанные компоненты адреса
-        for (var i = 0; i < referSelected.length; i++) {
-            var referType = referSelected[i] ;
-            var referList =  rr[referType + 'List'] ;
-            var referId = rr[referType + '_id'] ;
-            geographyNodesBuild(referType,referId,referList) ;
+        if (referSelected.length === 0) {
+
+        }else {
+            for (var i = 0; i < referSelected.length; i++) {
+                referType = referSelected[i] ;
+                referList =  rr[referType + 'List'] ;
+                referId = rr[referType + '_id'] ;
+                geographyNodesBuild(referType,referId,referList) ;
+            }
         }
+
         readyFlag = true ;
     } ;
     /**

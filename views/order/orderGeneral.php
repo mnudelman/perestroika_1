@@ -51,6 +51,8 @@ $buttons = $res['buttons'] ;
 
 $orderId = (isset($orderGeneral['orderId'])) ? $orderGeneral['orderId']:'' ;
 
+$cityId = (isset($orderGeneral['cityId'])) ? $orderGeneral['cityId']:'' ;
+
 $orderModel = new OrderWork();
 $orderModel->per_beg = (empty($orderId)) ?
     date('Y-m-d', time()) : $orderGeneral['perBeg'];
@@ -60,6 +62,7 @@ $orderModel->order_name = (empty($orderId)) ? '' :$orderGeneral['orderName'];
 $orderModel->description = (empty($orderId)) ? '' :
                        $orderGeneral['orderDescription'];
 $ug = new UserGeography();
+$ug->setCityId($cityId) ;
 $ownGeography = $ug->getOwnGeography();
 $userCountry = $ownGeography['userCountry'];
 $userRegion = $ownGeography['userRegion'];
