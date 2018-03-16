@@ -62,7 +62,7 @@ function geographyPlaceShow(htmlPrefix,place) {
     for (var i = 0; i < components.length; i++) {
         var componentName = components[i] ;
         var componentId = place[componentName] ;
-        if (componentId === undefined || componentId === null ||
+        if (componentId === undefined || componentId === null || componentId === false ||
             (typeof(componentId) === 'string' && componentId.length === 0 ) ) {
             continue ;
         }
@@ -106,6 +106,7 @@ function geographyPlaceShow(htmlPrefix,place) {
 /**
  * переключатель имни региона в области новый
  * @param par = {setBtName: , setItemBtName}
+ * перевести выполнение на geographyPlaceShow
  */
 function geographySetItemToggle(par) {
     var btSetName = par['newSetBtName'] ;
@@ -119,7 +120,7 @@ function geographySetItemToggle(par) {
     if (btSetName !== null) {
         cnt.setReadyFlag(false) ;
         cnt.simpleGeographyOnClick(btSetName) ;
-    }else {
+    }else  {
         cnt.setReadyFlag(true) ;
     }
     var tmpTimer = setTimeout(function () {

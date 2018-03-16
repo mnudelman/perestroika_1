@@ -111,6 +111,35 @@ class OrderWork extends ActiveRecord{
         $rows = $query->limit($limit)->offset($offset)->all();
         return $rows ;
     }
+    public function getSqlList($limit=-1,$offset=-1) {
+        $sqlMaiLingStat = '
+        SELECT order_id,MAX(stat) AS mailingStat
+        FROM order_mailing
+        GROUP BY order_id
+        ' ;
+        $res1 = Yii::$app->db->createCommand($sqlMaiLingStat)
+            ->queryAll() ;
+
+        $filter = $this->_filter ;
+        $perBeg = $filter['perBeg'] ;
+        $perEnd = $filter['perEnd'] ;
+
+        $userId = $this->getUser() ;
+        $sql = '
+        SELECT oW.*,orderMailing.mailingStat 
+        FROM order_work oW 
+        LEFT JOIN (' . $sqlMaiLingStat .') orderMailing ON orderMailing.order_id = oW.id
+        WHERE oW.userid = :userId AND oW.per_beg >= :perBeg
+              AND oW.per_end <= :perEnd 
+               
+        ' ;
+        $res = Yii::$app->db->createCommand($sql)
+            ->bindValue(':userId',$userId)
+            ->bindValue(':perBeg',$perBeg)
+            ->bindValue(':perEnd',$perEnd)
+            ->queryAll() ;
+        return $res ;
+    }
     public function getCount() {
         $query = $this->queryBuild() ;
         return $query->count() ;

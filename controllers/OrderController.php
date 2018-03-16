@@ -41,7 +41,7 @@ class OrderController extends BaseController {
         TaskStore::putParam('currentOrder',$this->currentOrder) ;
         $orderGeneral = [] ;
         $orderGeneral['orderName'] = '' ;
-        $orderGeneral['orderDescription'] = '' ;
+        $orderGeneral['description'] = '' ;
         $orderGeneral['perBeg'] = date('Y-m-d',time()) ;
         $orderGeneral['perEnd'] = date('Y-m-d',time()) ;
 
@@ -191,7 +191,7 @@ class OrderController extends BaseController {
         TaskStore::putParam('currentOrder',$this->currentOrder) ;
         $orderGeneral = [] ;
         $orderGeneral['orderName'] = '' ;
-        $orderGeneral['orderDescription'] = '' ;
+        $orderGeneral['description'] = '' ;
         $orderGeneral['perBeg'] = date('Y-m-d',time()) ;
         $orderGeneral['perEnd'] = date('Y-m-d',time()) ;
         $message = ['delete' => 'oK!'] ;
@@ -254,7 +254,7 @@ class OrderController extends BaseController {
             $orderGeneral = [
                 'orderId' => $order['id'],
                 'orderName'=>$order['order_name'],
-                'orderDescription' => $order['description'],
+                'description' => $order['description'],
                 'cityId' => $order['city_id'],
                 'perBeg' => $order['per_beg'],
                 'perEnd' => $order['per_end'],

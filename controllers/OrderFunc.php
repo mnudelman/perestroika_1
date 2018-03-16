@@ -6,7 +6,7 @@
 //namespace app\controllers;
 namespace app\controllers ;
 use app\components\UserGeography;
-use app\views\viewParts\OrderViewPrepareGeneral;
+//use app\views\viewParts\OrderViewPrepareGeneral;
 use yii\widgets\ActiveForm;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
@@ -26,6 +26,7 @@ class OrderFunc
     private $mailingModel = null ;
     private $ugModel = null ;
     private $orderFilterModel = null ;
+    private $viewPrepareFunction = null ; // подготовка списка для отображения
     private $infoFields = null ;   // имена полей
     private $pagination = null ;
     private $paginationName = 'order' ;
@@ -36,13 +37,15 @@ class OrderFunc
             'object' => 'app\models\OrderWork',
             'filter' => 'app\models\OrderFilterForm',
             'paginationName' => 'order',
-            'getListAction' => 'getList',
+            'getListAction' => 'getSqlList',    //'getList',
+            'viewPrepareFunction' => 'app\views\viewParts\OrderViewPrepareGeneral',
         ],
         'mailing' => [
             'object' => 'app\models\OrderMailing',
             'filter' => 'app\models\DeveloperOrdersFilterForm',
             'paginationName' => 'developerOrders',
             'getListAction' => 'getListByUser',
+            'viewPrepareFunction' => 'app\views\viewParts\OrderViewPrepareByOrder',
         ],
 
     ] ;
@@ -64,6 +67,7 @@ class OrderFunc
         if ($this->orderModel === null) {
             $xOrderClass = $this->models[$this->sourceType]['object'] ;
             $xOrderFilter = $this->models[$this->sourceType]['filter'] ;
+            $xViewPrepareFunction = $this->models[$this->sourceType]['viewPrepareFunction'] ;
 
 //            $this->orderModel = new OrderWork() ;
             $this->orderModel = new $xOrderClass() ;
@@ -72,6 +76,7 @@ class OrderFunc
             $this->ugModel = new UserGeography() ;
 //            $this->orderFilterModel = new OrderFilterForm() ;
             $this->orderFilterModel = new $xOrderFilter() ;
+            $this->viewPrepareFunction = new $xViewPrepareFunction() ;
             $this->infoFields = PageItems::getItemText([$this->pageItemFile, 'infoFields']);
             $this->pagination = new Pagination($this->paginationName,$paginationClear) ;
         }
@@ -115,8 +120,10 @@ class OrderFunc
             $listItems[] = $this->orderItemShowPrepare($orderItem) ;
 
         }
-        $resListItems = (new OrderViewPrepareGeneral())
-                        ->getItemsForShow($listItems) ;
+//        $resListItems = (new OrderViewPrepareGeneral())
+//                        ->getItemsForShow($listItems) ;
+        $prepareFunction = $this->viewPrepareFunction ;
+        $resListItems = $prepareFunction->getItemsForShow($listItems) ;
 
         $listItems = $resListItems['setItems'] ;
         $buttons = $resListItems['buttons'] ;
@@ -158,7 +165,11 @@ class OrderFunc
 
         }
 
-        $resListItems = (new OrderViewPrepareGeneral())->getItemsForShow($listItems) ;
+//        $resListItems = (new OrderViewPrepareGeneral())->getItemsForShow($listItems) ;
+
+        $prepareFunction = $this->viewPrepareFunction ;
+        $resListItems = $prepareFunction->getItemsForShow($listItems) ;
+
 
         $listItems = $resListItems['setItems'] ;
         $buttons = $resListItems['buttons'] ;
@@ -196,6 +207,10 @@ class OrderFunc
         $deadlineSelect = $orderItem['deadline_select'];
     // поле mailing.stat - существует при  $this->sourceType === 'mailing' ;
         $mailingStat = (isset($orderItem['mailing']['stat'])) ? $orderItem['mailing']['stat'] : '' ;
+        if (empty($mailingStat) && isset($orderItem['mailingStat'])) {
+            $mailingStat = $orderItem['mailingStat'] ;
+        }
+        $mailingStat = (is_null($mailingStat)) ? '' : $mailingStat ;
 
         $cityId = $orderItem['city_id'] ;
         $ug->setCityId($cityId) ;

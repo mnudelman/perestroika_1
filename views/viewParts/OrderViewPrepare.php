@@ -294,7 +294,7 @@ class OrderViewPrepare
 
     ];
 
-    protected $btnCurrent = [];
+    protected $btnCurrent = []; // текущий набор кнопок
 //    private $rankPicture = [
 //        0 => 'fa fa-battery-empty fa-lg',
 //        25 => 'fa fa-battery-quarter fa-lg',

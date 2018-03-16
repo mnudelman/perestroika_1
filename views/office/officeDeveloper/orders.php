@@ -48,10 +48,11 @@ $res = (new OrderFunc('mailing'))->getOrderList();
 
 $listItems = $res['listItems'];
 $indexPagesVect = $res['indexPages'];
-$resItems = (new OrderViewPrepareByOrder())->getItemsForShow($listItems);
+$buttons = $res['buttons'];
+//$resItems = (new OrderViewPrepareByOrder())->getItemsForShow($listItems);
 
-$listItems = $resItems['setItems'];
-$buttons = $resItems['buttons'];
+//$listItems = $resItems['setItems'];
+//$buttons = $resItems['buttons'];
 //$indexPagesVect = (new Pagination('order'))->getIndexPages() ;
 $indexPagesList = $indexPagesVect['indexPages'];
 $currentPage = $indexPagesVect['currentPage'];
