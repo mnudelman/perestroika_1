@@ -379,7 +379,9 @@ class OrderFunc
         $byShow =  ($lang === 'en') ? 'by' : 'от' ;
         $orderId = $order['id'] ;
         $timeCreate = $order['time_create'] ;
+        $name = $order['order_name'] ;
+        $name = substr($name,0,60) ;
         return( (empty($orderId)) ? '' :
-            $orderShow . ' N ' . $orderId .' ' . $byShow .' ' . $timeCreate );
+            $orderShow . ' N ' . $orderId .' ' . $byShow .' ' . $timeCreate . ' - ' . $name );
     }
 }

@@ -106,6 +106,9 @@ textarea {
     font-weight: bold;
     font-size: larger;
 }
-.setItemHighlight:hover {
-    /*font-size: large;*/
+.orderLabel {
+    font-weight: 500;
+    font-size: larger;
+    color:#00a300;
+    background-color:#d3d3d3 ;
 }

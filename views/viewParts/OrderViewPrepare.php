@@ -8,6 +8,7 @@
 namespace app\views\viewParts;
 
 use app\models\OrderMailing;
+use app\service\TaskStore ;
 
 class OrderViewPrepare
 {
@@ -15,6 +16,7 @@ class OrderViewPrepare
     const ROLE_CUSTOMER = 'customer' ;        // зказчик
     const ROLE_DEVELOPER = 'developer' ;     // исполнитель
     protected $currentRole ;
+    private $lang = 'ru' ;     // текущий язык
     // кнопка переключения состояний
     const BT_CLASS = 'icon-stat';   // css класс для выравнивания по ширине
 
@@ -23,24 +25,28 @@ class OrderViewPrepare
             'stat' => [OrderMailing::STAT_NO_SENT], // не отправлено предложение
             'pictureClass' => 'fa fa-frown-o ', //'fa fa-envelope-o',
             'btClass' => 'btn btn-primary',
-            'btTitle' => 'Состояние заказа.Предложение не сделано',
+            'btTitle' => ['ru' => 'Состояние заказа.Предложение  на выполнение не сделано',
+                'en' => 'Order status.The proposal for execution is not made',]
         ],
         'sentReady' => [    // 5
             'stat' => [OrderMailing::STAT_SENT_READY], // не отправлено предложение
             'pictureClass' => 'fa fa-send-o ', //'fa fa-envelope-o',
             'btClass' => 'btn btn-default',
-            'btTitle' => 'Состояние заказа. Предложение сделано, но не отправлено',
+            'btTitle' => ['ru' => 'Состояние заказа. Предложение исполнителю сделано, но не отправлено',
+                'en' => 'Order status. Offer to the contractor made, but not sent']
         ],
 
         'sent' => [          // 10
             'stat' => [OrderMailing::STAT_SENT],    // отправлено предложение
             'pictureClass' => 'fa fa-send-o',
             'btClass' => 'btn btn-primary',
-            'btTitle' => 'Состояние заказа. Предложение отправлено',
+            'btTitle' => ['ru' => 'Состояние заказа. Предложение отправлено',
+                'en' => 'Order status. Offer sent'],
             'roles' => [
                 self::ROLE_DEVELOPER => [
                     'btClass' => 'btn btn-default',
-                    'btTitle' => 'Состояние заказа.Пришло предложение побороться за заказ',
+                    'btTitle' => ['ru' => 'Состояние заказа.Пришло предложение побороться за заказ',
+                         'en' => 'Order status.The offer to compete for the order has come']
                 ]
             ],
         ],
@@ -49,7 +55,8 @@ class OrderViewPrepare
                 OrderMailing::STAT_ANSWERED_READY], // согласие на исполнение
             'pictureClass' => 'fa fa-send-o', //'fa fa-check-square-o',
             'btClass' => 'btn btn-primary',
-            'btTitle' => 'Состояние заказа. Подготовил согласие, но не отправил',
+            'btTitle' => ['ru' => 'Состояние заказа. Подготовил согласие, но не отправил',
+                'en' => 'Order status. Prepared the consensus, but not sent'],
             'roles' => [
                 self::ROLE_CUSTOMER => [
                     'synonym' => 'sent',
@@ -62,10 +69,12 @@ class OrderViewPrepare
                 OrderMailing::STAT_ANSWERED], // согласие на исполнение
             'pictureClass' => 'fa fa-send-o', //'fa fa-check-square-o',
             'btClass' => 'btn btn-success',
-            'btTitle' => 'Состояние заказа. отправил согласие заказчику',
+            'btTitle' => ['ru' => 'Состояние заказа. отправил согласие заказчику',
+               'en' => 'Order status. sent consent to the customer' ],
             'roles' => [
                 self::ROLE_CUSTOMER => [
-                    'btTitle' => 'Состояние заказа.Получено согласие исполнителя участвовить в отборе',
+                    'btTitle' => ['ru' => 'Состояние заказа.Получено согласие исполнителя участвовать в отборе на исполнение',
+                       'en' => 'Order status.The consent of the contractor to participate in the selection for execution' ],
                 ],
             ],
         ],
@@ -73,7 +82,8 @@ class OrderViewPrepare
             'stat' => [OrderMailing::STAT_SELECTED_READY],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-default',
-            'btTitle' => 'Выбран исполнителем. Предложение не отправлено',
+            'btTitle' => ['ru' => 'Выбран исполнителем. Предложение не отправлено',
+                'en' => 'Selected by the performer. The offer is not sent'],
             'roles' => [
                 self::ROLE_DEVELOPER => [
                     'synonym' => 'answered',
@@ -86,11 +96,13 @@ class OrderViewPrepare
             'stat' => [OrderMailing::STAT_SELECTED],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-primary',
-            'btTitle' => 'Выбран исполнителем. Предложение отправлено',
+            'btTitle' => ['ru' => 'Выбран исполнителем. Предложение отправлено',
+                'en' => 'Selected by the performer. Offer sent'],
             'roles' => [
                 self::ROLE_DEVELOPER => [
                     'btClass' => 'btn btn-default',
-                    'btTitle' => 'Состояние заказа.Получено предложения на ВЫПОЛНЕНИЕ ЗАЗКАЗА',
+                    'btTitle' => ['ru' => 'Состояние заказа.Получено предложения на ВЫПОЛНЕНИЕ ЗАКАЗА',
+                        'en' => 'Order status.Proposals received on execution of the ORDER']
                 ],
             ],
         ],
@@ -98,7 +110,8 @@ class OrderViewPrepare
             'stat' => [OrderMailing::STAT_SELECTED_ANSWERED_READY],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-primary',
-            'btTitle' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Но не отправил подтверждение',
+            'btTitle' => ['ru' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Но не отправил подтверждение',
+                'en' => 'Order status. Agreed to RUN.But did not send confirmation'],
 
             'roles' => [
                 self::ROLE_CUSTOMER => [
@@ -111,10 +124,12 @@ class OrderViewPrepare
             'stat' => [OrderMailing::STAT_SELECTED_ANSWERED],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-success',
-            'btTitle' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Отправил подтверждение',
+            'btTitle' => ['ru' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Отправил подтверждение',
+                'en' => 'Order status. Agreed to RUN.Sent confirmation'],
             'roles' => [
                 self::ROLE_CUSTOMER => [
-                    'btTitle' => 'Состояние заказа.Получено согласие выбранного ИСПОЛНИТЕЛЯ на выполнение работ по заказу',
+                    'btTitle' => ['ru' => 'Состояние заказа.Получено согласие выбранного ИСПОЛНИТЕЛЯ на выполнение работ по заказу',
+                        'en' => 'Order status.The consent of the selected CONTRACTOR to perform works on the order is received'],
                 ],
             ],
         ]
@@ -154,7 +169,8 @@ class OrderViewPrepare
             ],
             'btn' => [
                 'pictureClass' => 'fa fa-plus',
-                'title' => 'переход к следующему состоянию',
+                'btTitle' => ['ru' => 'переход к следующему состоянию',
+                   'en' => 'move to the next state' ],
                 'onClick' => 'orderStatTogglePlus',
                 'disabled' => false
             ]
@@ -170,7 +186,8 @@ class OrderViewPrepare
             ],
             'btn' => [
                 'pictureClass' => 'fa fa-minus',
-                'title' => 'возврат к предыдущему состоянию',
+                'btTitle' => ['ru' => 'возврат к предыдущему состоянию',
+                   'en' => 'return to the previous state' ],
                 'onClick' => 'orderStatToggleMinus',
                 'disabled' => false
             ]
@@ -180,16 +197,18 @@ class OrderViewPrepare
     protected $orderLock = [
         'orderLockYes' => [
             'lock' => true,
-            'btTitle' =>
-                'Заказ закрыт для изменений',
+            'btTitle' => [
+                'ru' =>'Заказ закрыт для изменений',
+                'en' => 'The order is closed for changes'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-lock',
 
         ],
         'orderLockNo' => [
             'lock' => false,
-            'btTitle' =>
-                'Заказ открыт для изменений',
+            'btTitle' => [
+                'ru' => 'Заказ открыт для изменений',
+                'en' => 'The order is open for changes'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-unlock',
 
@@ -201,23 +220,30 @@ class OrderViewPrepare
     protected $defaultItemFields = [
         'id' => [
             'name' => 'Id', 'value' => 'userId'],
-        'name' => ['name' => 'имя', 'value' => 'profileCompany'],
-        'editFlag' => ['name' => 'возможность редактировать',
+        'name' => ['name' => ['ru'=>'имя','en' => 'name'], 'value' => 'profileCompany'],
+        'editFlag' => ['name' => ['ru' => 'возможность редактировать',
+                       'en' => 'the ability to edit'],
             'value' => 'editFlag', 'default' => true],
-        'fullyFlag' => ['name' => 'полное включение',
+        'fullyFlag' => ['name' => ['ru' => 'полное включение','en' => 'full inclusion'],
             'value' => 'fullyFlag', 'default' => false],
-        'lockFlag' => ['name' => 'Закрыт для редактирования',
+        'lockFlag' => ['name' => ['ru' => 'Закрыт для редактирования',
+            'en' => 'Closed for editing'],
             'value' => 'lockFlag', 'default' => false],
-        'lockTime' => ['name' => 'Момент закрытия для редактирования',
+        'lockTime' => ['name' => ['ru' => 'Момент закрытия для редактирования',
+            'en' => 'The time of closure for edit'],
             'value' => 'lockFlagTime', 'default' => false],
         'deadline_answer' => [
-            'name' => 'deadline ответа на предложение участия в конкурсе',
+            'name' => ['ru' => 'deadline ответа на предложение участия в конкурсе',
+                'en' => 'deadline response to the proposal to participate in the competition'],
             'value' => 'deadlineAnswer', 'default' => false],
-        'deadlineSelect' => ['name' => 'deadline ответа на выбор исполнителем заказа',
+        'deadlineSelect' => ['name' => ['ru' => 'deadline ответа на выбор исполнителем заказа',
+            'en' => 'deadline response to the choice of the contractor'],
             'value' => 'deadlineSelect', 'default' => false],
-        'currentOrderStat' => ['name' => 'тек состояние заказа по исполнителю',
+        'currentOrderStat' => ['name' => ['ru' => 'текущее состояние заказа по исполнителю',
+            'en' => 'current status of the order by contractor'] ,
             'value' => 'currentOrderStat'],
-        'currentOrderLock' => ['name' => 'заказ закрыт для изменений',
+        'currentOrderLock' => ['name' => ['ru' => 'заказ закрыт для изменений',
+            'en' => 'the order is closed for changes'],
             'value' => 'lockFlag', 'default' => false],
 
     ];
@@ -229,62 +255,66 @@ class OrderViewPrepare
     // это список полей в раскрывающийся список для вывода:
     // копания {набор конопок-иконок. обозначающих состояние заказа}
     protected $subItemFields = [
-        'registrationDate' => [
-            'name' => 'регистрация', 'value' => 'userDateFirst'],
-        'description' => ['name' => 'описание', 'value' => 'profileInfo'],
-        'proposals' => ['name' => 'предложений', 'value' => 'sentCount'],
-        'answers' => ['name' => 'подтверждений готовности', 'value' => 'answeredCount'],
-        'selections' => ['name' => 'выбран исполнителем', 'value' => 'selectedCount'],
+        'registrationDate' => ['name' => ['ru' => 'регистрация','en' => 'registration'],
+            'value' => 'userDateFirst'],
+        'description' => ['name' => ['ru' => 'описание', 'en' => 'description'],
+            'value' => 'profileInfo'],
+        'proposals' => ['name' => ['ru' => 'предложений','en' => "proposals'"],
+            'value' => 'sentCount'],
+        'answers' => ['name' => ['ru' => 'подтверждений готовности',
+            'en' => 'confirmation of readiness'],
+            'value' => 'answeredCount'],
+        'selections' => ['name' => ['ru' => 'выбран исполнителем', 'en' => 'selected for execution'],
+            'value' => 'selectedCount'],
     ];
     protected $btnDefault = [
         'profile' => [
-            'btTitle' => 'профиль исполнителя',
+            'btTitle' => ['ru' => 'профиль исполнителя',
+                'en' => 'profile of the contractor'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-caret-right',
             'onClick' => 'orderMailingProfileClick',
         ],
         'workingRank' => [
-            'btTitle' => 'оценка исполняемых работ(%)',
+            'btTitle' => ['ru' => 'оценка исполняемых работ(%)',
+                'en' => 'evaluation of executed works(%)'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-battery-full',
             'onClick' => '',
             'disabled' => true
         ],
         'geographyRank' => [
-            'btTitle' =>
-                'оценка географии работ исполнителя(100% - город есть 50% - только регион)',
+            'btTitle' =>[
+                'ru' => 'оценка географии работ исполнителя(100% - город есть 50% - только регион)',
+                'en' => 'evaluation of the geography of the contractor(100% - the city is 50% - only the region)'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-battery-full',
             'onClick' => '',
             'disabled' => true
         ],
         'orderStat' => [
-            'btTitle' =>
-                'состояние заказа',
+            'btTitle' => ['ru' => 'состояние заказа','en' => 'order status'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-frown-o',
             'onClick' => '',
             'disabled' => true
         ],
         'toggleStat' => [
-            'btTitle' =>
-                'переключение состояния',
+            'btTitle' =>['ru' => 'переключение состояния','en' => 'the switching state of the'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-square-o',
             'onClick' => '',
             'disabled' => true
         ],
         'orderLock' => [
-            'btTitle' =>
-                'Заказ закрыт для изменений',
+            'btTitle' => ['ru' => 'Заказ закрыт для изменений','en' => 'The order is closed for changes'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'fa fa-lock',
             'onClick' => 'orderLockClick',
             'disabled' => true
         ],
         'orderEdit' => [
-            'btTitle' =>
-                'Редактировать заказ',
+            'btTitle' => ['ru' => 'Редактировать заказ','en' => 'To edit the order'],
             'btClass' => 'btn btn-primary',
             'pictureClass' => 'glyphicon glyphicon-edit',
             'onClick' => 'orderItemEdit',
@@ -333,12 +363,20 @@ class OrderViewPrepare
         }
 
     }
+    private function getLang() {
+        $this->lang = TaskStore::getParam('currentLanguage') ;
+        if (empty($this->lang)) {
+            $this->lang = 'ru' ;
+        }
+    }
 
     /**
      * настройка $this->btnCurrent, $this->subItemFields
      */
     protected function setCurrent()
     {
+        $this->getLang() ;
+
         if (empty($this->currentRole)) {
             $this->currentRole = self::ROLE_CUSTOMER;
         }
@@ -346,8 +384,16 @@ class OrderViewPrepare
         $this->btnCurrent = [];
         foreach ($this->btList as $key => $btAttr) {
             $this->btnCurrent[$key] = $this->btnDefault[$key];
+            $title = $this->btnCurrent[$key]['btTitle'] ;
+            if (is_array($title)) {
+                $this->btnCurrent[$key]['btTitle'] = $title[$this->lang] ;
+            }
             foreach ($btAttr as $attrKey => $attrValue) {
-                $this->btnCurrent[$key][$attrKey] = $btAttr[$attrKey];
+                if ($attrKey === 'btTitle') {
+                    $attrValue = $attrValue[$this->lang] ;
+                }
+                $this->btnCurrent[$key][$attrKey] = $attrValue;
+
             }
         }
 
@@ -385,6 +431,10 @@ class OrderViewPrepare
             'buttons' => [],  //  кнопки по умолчанию
             'setItems' => []     // элементы
         ];
+        $this->getLang() ;
+        if (empty($this->lang)) {
+            $this->lang = 'ru' ;
+        }
         $setItems = [];
         foreach ($dbItems as $index => $dbItem) {
 //            $item = [
@@ -404,6 +454,7 @@ class OrderViewPrepare
 
 
             $item = [];
+            $lang = $this->lang ;
             foreach ($this->currentItemFields as $fieldId => $itemField) {
                 $key = $itemField['value'];
                 $default = (isset($itemField['default'])) ? $itemField['default'] : false;
@@ -414,7 +465,7 @@ class OrderViewPrepare
             } else {
                 $subItems = [];
                 foreach ($this->subItemFields as $fieldId => $itemField) {
-                    $subItems[] = '<b>' . $itemField['name'] . ': ' . '</b>' .
+                    $subItems[] = '<b>' . $itemField['name'][$lang] . ': ' . '</b>' .
                         $dbItem[$itemField['value']];
 
                 }
@@ -493,6 +544,10 @@ class OrderViewPrepare
 
             foreach ($itemButtons as $btKey => $btAttr) {
                 $btAttr['btClass'] .= ' ' . self::BT_CLASS;
+                $title = $btAttr['btTitle'] ;
+                if (is_array($title)) {
+                    $btAttr['btTitle'] = $title[$this->lang] ;
+                }
                 $itemButtons[$btKey] = $btAttr;
             }
 
@@ -502,7 +557,13 @@ class OrderViewPrepare
         }
         foreach ($this->btnCurrent as $btKey => $btAttr) {
             $btAttr['btClass'] .= ' ' . self::BT_CLASS;
+            $title = $btAttr['btTitle'] ;
+            if (is_array($title)) {
+                $btAttr['btTitle'] = $title[$this->lang] ;
+            }
+
             $this->btnCurrent[$btKey] = $btAttr;
+
         }
 
         $itemsShow['setItems'] = $setItems;
@@ -556,6 +617,9 @@ class OrderViewPrepare
                     if (false !== array_search($key, ['stat', 'roles'])) {
                         continue;
                     }
+                    if ($key === 'btTitle') {
+                        $value = $value[$this->lang] ;
+                    }
                     $statBt[$key] = $value;
                 }
 // возможна корректировка по роли (ИСПОЛНИТЕЛЬ || ЗАКАЗЧИК)
@@ -567,6 +631,9 @@ class OrderViewPrepare
                         foreach ($roleAttr as $key => $value) {
                             if ($key === 'synonym') {
                                 continue;
+                            }
+                            if ($key === 'btTitle') {
+                                $value = $value[$this->lang] ;
                             }
                             $statBt[$key] = $value;
                         }
@@ -585,6 +652,9 @@ class OrderViewPrepare
                 foreach ($lockAttr as $key => $value) {
                     if ($key === 'lock') {
                         continue;
+                    }
+                    if ($key === 'btTitle') {
+                        $value = $value[$this->lang] ;
                     }
                     $lockBt[$key] = $value;
                 }
@@ -629,6 +699,10 @@ class OrderViewPrepare
             if ($isFind) {
                 $btAttr = $toggleAttr['btn'];
                 foreach ($btAttr as $key => $value) {
+                    if ($key === 'btTitle') {
+                        $value = $value[$this->lang] ;
+                    }
+
                     $toggleBt[$key] = $value;
                 }
 

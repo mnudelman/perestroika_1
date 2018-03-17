@@ -15,7 +15,6 @@ class OrderViewPrepareGeneral extends OrderViewPrepare
         'orderLock' => [
         ],
         'orderEdit' => [
-            'btTitle' => 'Редактировать заказ',
             'onClick' => 'orderItemEdit',
         ],
     ];

@@ -44,8 +44,7 @@ $orderLabel = (empty($orderLabel)) ? $messages['orderNotDefined'] : $orderLabel 
         ]) ;
         ?>
 
-        <div  id="<?= $htmlPrefix ?>-order-label"
-             style="color:#00a300;background-color:#d3d3d3;">
+        <div  id="<?= $htmlPrefix ?>-order-label" class="orderLabel">
             <p><?=$orderLabel?></p>
         </div>
 
