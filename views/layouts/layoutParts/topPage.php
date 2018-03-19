@@ -142,7 +142,7 @@ if ($userIsGuest || empty($imgAvatarName)) {
     $userIsGuestParam = ($userIsGuest) ? '1' : '0' ;
     $liLogout = Html::beginTag('li',['class' => $enable,'id'=> 'topmenu-logout',
             'hidden' => $hidden,
-            'onClick' => 'logoutOnClick(' . $userIsGuestParam .',"'. $guestName . '")']) . $aEnter . Html::endTag('li') ;
+            'onClick' => 'logoutOnClick("'. $guestName . '")']) . $aEnter . Html::endTag('li') ;
 
 
 
@@ -155,7 +155,8 @@ if ($userIsGuest || empty($imgAvatarName)) {
     $aEnter = Html::beginTag('a', ['href' => '#','data-toggle'=>"modal",'data-target'=>"#enter-form" ]) .
         $labelTab['enter'] . Html::endTag('a') ;
     $userIsGuestParam = ($userIsGuest) ? '1' : '0' ;
-    $liEnter = Html::beginTag('li',['class' => $enable,'id'=> 'topmenu-enter','hidden' => $hidden,
+    $liEnter = Html::beginTag('li',['class' => $enable,
+            'id'=> 'topmenu-enter','hidden' => $hidden,
         'onClick' => 'enterTargetControl(' . $userIsGuestParam . ')']) . $aEnter . Html::endTag('li') ;
     //
     // li - registration
@@ -166,25 +167,29 @@ if ($userIsGuest || empty($imgAvatarName)) {
     $hidden = (!$userIsGuest) ? '"hidden",' : null ;
     $aRg = Html::beginTag('a', ['href' => '#','data-toggle'=>"modal",'data-target'=>"#registration-form"  ])  .
         $labelTab['registration'] . Html::endTag('a') ;
-    $liRg = Html::beginTag('li',['class' => $enable,'id'=> 'topmenu-registration','hidden' => $hidden,
+    $liRg = Html::beginTag('li',['class' => $enable,
+            'id'=> 'topmenu-registration','hidden' => $hidden,
         'onClick' => 'enterTargetControl(' . $userIsGuestParam . ')']) . $aRg . Html::endTag('li') ;
     //
 
     // li - profile
     $enable = (!$userIsGuest) ? 'enable' : 'disabled' ;
 //    $aProfile = Html::beginTag('a', ['href' => '#','data-toggle'=>"modal",'data-target'=>"#profile-form" ]) .
-
+    $hidden = ($userIsGuest) ? '"hidden",' : null ;
     $url = Url::to(['/developer/index']) ;
      $aProfile = Html::beginTag('a', ['href' => $url]) .
         $labelTab['profile'] . Html::endTag('a') ;
-    $liProfile = Html::beginTag('li',['class' => $enable,'id'=> 'topmenu-profile']) . $aProfile . Html::endTag('li') ;
+    $liProfile = Html::beginTag('li',['class' => $enable,
+            'id'=> 'topmenu-profile','hidden' => $hidden]) . $aProfile . Html::endTag('li') ;
     //
 
     // li - office
     $url = Url::to(['/office/index']) ;
+    $hidden = ($userIsGuest) ? '"hidden",' : null ;
     $enable = (!$userIsGuest) ? 'enable' : 'disabled' ;
     $aOffice = Html::beginTag('a', ['href' => $url ]) .  $labelTab['office'] . Html::endTag('a') ;
-    $liOffice = Html::beginTag('li',['class' => $enable,'id'=> 'topmenu-office']) . $aOffice . Html::endTag('li') ;
+    $liOffice = Html::beginTag('li',['class' => $enable,
+            'id'=> 'topmenu-office','hidden' => $hidden]) . $aOffice . Html::endTag('li') ;
     //
 
     $ulDropdownMenu = Html::beginTag('ul',['class' => "dropdown-menu"]) .

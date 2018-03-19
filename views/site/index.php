@@ -35,9 +35,9 @@ $wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
 //$wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
 //$i = 1 ;
 ?>
-<div class="umb-grid">
-    <div class="grid-section">
-        <div>
+<!--<div class="umb-grid">-->
+<!--    <div class="grid-section">-->
+<!--        <div>-->
             <div class='container'>
                 <div class="row clearfix">
                     <div class="col-md-12 column">
@@ -48,9 +48,9 @@ $wdUrl = PageItems::getItemAttr('',['wd-list','url']) ;
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 <br/>
