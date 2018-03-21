@@ -268,13 +268,13 @@ class SiteController extends BaseController
 
 
     }
-    public function actionUpload()
+    public function actionUpload($filesMax = 0)
     {
         $model = new UploadForm();
         $success = false ;
         if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            if ($model->upload($filesMax)) {
                 // file is uploaded successfully
                 $success = true ;
             }
@@ -285,8 +285,8 @@ class SiteController extends BaseController
             $answ = [
                 'success' => $success ,
                 'message' => $model->errors,
-                'uploadedPath' => Html::encode($uploadedPath),
-                'uploadedUrl' => Html::encode($uploadedUrl),
+                'uploadedPath' => $uploadedPath,
+                'uploadedUrl' => $uploadedUrl,
             ] ;
             echo json_encode($answ) ;
 

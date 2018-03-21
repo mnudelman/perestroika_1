@@ -99,12 +99,13 @@ function GalleryController() {
         newContainer: {          //  пополнение галереи
             parentDiv: $('#' + htmlPrefix + '-new'),
             items: [],
-            maxNum: 1,
+            maxNum: 4,
             type: {drag: true, drop: false},
-            imgSize: {unit: 'px', width:75, height:50},
+            // imgSize: {unit: 'px', width:75, height:50},
+            imgSize: {unit: 'col-sm', width:3},
             textShow: false,
             noReplace: true,
-            rows:{n:0, v:0},   // количество строк и число элементов
+            rows:{n:1, v:4},   // количество строк и число элементов
             textAreaNode : []
         },
         editContainer: {          //  редактирование заголовка
@@ -718,9 +719,14 @@ function newGalleryItemUpload(uploadFormId,urlUpload,galleryNewImgId ) {
 
 }
 function newGalleryItemUploadDo(imgUrl) {
+    var containerName = 'newContainer' ;
     var map = paramSet.getObj('galleryContainerMap') ;  // доступ
-    var newContainer = map['newContainer'] ;
-    newContainer.dataInsert(imgUrl,'new picture') ;
+    var container = map[containerName] ;
+    container.makeRows() ;
+    for (var i = 0; i < imgUrl.length ; i++) {
+        container.dataInsert(imgUrl[i],'new picture_' + i) ;
+    }
+
 }
 /**
  *

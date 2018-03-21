@@ -26,7 +26,7 @@ $containerOrderId = $htmlPrefix . '-order';
 
 
 $mdUpload = new UploadForm();
-$urlUpload = Url::to(['site/upload']);
+$urlUpload = Url::to(['site/upload','filesMax'=>4]);
 $uploadFormId = $htmlPrefix . "gallery-upload-form";
 //$galleryNewImgId = 'gallery-new-img';
 //$galleryNewId_1 = 'gallery-new-1';
@@ -118,7 +118,11 @@ $dirLayoutParts = '../layouts/layoutParts' ;
                         'action' => '#',
                         'options' => ['enctype' => 'multipart/form-data']]);
                     ?>
-                    <?= $form->field($mdUpload, 'imageFile')->fileInput() ?>
+                    <?= $form->field($mdUpload, 'imageFiles[]')->fileInput(
+                            ['id'=> $htmlPrefix . '-gallery-imageFile',
+                        'multiple' => true,'accept' => 'image/*' ]) ?>
+
+
                     <!--                        <div class="form-group">-->
                     <div class="col-lg-11">
                         <?= Html::button('upload',

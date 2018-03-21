@@ -188,11 +188,11 @@ function Registration() {
         $('#topmenu-enter').attr('hidden','hidden') ;
         $('#topmenu-registration').attr('hidden','hidden') ;
         $('#topmenu-forum')[0].className = 'enable';
-        $('#topmenu-forum')[0].removeAttr('hidden') ;
+        $('#topmenu-forum').removeAttr('hidden') ;
         $('#topmenu-profile')[0].className = 'enable';
-        $('#topmenu-profile')[0].removeAttr('hidden') ;
+        $('#topmenu-profile').removeAttr('hidden') ;
         $('#topmenu-office')[0].className = 'enable';
-        $('#topmenu-office')[0].removeAttr('hidden') ;
+        $('#topmenu-office').removeAttr('hidden') ;
         $('#topmenu-username').text(userName);
     } ;
     var logoutSuccess = function() {
@@ -200,14 +200,14 @@ function Registration() {
         $('#topmenu-enter').removeAttr('hidden');
         $('#topmenu-registration').removeAttr('hidden');
         $('#topmenu-forum')[0].className = 'disabled';
-        $('#topmenu-forum')[0].attr('hidden', 'hidden');
+        $('#topmenu-forum').attr('hidden', 'hidden');
         $('#topmenu-enter')[0].className = 'enable';
         $('#topmenu-registration')[0].className = 'enable';
-        $('#topmenu-registration')[0].removeAttr('hidden');
+        $('#topmenu-registration').removeAttr('hidden');
         $('#topmenu-profile')[0].className = 'disabled';
-        $('#topmenu-profile')[0].attr('hidden', 'hidden');
+        $('#topmenu-profile').attr('hidden', 'hidden');
         $('#topmenu-office')[0].className = 'disabled';
-        $('#topmenu-office')[0].attr('hidden', 'hidden');
+        $('#topmenu-office').attr('hidden', 'hidden');
         $('#topmenu-username').text(guestUsetName);
         $('#topmenu-avatar').attr('src', guestAvatarImg);
 

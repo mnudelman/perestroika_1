@@ -48,7 +48,7 @@ if ($userIsGuest) {
 
 $mdUpload = new UploadForm();
 $title = 'ProfileEdit';
-$urlUpload = Url::to(['site/upload']);
+$urlUpload = Url::to(['site/upload','filesMax' => 1]);
 //$uploadFormId = "profile-upload-form";
 //$avatarImgId = 'profile-avatar-img';
 
@@ -149,8 +149,9 @@ $partsTitleEdit = 'профиль.Основное' ;
                         'action' => '#',
                         'options' => ['enctype' => 'multipart/form-data']]);
                     ?>
-                    <?= $form->field($mdUpload, 'imageFile')->
-                    fileInput(['id'=> $htmlPrefix . '-profile-imageFile']) ?>
+                    <?= $form->field($mdUpload, 'imageFiles[]')->
+                    fileInput(['id'=> $htmlPrefix . '-profile-imageFile',
+                        'multiple' => true,'accept' => 'image/*' ]) ?>
                     <!--                        <div class="form-group">-->
                     <div class="col-lg-11">
                         <?= Html::button('upload',

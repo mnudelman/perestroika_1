@@ -18,11 +18,11 @@ class UploadForm extends Model
     /**
      * @var UploadedFile
      */
-    public $imageFile;
+    public $imageFiles;
     public $userId = null;
-    private $_uploadedPath ;
-    private $_uploadedUrl ;
-    const UPLOAD_DIR = 'images/avatars/' ;
+    private $_uploadedPath = [] ;
+    private $_uploadedUrl = [] ;
+//    const UPLOAD_DIR = 'images/avatars/' ;  // лишнее
 
     public function attributeLabels()
     {
@@ -36,12 +36,43 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false,
-                'extensions' => 'png,jpg,jpeg,pdf'],
+            [['imageFiles'], 'file', 'skipOnEmpty' => false,
+                'extensions' => 'png,jpg,jpeg,pdf','maxFiles' => 5],
         ];
     }
 
-    public function upload()
+    public function upload($filesMax = 1)
+    {
+        $userId = $this->getUserId() ;
+        $path = Files::getPath('upload',$userId) ;
+        if (false !== $path && $this->validate()) {
+            foreach ($this->imageFiles as $file) {
+                $randomSuffix = substr(\Yii::$app->security->generateRandomString(),-5) ;
+                $appendix = $file->baseName . '_' . $randomSuffix .  '.' . $file->extension ;
+                $currentPath = $path['dir'] . '/' . $appendix ;
+                $this->_uploadedPath[] = $currentPath ;
+                $this->_uploadedUrl[] = $path['url'] . '/' . $appendix ;
+                $file->saveAs($currentPath);
+//                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+
+//        if ($this->validate()) {
+//            $randomSuffix = substr(\Yii::$app->security->generateRandomString(),-5) ;
+//            $this->_uploadedPath = self::UPLOAD_DIR .
+//                $this->imageFile->baseName . '_' . $randomSuffix .  '.' . $this->imageFile->extension ;
+//            $this->imageFile->saveAs($this->_uploadedPath);
+//            return true;
+//        } else {
+//            return false;
+//        }
+    }
+
+    public function upload__()
     {
         $userId = $this->getUserId() ;
         $path = Files::getPath('upload',$userId) ;
@@ -67,6 +98,9 @@ class UploadForm extends Model
 //            return false;
 //        }
     }
+
+
+
     private function getUserId() {
         if (is_null($this->userId))  {
             $this->userId = Yii::$app->user->identity->getId() ;

@@ -80,6 +80,7 @@ function uploadOnClick(uploadFormId,urlUpload ,avatarImgId,ajaxCallback) {
             if (typeof(ajaxCallback) === 'function' ) {
                 ajaxCallback(newImgUrl,newImgPath) ;
             } else {
+                newImgUrl = newImgUrl[0] ;
                 $('#' + avatarImgId).attr('src',newImgUrl) ;
             }
 
