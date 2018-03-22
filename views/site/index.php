@@ -114,18 +114,18 @@ echo $totalText ;
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="wd-modal-title" name="modal-title">войти</h4>
+                <h4 class="modal-title" id="wd-description-title" name="description-title">войти</h4>
             </div>
             <div class="modal-body" id="modal-body">
-                <div id="wd-modal-insert" class="wd-text" name="modal-content">
+                <div id="wd-description-content" class="wd-text" name="description-content">
 <!--  здесь вставка текста описания -->
                  </div>
             </div>
             <div class="modal-footer">
             <p>
 <!--                <button type="button" class="btn btn-default" data-dismiss="modal">Заказ</button>-->
-                <a class="btn btn-default" href="<?=$wdUrl['order']?>" role="button" data-dismiss="modal" ><?=$wdCommandLabel['order'] ?></a>
-                <a class="btn btn-default" href="<?=$wdUrl['developer']?>" role="button" data-dismiss="modal"><?=$wdCommandLabel['developer'] ?></a>
+<!--                <a class="btn btn-default" href="?//=$wdUrl['order']?><!--" role="button" data-dismiss="modal" >?//=$wdCommandLabel['order'] ?<!--</a>-->
+<!--                <a class="btn btn-default" href="?//=$wdUrl['developer']?><!--" role="button" data-dismiss="modal">?//=$wdCommandLabel['developer'] ?<!--</a>-->
                 <a class="btn btn-default" href="#" role="button" data-dismiss="modal"><?=$wdCommandLabel['exit'] ?></a>
             </p>
             </div>

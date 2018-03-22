@@ -713,11 +713,18 @@ function DnDContainer() {
 /**
  * добавить новую картинку
  */
-function newGalleryItemUpload(uploadFormId,urlUpload,galleryNewImgId ) {
-   uploadOnClick(uploadFormId,urlUpload,galleryNewImgId,newGalleryItemUploadDo) ;
+// function newGalleryItemUpload(uploadFormId,urlUpload,galleryNewImgId ) {
+//    uploadOnClick(uploadFormId,urlUpload,galleryNewImgId,newGalleryItemUploadDo) ;
+// //        newContainer.freeFromPicture(oldPlaceItemId) ;
+//
+// }
+function newGalleryItemUpload(htmlPrefix) {
+    uploadOnClick(htmlPrefix,'gallery',newGalleryItemUploadDo) ;
 //        newContainer.freeFromPicture(oldPlaceItemId) ;
 
 }
+
+
 function newGalleryItemUploadDo(imgUrl) {
     var containerName = 'newContainer' ;
     var map = paramSet.getObj('galleryContainerMap') ;  // доступ

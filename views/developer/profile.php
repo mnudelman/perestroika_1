@@ -157,7 +157,14 @@ $partsTitleEdit = 'профиль.Основное' ;
                         <?= Html::button('upload',
                             ['type' => 'button', 'class' => 'btn btn-primary', 'name' => 'upload-button',
                                 'onclick' => 'uploadOnClick('
-                                    . '"' . $uploadFormId . '","' . $urlUpload . '","' . $avatarImgId . '")']) ?>
+                                    . '"' . $htmlPrefix. '","avatar"' . ')']) ?>
+
+<!--//                        'onclick' => 'uploadOnClick('-->
+<!--//                        . '"' . $uploadFormId . '","' . $urlUpload . '","' . $avatarImgId . '")']) ?>-->
+
+
+
+
                     </div>
                     <!--                        </div>-->
                     <?php ActiveForm::end() ?><br><br>

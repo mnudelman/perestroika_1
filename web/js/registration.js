@@ -17,8 +17,8 @@ function Registration() {
         registration: 'index.php?r=site%2Fregistration'
     };
     var wdBlock = {      // блок-описатель направления работ
-        title: $('#wd-descriotion [name="modal-title"]'),
-        content: $('#wd-descriotion [name="modal-content"]')
+        title: '#wd-description-title',
+        content:'#wd-description-content'
     };
     var guestUsetName = 'гость'; // имя для вывода в topmenu (при смене языка будет guest)
     var guestAvatarImg = 'images/avatars/people.png'; // фото для гостя
@@ -34,20 +34,20 @@ function Registration() {
      */
     this.wDShow = function (wdId) {
         var data = {wdId: wdId};
-        ajaxExe.setUrl(url['wDShow']);
-        ajaxExe.setData(ajaxPar['data']);
+        ajaxExe.setUrl(url.wDShow);
+        ajaxExe.setData(data);
         ajaxExe.setCallback(wdShowDo);
         ajaxExe.go();
     };
     var wdShowDo = function (rr) {
         var title = rr['title'];
         var content = rr['content'];
-        var titleBlock = wdBlock.title;
-        var contentBlock = wdBlock.content;
-        titleBlock.empty();
-        titleBlock.append(title);
-        contentBlock.empty();
-        contentBlock.append(content);
+        var titleBlock = $(wdBlock.title);
+        var contentBlock =$( wdBlock.content);
+        // titleBlock.empty();
+        titleBlock.text(title);
+        // contentBlock.empty();
+        contentBlock.text(content);
     };
     /**
      * отключение пользователя

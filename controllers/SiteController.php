@@ -181,13 +181,13 @@ class SiteController extends BaseController
     public function actionWorkDirectGet() {
         if( Yii::$app->request->isAjax ){
             $query = Yii::$app->request->post() ;
-            $wdId = $query['wdid'] ;
+            $wdId = $query['wdId'] ;
 
             $wdItems = PageItems::getItemText(['wd-list','content']) ;
-            $wdContent = PageItems::getItemText(['wd-' . $wdId,'content']) ; ;
+            $wdContent = PageItems::getItemText(['wd-' . $wdId,'content']) ;
             $answ = [
                 'title' => $wdItems[$wdId],
-                'content' => $wdContent['text']
+                'content' => $wdContent,
             ] ;
             echo json_encode($answ) ;
         }

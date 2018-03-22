@@ -27,11 +27,12 @@ $containerOrderId = $htmlPrefix . '-order';
 
 $mdUpload = new UploadForm();
 $urlUpload = Url::to(['site/upload','filesMax'=>4]);
-$uploadFormId = $htmlPrefix . "gallery-upload-form";
+//$uploadFormId = $htmlPrefix . "Gallery-upload-form";
+$uploadFormId = $htmlPrefix . "-upload-form";
 //$galleryNewImgId = 'gallery-new-img';
 //$galleryNewId_1 = 'gallery-new-1';
-$galleryNewImgId = $htmlPrefix . 'gallery-new-1-img';
-
+//$galleryNewImgId = $htmlPrefix . 'Gallery-new-1-img';
+$galleryNewImgId = $htmlPrefix . '-new-1-img';
 $pageItemFile = 'profile/workGallery' ;
 $ruleContentId = 'workGallery-form-collapseOne' ;
 
@@ -97,12 +98,6 @@ $dirLayoutParts = '../layouts/layoutParts' ;
         </div><br>
 
     <div class="row">
-<!--<!--        ?//=$this->render($dirLayoutParts . '/ruleAccordion',-->
-<!--//            ['ruleTitle'=>$ruleTitle,'ruleContent'=>$ruleContent,-->
-<!--//                'ruleContentId' => $ruleContentId])?> -->-->
-
-
-
 
         <div class="col-md-4">
             <div class="panel panel-primary">
@@ -119,7 +114,7 @@ $dirLayoutParts = '../layouts/layoutParts' ;
                         'options' => ['enctype' => 'multipart/form-data']]);
                     ?>
                     <?= $form->field($mdUpload, 'imageFiles[]')->fileInput(
-                            ['id'=> $htmlPrefix . '-gallery-imageFile',
+                            ['id'=> $htmlPrefix . '-gallery-imageFiles',
                         'multiple' => true,'accept' => 'image/*' ]) ?>
 
 
@@ -128,7 +123,11 @@ $dirLayoutParts = '../layouts/layoutParts' ;
                         <?= Html::button('upload',
                             ['type' => 'button', 'class' => 'btn btn-primary', 'name' => 'upload-button',
                                 'onclick' => 'newGalleryItemUpload('
-                                    . '"' . $uploadFormId . '","' . $urlUpload . '","' . $galleryNewImgId . '")']) ?>
+                                    . '"' . $htmlPrefix. '")']) ?>
+
+
+<!--                                'onclick' => 'newGalleryItemUpload('-->
+<!--                                    . '"' . $uploadFormId . '","' . $urlUpload . '","' . $galleryNewImgId . '")']) ?>-->
 
 
                     </div>

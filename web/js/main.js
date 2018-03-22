@@ -56,45 +56,143 @@ function showError(errorText, errorTitle) {
 
 /**
  * загрузить изображение на сайт
+ * оставляю как есть
  * @param uploadFormId - форма для загрузки изображения
  * @param urlUpload    - контроллер, обрабатывающий запрос на файл-изображение
  * @param avatarImgId  - ид элемента-изображения на странице
  */
-function uploadOnClick(uploadFormId,urlUpload ,avatarImgId,ajaxCallback) {
-    var imgFile = $('#'+uploadFormId+' [type="file"').val() ;
-    if (imgFile.length == 0) {               // файл не выбран
-        return ;
+// function uploadOnClick(uploadFormId,urlUpload ,avatarImgId,ajaxCallback) {
+//     var imgFile = $('#'+uploadFormId+' [type="file"').val() ;
+//     if (imgFile.length == 0) {               // файл не выбран
+//         return ;
+//     }
+//     var formData = new FormData($('#' + uploadFormId)[0]);
+//     //url: 'index.php?r=site%2Fupload',
+//     $.ajax({
+//         url: urlUpload,
+//         type: 'POST',
+//         // Form data
+//         data: formData,
+//         //beforeSend: beforeSendHandler, // its a function which you have to define
+//         success: function(response) {
+//             var rr =JSON.parse(response) ;
+//             var newImgPath = rr['uploadedPath'] ;
+//             var newImgUrl = rr['uploadedUrl'] ;
+//             if (typeof(ajaxCallback) === 'function' ) {
+//                 ajaxCallback(newImgUrl,newImgPath) ;
+//             } else {
+//                 newImgUrl = newImgUrl[0] ;
+//                 $('#' + avatarImgId).attr('src',newImgUrl) ;
+//             }
+//         },
+//         error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
+//             var responseText = event.responseText; // html - page
+//             showError(responseText);
+//         },
+//
+//         //Options to tell jQuery not to process data or worry about content-type.
+//         cache: false,
+//         contentType: false,
+//         processData: false
+//     });
+// }
+/**
+ *
+ * @param htmlPrefix
+ * @param type - {'avatar' | 'gallery'} определяет тип загрузки (1 файл или несколько)
+ *                                       и php - контроллер для связи через ajax
+ * @param ajaxCallback - внешняя функция для передачи выбранных файлов
+ */
+function uploadOnClick(htmlPrefix,type,ajaxCallback) {
+    var objName = htmlPrefix + '-' + 'uploadController' ;
+    var cnt = paramSet.getObj(objName) ;
+    if (cnt === null) {
+        cnt = new UploadController() ;
+        paramSet.putObj(objName,cnt) ;
     }
-    var formData = new FormData($('#' + uploadFormId)[0]);
-    //url: 'index.php?r=site%2Fupload',
-    $.ajax({
-        url: urlUpload,
-        type: 'POST',
-        // Form data
-        data: formData,
-        //beforeSend: beforeSendHandler, // its a function which you have to define
-        success: function(response) {
-            var rr =JSON.parse(response) ;
-            var newImgPath = rr['uploadedPath'] ;
-            var newImgUrl = rr['uploadedUrl'] ;
-            if (typeof(ajaxCallback) === 'function' ) {
-                ajaxCallback(newImgUrl,newImgPath) ;
-            } else {
-                newImgUrl = newImgUrl[0] ;
-                $('#' + avatarImgId).attr('src',newImgUrl) ;
-            }
+    cnt.init(htmlPrefix,type,ajaxCallback) ;
+    cnt.uploadDo() ;
+}
+//
+/**
+ * @constructor
+ */
+function UploadController() {
+    var url = {
+        avatar: 'index.php?r=site%2Fupload',
+        gallery: 'index.php?r=site%2Fupload'
 
+    };
+    var htmlPrefix = '';
+    var ajaxExe = null;
+    var TYPE_AVATAR = 'avatar';
+    var TYPE_GALLERY = 'gallery';
+    var currentType;
+    var uploadFormSuffix = '-upload-form';
+    var avatarSuffix = '-avatar-img';
+    var ajaxCallback;
+    var _this = this;
+    //---------------------------------------------------//
+    this.init = function (htmlPref, type, callback) {
+        htmlPrefix = htmlPref;
+        currentType = type;
+        ajaxCallback = callback;
+        if (ajaxExe === null) {
+            ajaxExe = new AjaxExecutor();
+        }
+    };
+    /**
+     * исполрить загрузку файлов на сайт
+     */
+    this.uploadDo = function () {
+        var uploadFormId = htmlPrefix + uploadFormSuffix;
+        var imgFile = $('#' + uploadFormId + ' [type="file"').val();
+        if (imgFile.length == 0) {               // файл не выбран
+            return;
+        }
+        var formData = new FormData($('#' + uploadFormId)[0]);
+        var urlCurrent = url[currentType];
+        // $.ajax({
+        //     url: urlCurrent,
+        //     type: 'POST',
+        //     // Form data
+        //     data: formData,
+        //     success: function(response) {
+        //         var rr =JSON.parse(response) ;
+        //         uploadedShow(rr) ;
+        //     },
+        //     error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
+        //         var responseText = event.responseText; // html - page
+        //         showError(responseText);
+        //     },
+        //     //Options to tell jQuery not to process data or worry about content-type.
+        // cache: false,
+        // contentType: false,
+        // processData: false
+        //
+        // });
 
-        },
-        error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-            var responseText = event.responseText; // html - page
-        },
+        ajaxExe.setUrl(urlCurrent);
+        ajaxExe.setData(formData);
+        ajaxExe.setCallback(uploadedShow);
+        ajaxExe.go();
 
-        //Options to tell jQuery not to process data or worry about content-type.
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+    };
+    /**
+     * показать загруженные файлы
+     */
+    var uploadedShow = function (rr) {
+        var imgsUrl = rr['uploadedUrl'];
+        var imgsPath = rr['uploadedPath'];
+        if (typeof(ajaxCallback) === 'function') {
+            ajaxCallback(imgsUrl);
+        } else {
+            var imgUrl = imgsUrl[0];
+            var avatarImgId = htmlPrefix + avatarSuffix;
+            $('#' + avatarImgId).attr('src', imgUrl);
+
+        }
+    } ;
 }
 /**
  * ппростой выбор из выпадающего списка

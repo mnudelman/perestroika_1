@@ -303,7 +303,13 @@ function AjaxExecutor() {
                 if (typeof errorCallback === "function") {
                     errorCallback(responseText) ;
                 }
-            }
+            },
+            //Options to tell jQuery not to process data or worry about content-type.
+            // эта часть обязательна !!!
+            cache: false,
+            contentType: false,
+            processData: false
+
         });
 
     } ;
