@@ -37,7 +37,7 @@ class UploadForm extends Model
     {
         return [
             [['imageFiles'], 'file', 'skipOnEmpty' => false,
-                'extensions' => 'png,jpg,jpeg,pdf','maxFiles' => 5],
+                'extensions' => 'png,jpg,jpeg,pdf','maxFiles' => 4],
         ];
     }
 

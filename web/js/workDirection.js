@@ -306,9 +306,9 @@ function AjaxExecutor() {
             },
             //Options to tell jQuery not to process data or worry about content-type.
             // эта часть обязательна !!!
-            cache: false,
-            contentType: false,
-            processData: false
+            // cache: false,
+            // contentType: false,
+            // processData: false
 
         });
 

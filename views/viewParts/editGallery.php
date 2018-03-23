@@ -88,8 +88,8 @@ $dirLayoutParts = '../layouts/layoutParts' ;
             ],
             'trash' => [
             'title' => 'to clear the trash',
-            'clickFunction' => 'orderEditClick',
-            'clickAction' => 'delete'
+            'clickFunction' => 'cleanBin',
+            'clickAction' => ''
             ]
             ],
             'pagination' => [],

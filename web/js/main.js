@@ -152,30 +152,29 @@ function UploadController() {
         }
         var formData = new FormData($('#' + uploadFormId)[0]);
         var urlCurrent = url[currentType];
-        // $.ajax({
-        //     url: urlCurrent,
-        //     type: 'POST',
-        //     // Form data
-        //     data: formData,
-        //     success: function(response) {
-        //         var rr =JSON.parse(response) ;
-        //         uploadedShow(rr) ;
-        //     },
-        //     error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-        //         var responseText = event.responseText; // html - page
-        //         showError(responseText);
-        //     },
-        //     //Options to tell jQuery not to process data or worry about content-type.
-        // cache: false,
-        // contentType: false,
-        // processData: false
-        //
-        // });
+        $.ajax({
+            url: urlCurrent,
+            type: 'POST',
+            // Form data
+            data: formData,
+            success: function(response) {
+                var rr =JSON.parse(response) ;
+                uploadedShow(rr) ;
+            },
+            error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
+                var responseText = event.responseText; // html - page
+                showError(responseText);
+            },
+            //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
 
-        ajaxExe.setUrl(urlCurrent);
-        ajaxExe.setData(formData);
-        ajaxExe.setCallback(uploadedShow);
-        ajaxExe.go();
+        });
+        // ajaxExe.setUrl(urlCurrent);
+        // ajaxExe.setData(formData);
+        // ajaxExe.setCallback(uploadedShow);
+        // ajaxExe.go();
 
     };
     /**

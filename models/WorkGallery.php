@@ -85,17 +85,24 @@ class WorkGallery extends ActiveRecord {
 
     /**
      * убрать с диска
+     * если не было сохранения, то файл в dirUpload
      * @param $imgFile
      * @return bool
      */
     public function removeImage($imgFile) {
-        $dir = $this->galleryDirectory ;
-        if(is_null($dir) || is_dir($dir)) {
+        $dirGallery = $this->galleryDirectory ;
+        $dirUpload =  $this->uploadDirectory ;
+        if(empty($dirGallery) || !is_dir($dirGallery)) {
             return false ;
         }
-        $file = $dir . '/' . $imgFile ;
-        if (!is_file($file)) {
+        $file = $dirGallery . '/' . $imgFile ;
+        if (is_file($file)) {
             unlink($file) ;
+        }else {
+            $file = $dirUpload . '/' . $imgFile ;
+            if (is_file($file)) {
+                unlink($file);
+            }
         }
         return !is_file($file) ;
     }

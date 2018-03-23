@@ -114,7 +114,7 @@ if ($userIsGuest || empty($imgAvatarName)) {
             ['label' => $labelTab['home'], 'url' => ['/site/index']],
             ['label' => $labelTab['about'], 'url' => ['/about/index']],
             ['label' => $labelTab['order'], 'url' => ['/order/index']],
-            ['label' => $labelTab['developers'], 'url' => ['/site/index']],
+            ['label' => $labelTab['developers'], 'url' => ['#']],
 
             $liForum,
             $liTotalDropdown,

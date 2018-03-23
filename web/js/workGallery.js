@@ -735,6 +735,46 @@ function newGalleryItemUploadDo(imgUrl) {
     }
 
 }
+
+/**
+ * очистить корзину
+ */
+function cleanBin() {
+    var map = paramSet.getObj('galleryContainerMap') ;  // доступ
+    var binContainer = map['binContainer'] ;
+    var binData = binContainer.getDataForSave() ;
+    var binPlace = binData.placeItems ;
+    var binRemoved = binData.removedItems ;
+
+    var sendData = {
+        opCod : 'cleanBin',
+        binData: {
+            placeItems : galleryOnlyNameImgFile(binPlace),
+            removedItems: galleryOnlyNameImgFile(binRemoved)
+        }
+    } ;
+    var ajax = new AjaxExecutor() ;
+    ajax.setData(sendData) ;
+//    url = 'index.php?r=work-direction%2Fsave-work-direction' ;
+//    ajax.setUrl('index.php?r=work-gallery%2Fsave-gallery') ;
+
+    var phpController = paramSet.getObj('phpGalleryController') ;
+    //ajax.setUrl('index.php?r=work-gallery%2Fget-gallery') ;
+    ajax.setUrl('index.php?r=' + phpController + '%2Fclean-bin') ;
+
+
+
+    ajax.setCallback(cleanBinRes,null) ;
+    ajax.go() ;
+}
+function cleanBinRes(rr) {
+    if (rr['success'] === true) {
+        var map = paramSet.getObj('galleryContainerMap') ;  // доступ
+        var binContainer = map['binContainer'] ;
+        binContainer.makeRows() ;
+        gallerySave()
+    }
+}
 /**
  *
  */

@@ -26,6 +26,38 @@ class WorkGalleryController extends BaseController {
     protected $models = [
         'xWorkGallery' => 'app\models\WorkGallery',
     ] ;
+
+    /**
+     * очистить корзину
+     */
+    public function actionCleanBin() {
+        $workGallery = $this->getNewWorkGallery() ;
+        $binPlace = [];
+        $binRemoved = [] ;
+
+        $binData = Yii::$app->request->post('binData');
+        if (!is_null($binData)) {
+            if(isset($binData['placeItems'])) {
+                $binPlace = $binData['placeItems'];
+            }
+            if (isset($binData['removedItems'])) {
+                $binRemoved = $binData['removedItems'];
+            }
+        }
+
+
+        $this->removedImages($binPlace) ;            // удалить с диска файл
+        $this->removedImages($binRemoved) ;
+        $this->tailRemove(0,1) ;  //  убрать из БД
+
+//        $this->actionGetGallery() ;  // отправить обратно по факту
+        $answ = [
+            'success' => true,
+            'z_end' => 'z_end'
+        ] ;
+        echo json_encode($answ) ;
+
+    }
     /**
      * сохранить галлерею
      *sendData = {
