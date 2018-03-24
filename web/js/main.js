@@ -34,6 +34,107 @@ $( window ).load(function() {
     }
 });
 
+
+/**
+ * вкл/выкл фильтр
+ * @param elem(htmlPrefix-opCod)
+ */
+function dataFilter(elem) {
+
+//    filterNode.show(600) ;
+    var arr = elem.split('-') ;
+    var contextName = arr[0] ;
+    var opCod = arr[arr.length - 1] ;
+    opCod = (opCod === undefined) ? 'edit' : opCod ;
+    var filterNode = $('#' + contextName +'-filter') ;
+
+    var showFlag = (filterNode.css('display') !== 'none') ;
+    opCod = (opCod === 'edit' && showFlag) ? 'close' : opCod ;
+
+
+    var controller = paramSet.getController(contextName) ;
+    switch (opCod) {
+        case 'close' :
+            filterNode.hide(600) ;
+            break ;
+        case 'save' :
+            filterNode.hide(600) ;
+            controller.setFilter() ;
+            break ;
+        case 'edit' :
+            filterNode.show(600) ;
+            controller.editFilter() ;
+            break ;
+
+
+    }
+
+}
+/**
+ * вкл/выкл настройка
+ * @param elem(htmlPrefix-opCod)
+ */
+function dataSetup(elem) {
+
+//    filterNode.show(600) ;
+    var arr = elem.split('-') ;
+    var contextName = arr[0] ;
+    var opCod = arr[arr.length - 1] ;
+    opCod = (opCod === undefined) ? 'edit' : opCod ;
+    var setupNode = $('#' + contextName +'-setup') ;
+    var showFlag = (setupNode.css('display') !== 'none') ;
+    opCod = (opCod === 'edit' && showFlag) ? 'close' : opCod ;
+
+
+    var controller = paramSet.getController(contextName) ;
+    switch (opCod) {
+        case 'close' :
+            setupNode.hide(600) ;
+            break ;
+        case 'save' :
+            setupNode.hide(600) ;
+            controller.setSetup() ;
+            break ;
+        case 'edit' :
+            setupNode.show(600) ;
+            controller.editSetup() ;
+            break ;
+    }
+
+
+}
+/**
+ * вкл/выкл посказка
+ * @param elem(htmlPrefix-opCod)
+ */
+function dataRule(elem) {
+
+//    filterNode.show(600) ;
+    var arr = elem.split('-') ;
+    var contextName = arr[0] ;
+    var opCod = arr[arr.length - 1] ;
+    opCod = (opCod === undefined) ? 'open' : opCod ;
+    var ruleNode = $('#' + contextName +'-rule-accordion') ;
+
+    var showFlag = (ruleNode.css('display') !== 'none') ;
+    opCod = (opCod === 'open' && showFlag) ? 'close' : opCod ;
+    switch (opCod) {
+        case 'close' :
+            ruleNode.hide(600) ;
+            break ;
+        case 'open' :
+             ruleNode.show(600) ;
+            break ;
+
+
+    }
+
+}
+
+
+
+
+
 function showError(errorText, errorTitle) {
     var errShowContent = $('#errorShowContent');
     errShowContent.empty();
