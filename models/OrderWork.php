@@ -48,6 +48,7 @@ class OrderWork extends ActiveRecord{
             [['per_beg','per_end'],'required'],
             [['per_beg','per_end'],'validatePeriod'],
             [['time_create'],'default'],
+            [['alias_id'],'required'],
 //            [['per_beg','per_end'],'date'],
 //            ['per_beg','timestampAttribute'=>'perBegTimestamp'],
 //            [['per_end','timestampAttribute'=>'perEndTimestamp']],
@@ -157,10 +158,16 @@ class OrderWork extends ActiveRecord{
             ->andWhere(
                 ['between','time_create',$perBeg,$perEnd]) ;
     }
-    public function addOrder($orderId,$attributes) {
+    public function addOrder($orderId = null,$attributes = []) {
         $obj = (!empty($orderId)) ? $this->findOrder($orderId) : $this ;
         $obj->userid = $this->getUser() ;
-        $obj->attributes = $attributes ;
+        if (!empty($attributes)) {
+            $obj->attributes = $attributes ;
+        }
+
+        $aliasId = $obj->alias_id ;
+        $obj->alias_id = (!empty($aliasId)) ? $aliasId :
+            substr(\Yii::$app->security->generateRandomString(),-10) ;
         $ValidFlag = $obj->validate() ;
         $this->_successFlag = $ValidFlag ;
         if ($ValidFlag) {

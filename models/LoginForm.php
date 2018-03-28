@@ -17,9 +17,17 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
-
+    public $autoUserId = null ;
     private $_user = false;
+    const SCENARIO_AUTOLOGIN = 'autologin' ;
+    const SCENARIO_DEFAULT = 'default' ;
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_AUTOLOGIN]  = ['autoUserId', 'rememberMe'] ;
+        return $scenarios ;
+    }
     public function attributeLabels()
     {
         $labelTab = PageItems::getItemText(['user', 'fields']);
@@ -37,14 +45,15 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'],'required'],
+            [['username', 'password'],'required','on'=>self::SCENARIO_DEFAULT],
             [['username', 'password',],'filter','filter' => function($value) {
                 return strtolower(trim($value)) ;
-            }],
+            },'on'=>self::SCENARIO_DEFAULT],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            ['password', 'validatePassword','on'=>self::SCENARIO_DEFAULT],
+            [['autoUserId'],'required','on' => self::SCENARIO_AUTOLOGIN]
         ];
     }
 
@@ -74,6 +83,10 @@ class LoginForm extends Model
      */
     public function login()
     {
+        $scenario = $this->getScenario() ;
+        if ($scenario === self::SCENARIO_AUTOLOGIN) {
+
+        }
         if ($this->validate()) {
             if($this->rememberMe){
                 $u = $this->getUser();
@@ -87,6 +100,12 @@ class LoginForm extends Model
         return false;
     }
 
+    /**
+     * подключение при входе по ссылке через email
+     */
+    public function autoLogin() {
+
+    }
     /**
      * Finds user by [[username]]
      *

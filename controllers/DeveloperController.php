@@ -270,6 +270,11 @@ class DeveloperController extends BaseController {
         $orderRec = (new OrderWork())->getById($orderId) ;
         $orderName = $orderRec->order_name ;
         $timeCreate = $orderRec->time_create ;
+        $aliasId =  $orderRec->alias_id ;
+        if (empty($aliasId)) {
+           $orderRec->addOrder() ;   // обновить тек заказ (заполнить поле alias_id)
+            $aliasId =  $orderRec->alias_id ;
+        }
         $limit = 20 ; // max число рассылок
         $devFunc = new DeveloperFunc() ;
         $limit = 1 ;
@@ -288,7 +293,8 @@ class DeveloperController extends BaseController {
             $email = $item['profile_email'] ;
             $tel = $item['profile_tel'] ;
             $confirmation_key = $item['profile_confirmation_key'] ;
-            $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+//            $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+            $this->sendSelectedEmail($confirmation_key,$aliasId,$orderName,$timeCreate,$company,$email) ;
             $message[] = 'Отправлено уведомление ИСПОЛНИТЕЛЮ ЗАКАЗА' ;
             $messCount = 1;
             $orderStatSelected = OrderMailing::STAT_SELECTED ;
@@ -307,7 +313,7 @@ class DeveloperController extends BaseController {
                 $email = $item['profile_email'] ;
                 $tel = $item['profile_tel'] ;
                 $confirmation_key = $item['profile_confirmation_key'] ;
-                $this->sendEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+                $this->sendEmail($confirmation_key,$aliasId,$orderName,$timeCreate,$company,$email) ;
                 $messCount += 1 ;
                 $devFunc->putOrderStatus($userId,$orderStatSentReady,$orderStatSent) ;
             }
@@ -325,11 +331,11 @@ class DeveloperController extends BaseController {
         echo json_encode($answ);
 //      отправлено nnn предложений по заказу xxxxxxxxx
     }
-    private function sendSelectedEmail($id,$orderId,$orderName,$timeCreate,$company,$email) {
+    private function sendSelectedEmail($id, $aliasId, $orderName, $timeCreate, $company, $email) {
         $addText = 'Портал <b>Pere-stroika</b> сообщает Вам,(<b>' . $company . '</b>)<br>' .
-            'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $orderId .
+            'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $aliasId .
             '(' . $orderName .')</b><br>' ;
-        $totId = $id . '-' . $orderId ;
+        $totId = $id . '-' . $aliasId ;
         $siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
         $text = 'Для подтверждения вашей готовности выполнить работы и ' .
                  'получить реквизиты заказчика перейдите по ссылке ' ;

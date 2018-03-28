@@ -111,9 +111,9 @@ class SiteController extends BaseController
      * @return string
      */
     public function actionOrderEmail($id) {
-        list($confirmationKey,$orderId)= explode("-", $id);
+        list($confirmationKey,$orderAliasId)= explode("-", $id);
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
-        $order = OrderWork::findOne(['id' => $orderId]) ;
+        $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
         $orderStat = OrderMailing::STAT_ANSWERED ;
         $success = true ;
         $company = '' ;
@@ -135,9 +135,9 @@ class SiteController extends BaseController
             ['success'=>$success,'company' => $company,'orderId'=>$orderId,'orderName' => $orderName]);
     }
     public function actionOrderSelectedEmail($id) {
-        list($confirmationKey,$orderId)= explode("-", $id);
+        list($confirmationKey,$orderAliasId)= explode("-", $id);
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
-        $order = OrderWork::findOne(['id' => $orderId]) ;
+        $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
         $orderStat = OrderMailing::STAT_SELECTED_ANSWERED ;
         $success = true ;
         $company = '' ;
@@ -151,7 +151,7 @@ class SiteController extends BaseController
             $orderId = $order->id ;
             $orderName = $order->order_name ;
             $developerId = $profile->userid ;
-            $orderMailing = (new OrderMailing())->addOrderMailing($orderId,$developerId,$orderStat) ;
+            $orderMailing = (new OrderMailing())->addOrderMailing($orderAliasId,$developerId,$orderStat) ;
             $success = (!empty($orderMailing)) ;
 
              $success = true ;
