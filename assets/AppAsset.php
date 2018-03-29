@@ -67,6 +67,7 @@ class AppAsset extends AssetBundle
         'js/developerOrders.js',
         'js/profile.js',
         'js/registration.js',
+        'js/mailingResponse.js',
 
     ];
     public $depends = [

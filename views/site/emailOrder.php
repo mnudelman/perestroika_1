@@ -4,6 +4,7 @@
  * Time: 19:13
  * @var $success
  * @var $company
+ * @var $userId
  * @var $orderId
  * @var $orderName
  */
@@ -23,7 +24,7 @@ $messageText = 'Вы ' . '<b>(' . $company .')</b><br>' .
             ' (' . $orderName . ')<br>' .
            'Выбор ИСПОЛНИТЕЛЯ сделает заказчик (пользователь, разместивший заказ)<br>' .
            'Если будет выбрана ваша компания, Вы получите дополнительное уведомление.' ;
-$messageError = 'Допущена ошибка прри обращении к базе данных.' ;
+$messageError = 'Допущена ошибка при обращении к базе данных.' ;
 $message = ($success) ? $messageText : $messageError ;
 ?>
 <div class="panel panel-primary">
@@ -32,11 +33,44 @@ $message = ($success) ? $messageText : $messageError ;
     </div>
     <div class="panel-body">
         <?=$message?>
-        <div class="col-md-1">
-            <a class="btn btn-primary" role="button" href="<?=Url::to(['site/index'])?>">
-                oK!
-            </a>
-        </div>
+        <?php
+        if (!$success) {
+        ?>
+            <div class="col-md-5">
+                <a class="btn btn-primary" role="button"
+                   href="<?=Url::to(['site/index'])?>"
+                >
+                    Перейти на главную страницу
+                </a>
+            </div>
 
+        <?php
+        } else {
+            $answerId = $userId . '-' . $orderId ;
+            ?>
+            <div class="col-md-1">
+                <a class="btn btn-success" role="button"
+                   onclick='orderAnswer("<?= $answerId . '-yes' ?>")'
+                >
+                    oK!
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-warning" role="button"
+                   onclick='orderAnswer("<?= $answerId . '-no' ?>")'
+                >
+                    ОТКАЗ
+                </a>
+            </div>
+            <div class="col-md-5">
+                <a class="btn btn-primary" role="button"
+                   onclick='orderAnswer("<?= $answerId . '-office' ?>")'
+                >
+                    Для принятия решения перейти в кабинет
+                </a>
+            </div>
+            <?php
+        }
+        ?>
     </div>
 </div>

@@ -119,6 +119,7 @@ class SiteController extends BaseController
         $company = '' ;
         $orderId = 0 ;
         $orderName = '' ;
+        $userId = 0 ;
 
         if (empty($profile) || empty($order)) {
             $success = false ;
@@ -126,13 +127,15 @@ class SiteController extends BaseController
             $company  = $profile->company ;
             $orderId = $order->id ;
             $orderName = $order->order_name ;
-            $developerId = $profile->userid ;
-            $orderMailing = (new OrderMailing())->addOrderMailing($orderId,$developerId,$orderStat) ;
-            $success = (!empty($orderMailing)) ;
+            $userId = $profile->userid ;
+//  не надо торопиться
+//            $orderMailing = (new OrderMailing())->addOrderMailing($orderId,$userId,$orderStat) ;
+//            $success = (!empty($orderMailing)) ;
 
         }
         return $this->render('emailOrder',
-            ['success'=>$success,'company' => $company,'orderId'=>$orderId,'orderName' => $orderName]);
+            ['success'=>$success,'company' => $company,'orderId'=>$orderId,
+                'userId'=>$userId,'orderName' => $orderName]);
     }
     public function actionOrderSelectedEmail($id) {
         list($confirmationKey,$orderAliasId)= explode("-", $id);
