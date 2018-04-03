@@ -85,26 +85,49 @@ class LoginForm extends Model
     {
         $scenario = $this->getScenario() ;
         if ($scenario === self::SCENARIO_AUTOLOGIN) {
-
+            return $this->autoLogin() ;
+        } else {
+            return $this->loginDo() ;
         }
+//        if ($this->validate()) {
+//            if($this->rememberMe){
+//                $u = $this->getUser();
+//                $u->generateAuthKey();
+//                $u->ip = Yii::$app->request->userIP;
+//                $u->date_last = date('Y.m.d',time()) ;
+//                $u->save();
+//            }
+//            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+//        }
+//        return false;
+    }
+    private function loginDo()
+    {
         if ($this->validate()) {
-            if($this->rememberMe){
+            if ($this->rememberMe) {
                 $u = $this->getUser();
                 $u->generateAuthKey();
                 $u->ip = Yii::$app->request->userIP;
-                $u->date_last = date('Y.m.d',time()) ;
+                $u->date_last = date('Y.m.d', time());
                 $u->save();
             }
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
-    }
 
+    }
     /**
      * подключение при входе по ссылке через email
+     * сценарий должен быть только SCENARIO_AUTOLOGIN
      */
     public function autoLogin() {
-
+        $scenario = $this->getScenario() ;
+        if ($scenario !== self::SCENARIO_AUTOLOGIN) {
+            return false ;
+        }
+        $this->rememberMe = false ;
+        $this->_user = User::findByUsername($this->autoUserId);
+        return $this->loginDo() ;
     }
     /**
      * Finds user by [[username]]

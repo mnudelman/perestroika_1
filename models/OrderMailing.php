@@ -67,9 +67,7 @@ class OrderMailing extends ActiveRecord
     }
 
     /**
-     * добавить исполнителя
-     * @param $developerId
-     * @param $stat = {0 - рассылка | 1 - ответ | 2 - выбран}
+     * добавить состояние заказа
      */
     public function addOrderMailing($orderId,$developerId,$orderStat)
     {
@@ -84,6 +82,13 @@ class OrderMailing extends ActiveRecord
             $obj->save();
         }
         return $obj;
+
+    }
+
+    /**
+     * текущее состояние заказа
+     */
+    public function getOrderStat() {
 
     }
     public function getById($orderId,$developerId) {

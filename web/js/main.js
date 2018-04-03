@@ -156,48 +156,6 @@ function showError(errorText, errorTitle) {
 
 
 /**
- * загрузить изображение на сайт
- * оставляю как есть
- * @param uploadFormId - форма для загрузки изображения
- * @param urlUpload    - контроллер, обрабатывающий запрос на файл-изображение
- * @param avatarImgId  - ид элемента-изображения на странице
- */
-// function uploadOnClick(uploadFormId,urlUpload ,avatarImgId,ajaxCallback) {
-//     var imgFile = $('#'+uploadFormId+' [type="file"').val() ;
-//     if (imgFile.length == 0) {               // файл не выбран
-//         return ;
-//     }
-//     var formData = new FormData($('#' + uploadFormId)[0]);
-//     //url: 'index.php?r=site%2Fupload',
-//     $.ajax({
-//         url: urlUpload,
-//         type: 'POST',
-//         // Form data
-//         data: formData,
-//         //beforeSend: beforeSendHandler, // its a function which you have to define
-//         success: function(response) {
-//             var rr =JSON.parse(response) ;
-//             var newImgPath = rr['uploadedPath'] ;
-//             var newImgUrl = rr['uploadedUrl'] ;
-//             if (typeof(ajaxCallback) === 'function' ) {
-//                 ajaxCallback(newImgUrl,newImgPath) ;
-//             } else {
-//                 newImgUrl = newImgUrl[0] ;
-//                 $('#' + avatarImgId).attr('src',newImgUrl) ;
-//             }
-//         },
-//         error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-//             var responseText = event.responseText; // html - page
-//             showError(responseText);
-//         },
-//
-//         //Options to tell jQuery not to process data or worry about content-type.
-//         cache: false,
-//         contentType: false,
-//         processData: false
-//     });
-// }
-/**
  *
  * @param htmlPrefix
  * @param type - {'avatar' | 'gallery'} определяет тип загрузки (1 файл или несколько)
@@ -356,4 +314,54 @@ function getTooltipText(htmlPrefix,tooltipName,variant) {
      var tooltipsNode = $('#' + htmlPrefix +'-tooltips') ;
      var currentTooltip = tooltipsNode.find('[name="' + tooltipName + '"]') ;
      return currentTooltip.data(variant) ;
+}
+
+/**
+ * показать имя пользователя и avatar в  topMenu
+ */
+
+function avatarShow() {
+    var cnt = paramSet.getObj('AvatarShowController') ;
+    if (cnt === null) {
+        cnt = new AvatarShowController() ;
+        paramSet.putObj('AvatarShowController',cnt) ;
+    }
+    cnt.avatarShow() ;
+}
+
+/**
+ * объект для вывода имени пользователя
+ * @constructor
+ */
+function AvatarShowController() {
+    var url = 'index.php?r=user%2Fget-avatar' ;
+    var avatarNode =  $('#topmenu-avatar') ;
+    var ajaxExe =  null ;
+    var _this = this ;
+    //-------------------------------//
+    this.avatarShow = function() {
+       if (ajaxExe === null) {
+           ajaxExe = new AjaxExecutor() ;
+       }
+       var data = {
+           opCod: 'getUserName'
+       } ;
+       ajaxExe.setUrl(url) ;
+       ajaxExe.setData(data) ;
+       ajaxExe.setCallback(avatarShowGo) ;
+        ajaxExe.go() ;
+    } ;
+    /**
+     *imgName' => $avatar['imgName'],
+     'url' => $avatar['url'],
+
+     * @param rr
+     */
+    var avatarShowGo = function (rr) {
+        var success = rr['success'] ;
+        var urlAvatar = rr['url'] ;
+        var imgAvatar = rr['imgName'] ;
+        var src =  urlAvatar + '/' + imgAvatar ;
+        avatarNode.attr('src',src) ;
+    } ;
 }

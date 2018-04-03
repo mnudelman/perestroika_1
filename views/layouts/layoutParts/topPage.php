@@ -129,7 +129,7 @@ if ($userIsGuest || empty($imgAvatarName)) {
                 'id' => '',
                 'data-toggle' => "dropdown", 'href' => "#",
                 'role' => "button", 'aria-haspopup' => "true",'aria-expanded'=>"false"])  .
-        $imgAvatar . '<span id="topmenu-username">' . $userName .'</span>' .
+        $imgAvatar . '&nbsp;&nbsp;' . '<span id="topmenu-username">' . $userName .'</span>' .
         '<span class="caret"></span>' . Html::endTag('a') ;
     // тело dropdown
 

@@ -1,26 +1,28 @@
 /**
  *   обслужимание форм ответов на почтовые извещения
  */
-/**
- * ответ в форме подтверждения на выполнение заказа
- * @param answer = {0 - no  | 1 - yes | 2 - detail }
- */
-function orderSelectedAnswer(answer) {
-
-}
 
 /**
- * ответ в форме подтверждения участия в конкурсе на выполнение работ
- * ответ 2 - detail должен отправить в КАБИНЕТ
- * @param answer = {0 - no  | 1 - yes | 2 - detail }
+ * ответ в форме подтверждения на изменение состояния заказа
+ * в зависимости от ответа ИСПОЛНИТЕЛЯ на запрос ЗАКАЗЧИКА
+ * @param answer = {order | orderSelected }-       // имя вопроса
+ *                  userId-orderId-
+ *                  {yes|no|office}               // варианты ответа
  */
-function orderAnswer(answer) {
-var arr = answer.split('-') ;
-var userId = arr[0] ;
-var orderId = arr[1] ;
-var answerType = arr[2] ; // yes | no | office
-    
-}
+function orderStatAnswer(answer) {
+    var arr = answer.split('-');
+    var answerName = arr[0];
+    var userId = arr[1];
+    var orderId = arr[2];
+    var answerType = arr[3]; // yes | no | office
+    var objName = 'orderAnswerController';
+    var cnt = paramSet.getObj(objName);
+    if (cnt === null) {
+        cnt = new MailingResponse();
+        paramSet.putObj(objName, cnt);
+    }
+    cnt.answerDo(answerName,userId,orderId,answerType) ;
+}   
 
 /**
  * ответ - подтверждение регистрации
@@ -29,15 +31,10 @@ function confirmationAnswer() {
 
 }
 function MailingResponse() {
-    var htmlPrefix ;               // это htmlPrefix для элементов страницы
-    var ajaxExe ;
-    var urlPrefix = 'index.php?r=' + 'site' + '%2F' ;
+    var ajaxExe = null ;
+    var urlPrefix = 'index.php?r=' + 'mailing-response' + '%2F' ;
 
-   var url = {
-        order: urlPrefix + 'order-answer',
-        orderSelected: urlPrefix + 'order-selected-answer',
-        office: urlPrefix + 'to-office'
-    } ;
+    var url = urlPrefix + 'order-answer' ;
     var _this = this ;
     //-------------------------------------------------//
     this.init = function (html) {
@@ -45,18 +42,22 @@ function MailingResponse() {
         ajaxExe = new AjaxExecutor() ;
 
     } ;
-    var resShow = function (rr) {
-
-    } ;
-    this.goToOffice = function(userId) {
+    this.answerDo = function (answerName,userId,orderId,answerType) {
+        if (ajaxExe === null) {
+            ajaxExe = new AjaxExecutor() ;
+        }
         var data = {
-            userId: userId
+            answerName: answerName,
+            userId: userId,
+            orderId: orderId,
+            answerType: answerType
         } ;
-        ajaxExe.setUrl(url.office) ;
+        ajaxExe.setUrl(url) ;
         ajaxExe.setData(data) ;
-        ajaxExe.setCallback(resShow) ;
+        ajaxExe.setClallback(resShow) ;
         ajaxExe.go() ;
-
+    } ;
+    var resShow = function (rr) {
 
     } ;
     this.orderAnswer = function (userId,orderId,answerType) {
@@ -71,16 +72,4 @@ function MailingResponse() {
         ajaxExe.go() ;
 
     };
-        this.orderSelectedAnswer = function (userId,orderId,answerType) {
-            var data = {
-                orderId:orderId,
-                userId: userId,
-                answerType: answerType
-            } ;
-            ajaxExe.setUrl(url.orderSelected) ;
-            ajaxExe.setData(data) ;
-            ajaxExe.setCallback(resShow) ;
-            ajaxExe.go() ;
-
-    } ;
 }

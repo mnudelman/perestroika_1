@@ -46,11 +46,11 @@ $message = ($success) ? $messageText : $messageError ;
 
         <?php
         } else {
-            $answerId = $userId . '-' . $orderId ;
+            $answerId = 'orderSelected' .'-' . $userId . '-' . $orderId ;
             ?>
             <div class="col-md-1">
                 <a class="btn btn-success" role="button"
-                   onclick='orderAnswer("<?= $answerId . '-yes' ?>")'
+                   onclick='orderStatAnswer("<?= $answerId . '-yes' ?>")'
                 >
                     oK!
                 </a>

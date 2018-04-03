@@ -86,6 +86,11 @@ class SiteController extends BaseController
         return $this->render('about');
     }
 
+    /**
+     * подтверждение регистрации по email
+     * @param $id
+     * @return string - переход на форму подтверждения
+     */
     public function actionEmail($id) {
         $profile = UserProfile::findOne(['confirmation_key' => $id]);
         $success = true ;
@@ -108,10 +113,11 @@ class SiteController extends BaseController
     /**
      * Подтверждение участия в конкурсе на выполнение заказа
      * @param $id
-     * @return string
+     * @return string - переход на форму подтверждения
      */
     public function actionOrderEmail($id) {
-        list($confirmationKey,$orderAliasId)= explode("-", $id);
+        list($type,$confirmationKey,$orderAliasId)= explode("-", $id);
+
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
         $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
         $orderStat = OrderMailing::STAT_ANSWERED ;
@@ -137,6 +143,12 @@ class SiteController extends BaseController
             ['success'=>$success,'company' => $company,'orderId'=>$orderId,
                 'userId'=>$userId,'orderName' => $orderName]);
     }
+
+    /**
+     * принятие предложения от ЗАКАЗЧИКА на выполнение работ по ЗАКАЗУ
+     * @param $id
+     * @return string - переход на форму подтверждения
+     */
     public function actionOrderSelectedEmail($id) {
         list($confirmationKey,$orderAliasId)= explode("-", $id);
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
@@ -298,4 +310,5 @@ class SiteController extends BaseController
             return $this->goBack();
         }
     }
+
  }

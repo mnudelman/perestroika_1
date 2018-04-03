@@ -270,5 +270,18 @@ class UserController extends BaseController
             ->send();
 
     }
+    public function actionGetAvatar() {
+        $userId = Yii::$app->user->identity->id;
+        $userProfile = UserProfile::findOne(['userid' => $userId]);
+//        'imgName' => $this->avatar,
+//            'url' => $path['url'],
+//            'dir' => $path['dir'],
+        $avatar = $userProfile->getAvatar() ;
+        $answ = [
+        'imgName' => $avatar['imgName'],
+            'url' => $avatar['url'],
+        ];
+        echo json_encode($answ);
 
+    }
 }
