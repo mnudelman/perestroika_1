@@ -5,30 +5,30 @@
  * Time: 22:09
  */
 namespace app\views\order;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 
 class OrderMailingPrepare
 {
     private $orderMailingStat = [
         'notSent' => [
-            'stat' => [OrderMailing::STAT_NO_SENT], // не отправлено предложение
+            'stat' => [OrderStatFunc::STAT_NO_SENT], // не отправлено предложение
             'pictureClass' => 'fa fa-envelope-o fa-lg',
             'btTitle' => 'Состояние заказа. Предложение не отправлено',
         ],
         'sent' => [
-                'stat' => [OrderMailing::STAT_SENT],    // отправлено предложение
+                'stat' => [OrderStatFunc::STAT_SENT],    // отправлено предложение
                 'pictureClass' => 'fa fa-send-o fa-lg',
                 'btTitle' => 'Состояние заказа. Предложение отправлено',
         ],
         'answered' => [
             'stat' => [
-                OrderMailing::STAT_ANSWERED, // согласие на исполнение
-                OrderMailing::STAT_SELECTED],
+                OrderStatFunc::STAT_ANSWERED, // согласие на исполнение
+                OrderStatFunc::STAT_SELECTED],
             'pictureClass' =>'fa fa-check-square-o fa-lg',
             'btTitle' => 'Состояние заказа. Получено подтверждение от исполнителя',
         ],
         'selected' => [
-            'stat' => [OrderMailing::STAT_SELECTED],  // выбран исполнителем
+            'stat' => [OrderStatFunc::STAT_SELECTED],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up fa-lg',
             'btTitle' => 'Выбран исполнителем',
         ],

@@ -10,7 +10,7 @@ use Yii ;
 use app\models\UserProfile ;
 use app\service\PageItems ;
 use yii\db\Query ;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 //---------------------------------------//
 class OrderWork extends ActiveRecord{
     public $userId = null;
@@ -236,7 +236,7 @@ class OrderWork extends ActiveRecord{
         return $r  ;
     }
     public function getOrderMailing() {
-        return $this->hasMany(OrderMailing::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderStatFunc::className(), ['order_id' => 'id']);
     }
 
     public static function className() {

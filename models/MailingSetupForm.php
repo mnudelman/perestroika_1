@@ -87,6 +87,18 @@ class MailingSetupForm  extends FilterForm
     public function getFilter() {
         $setup = parent::getFilter() ;
         $this->currentTime = date('d M Y H:00 T',time()) ;
+
+        $tm = $this->deadline ;
+        if (is_string($this->deadline)) {
+            $tm = strtotime($this->deadline) ;
+        }elseif (!is_numeric($tm)) {
+            $tm = time() ;
+        }
+        if ($tm <= time()) {
+            $tm += 86400 ;
+        }
+        $this->deadline = date('d M Y',$tm) ;
+        $setup['deadline'] = $this->deadline ;
         $setup['currentTime'] = $this->currentTime ;
         return $setup ;
     }
@@ -117,7 +129,7 @@ class MailingSetupForm  extends FilterForm
         $this->autoSendFlag = false ;
         $this->mailingNumberMax = 100 ;
         $tm = time()  + 86400 ;
-        $this->deadline = date('Y-m-d',$tm) ;
+        $this->deadline = date('d M Y',$tm) ;
         $this->deadlineTime = $this->getRoundTime(date('H',$tm)) ;
 
         $this->currentTime = date('d M Y H:00 T',time()) ;

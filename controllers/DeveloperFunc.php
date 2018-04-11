@@ -4,7 +4,8 @@
  */
 
 namespace app\controllers;
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
+use app\models\OrderMailing ;
 use app\models\OrderWork ;
 use app\service\TaskStore ;
 use app\components\UserGeography ;
@@ -187,13 +188,13 @@ class DeveloperFunc {
         $orderId = $this->getCurrentOrderId() ;
         $lSelectedReadyListItems = [] ;
         $lSelectedListItems = [] ;
-        $lSelectedReady = $this->getDataFull(1,'=',OrderMailing::STAT_SELECTED_READY) ;
+        $lSelectedReady = $this->getDataFull(1,'=',OrderStatFunc::STAT_SELECTED_READY) ;
         if (is_array($lSelectedReady)) {
             $lSelectedReadyListItems = $lSelectedReady['listItems'] ;
         }
 
 
-        $lSelected= $this->getDataFull(1,'>=',OrderMailing::STAT_SELECTED) ;
+        $lSelected= $this->getDataFull(1,'>=',OrderStatFunc::STAT_SELECTED) ;
         if (is_array($lSelected)) {
             $lSelectedListItems = $lSelected['listItems'] ;
         }
@@ -216,7 +217,7 @@ class DeveloperFunc {
             // если значения совпадают, то click вызывает отмену
             $selectedFlag = !empty($prevDeveloperId) &&
                             ($developerId != $prevDeveloperId);
-            $newStat = OrderMailing::STAT_SELECTED_READY;
+            $newStat = OrderStatFunc::STAT_SELECTED_READY;
 
             if ($selectedFlag) {    // сбросить прежний выбор
                 if (sizeof($lSelectedReadyListItems) > 0) {
@@ -270,7 +271,7 @@ class DeveloperFunc {
         $message = [];
         $success = true;
         // проверить было ли назначение другого исполнителя
-        if ($newStat === OrderMailing::STAT_SELECTED_READY) {
+        if ($newStat === OrderStatFunc::STAT_SELECTED_READY) {
             $res = $this->putOrderSelected($developerId, $currentStat);
             $message = $res['message'];
             $success = $res['success'];
@@ -843,9 +844,9 @@ class DeveloperFunc {
         devOrder.selected_count = orderStat.selected_count
         ';
         $sqlUpdate = Yii::$app->db->createCommand($sqlStatUpdate)
-            ->bindValue(':statSent', OrderMailing::STAT_SENT)
-            ->bindValue(':statAnswered', OrderMailing::STAT_ANSWERED)
-            ->bindValue(':statSelected', OrderMailing::STAT_SELECTED)
+            ->bindValue(':statSent', OrderStatFunc::STAT_SENT)
+            ->bindValue(':statAnswered', OrderStatFunc::STAT_ANSWERED)
+            ->bindValue(':statSelected', OrderStatFunc::STAT_SELECTED)
             ->execute();
 //        $r = Yii::$app->db->createCommand('SELECT * from dev_order_work_count_tmp')
 //            ->queryAll() ;
@@ -978,8 +979,8 @@ class DeveloperFunc {
         ';
         $dataInsert = Yii::$app->db->createCommand($sqlInsert)
             ->bindValue(':currentOrderId', $this->currentOrderId)
-            ->bindValue(':minTotalrank', OrderMailing::MIN_TOTAL_RANK)
-            ->bindValue(':minGeographyrank', OrderMailing::MIN_GEOGRAPHY_RANK)
+            ->bindValue(':minTotalrank', OrderStatFunc::MIN_TOTAL_RANK)
+            ->bindValue(':minGeographyrank', OrderStatFunc::MIN_GEOGRAPHY_RANK)
             ->queryAll();
 
         $insertList = [];

@@ -7,7 +7,7 @@
 namespace app\controllers;
 
 
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
 use yii\web\Controller;
 use app\controllers\BaseController ;
 use app\service\TaskStore ;
@@ -157,7 +157,7 @@ class OrderDeveloperController extends BaseController {
         $developerId = Yii::$app->request->post('developerId');
         $toggleDirect = Yii::$app->request->post('toggleDirect');
         $orderId = $this->getCurrentOrderId() ;
-        $orderMailing = new OrderMailing() ;
+        $orderMailing = new OrderStatFunc() ;
         $orderRec = $orderMailing->getById($orderId,$developerId) ;
         $orderStat = $orderRec->stat ;
         $newStat = (new OrderStatFunc())->nextStat('customer',$toggleDirect,$orderStat) ;
@@ -227,7 +227,7 @@ class OrderDeveloperController extends BaseController {
         $limit = 20 ; // max число рассылок
         $devFunc = new DeveloperFunc() ;
         $limit = 1 ;
-        $orderStatSelectedReady = OrderMailing::STAT_SELECTED_READY ;
+        $orderStatSelectedReady = OrderStatFunc::STAT_SELECTED_READY ;
         $lSelected = $devFunc->getDataFull($limit,'=',$orderStatSelectedReady) ;    // здесь имена полей как в таблице dev_order_rank_tmp
         $listItems = $lSelected['listItems'] ;
         $success = true ;
@@ -245,14 +245,14 @@ class OrderDeveloperController extends BaseController {
             $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
             $message[] = 'Отправлено уведомление ИСПОЛНИТЕЛЮ ЗАКАЗА' ;
             $messCount = 1;
-            $orderStatSelected = OrderMailing::STAT_SELECTED ;
+            $orderStatSelected = OrderStatFunc::STAT_SELECTED ;
             $devFunc->putOrderStatus($userId,$orderStatSelectedReady,
                 $orderStatSelected) ;
 
         }else {
             $limit = 20 ;
-            $orderStatSentReady = OrderMailing::STAT_SENT_READY ;
-            $orderStatSent = OrderMailing::STAT_SENT ;
+            $orderStatSentReady = OrderStatFunc::STAT_SENT_READY ;
+            $orderStatSent = OrderStatFunc::STAT_SENT ;
             $lSent = $devFunc->getDataFull($limit,'=',$orderStatSentReady) ;    // здесь имена полей как в таблице dev_order_rank_tmp
             $listItems = $lSent['listItems'] ;
             foreach ($listItems as $ind => $item) {

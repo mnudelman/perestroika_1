@@ -8,6 +8,7 @@ use yii\db\ActiveRecord ;
 use app\service\PageItems ;
 use app\service\TaskStore ;
 use app\models\OrderWork ;
+use app\models\OrderStatFunc ;
 use Yii ;
 use yii\db\Query ;
 class OrderMailing extends ActiveRecord
@@ -16,17 +17,19 @@ class OrderMailing extends ActiveRecord
     public $developerId ;
     public $orderStat ;
     public $timeAnswer ;
-    const STAT_NO_SENT = 0 ;    // не отправлено предложение
-    const STAT_SENT_READY = 5 ; // Готов к отправке (заказчик)
-    const STAT_SENT = 10 ;       // отправлено предложение (заказчик)
-    const STAT_ANSWERED_READY = 15 ;  // подтверждение сделано, но не отправлено(исполнитель)
-    const STAT_ANSWERED = 20 ;   // получено подтверждение (исполнитель)
-    const STAT_SELECTED_READY = 25 ;   // выбран исполнитель (заказчик)
-    const STAT_SELECTED = 30 ;   // выбран исполнитель - отправлено предложение
-    const STAT_SELECTED_ANSWERED_READY = 35 ;
-    const STAT_SELECTED_ANSWERED = 40 ; // подтверждение от исполнителя
-    const MIN_TOTAL_RANK = 50 ; // min суммарная оценка(%) для добавления в order_mailing
-    const MIN_GEOGRAPHY_RANK = 50 ; // min оценка(%) географии для добавления в order_mailing
+//    const STAT_NO_SENT = 0 ;    // не отправлено предложение
+//    const STAT_SENT_READY = 5 ; // Готов к отправке (заказчик)
+//    const STAT_SENT = 10 ;       // отправлено предложение (заказчик)
+//    const STAT_ANSWERED_READY = 15 ;  // подтверждение сделано, но не отправлено(исполнитель)
+//    const STAT_ANSWERED = 20 ;   // получено подтверждение (исполнитель)
+//    const STAT_SELECTED_READY = 25 ;   // выбран исполнитель (заказчик)
+//    const STAT_SELECTED = 30 ;   // выбран исполнитель - отправлено предложение
+//    const STAT_SELECTED_ANSWERED_READY = 35 ;
+//    const STAT_SELECTED_ANSWERED = 40 ; // подтверждение от исполнителя
+//    const MIN_TOTAL_RANK = 50 ; // min суммарная оценка(%) для добавления в order_mailing
+//    const MIN_GEOGRAPHY_RANK = 50 ; // min оценка(%) географии для добавления в order_mailing
+    const TIME_EMPTY = '2017-01-01' ; // пустое значение для time_deadline
+    private $statParams = [] ;
     private $_filter = [] ;
     //------------------------------------------//
     public static function tableName()
@@ -44,6 +47,9 @@ class OrderMailing extends ActiveRecord
             'order_id' => 'order_id',
             'developer_id' => 'developer_id',
             'stat' => 'stat',
+            'time_send' => 'time_send',
+            'time_answer' => 'time_answer',
+            'time_deadline' => 'time_deadline',
         ];
     }
 
@@ -51,6 +57,7 @@ class OrderMailing extends ActiveRecord
     {
         return [
             [['order_id', 'developer_id', 'stat'], 'required'],
+            [['time_send','time_answer','time_deadline'],'default'],
         ];
     }
 
@@ -69,12 +76,27 @@ class OrderMailing extends ActiveRecord
     /**
      * добавить состояние заказа
      */
-    public function addOrderMailing($orderId,$developerId,$orderStat)
+    public function addOrderMailing($orderId,$developerId,$orderStat,$deadlineTime = -1)
     {
         $obj = $this->findOrderMailing($orderId,$developerId);
         if (empty($obj)) {
             return $obj ;
         }
+        $currentTime = date('Y-m-dTH',time()) ;
+        $orderStatF = new OrderStatFunc() ;
+        if ($orderStatF->isAnswerStat($orderStat)) {
+            $obj->time_answer = $currentTime ;
+        }
+        if ($orderStatF->isSendStat($orderStat)) {
+            $obj->time_send = $currentTime ;
+        }
+        if ($orderStatF->isDeadlineStat($orderStat)) {
+            if (is_string($deadlineTime)) {
+                $obj->time_deadline = $deadlineTime ;
+            } 
+
+        }
+
         $obj->developer_id = $developerId ;
         $obj->order_id = $orderId ;
         $obj->stat = $orderStat ;

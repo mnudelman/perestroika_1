@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 use app\components\GeographySimpleWidget;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;
@@ -67,7 +67,7 @@ $orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';
 $orderLabel = $orderText . ' № xxxxxxx (<b>' . $newText . '</b>)';
 $listItems = [];
 $additionalModel = new OrderAdditional();
-$mailingModel = new OrderMailing();
+$mailingModel = new OrderStatFunc();
 $infoFields = PageItems::getItemText([$pageItemFile, 'infoFields']);
 
 $toolTipEmptyPicture = 'fa fa-square-o fa-lg';   // пустой квадрат

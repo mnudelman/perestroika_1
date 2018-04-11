@@ -6,7 +6,7 @@
 
 namespace app\controllers;
 use Yii ;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 use app\controllers\BaseController ;
 use app\models\LoginForm ;
 class MailingResponseController extends BaseController {
@@ -18,8 +18,8 @@ class MailingResponseController extends BaseController {
     private $ANSWER_TYPE_OFFICE = 'office' ;
     //-- состояние, в которое должен перейти заказ в зависимости от текущего состояния
     private $nextOrderStat = [
-        'order' => OrderMailing::STAT_ANSWERED,
-        'orderSelected' => OrderMailing::STAT_SELECTED_ANSWERED ,
+        'order' => OrderStatFunc::STAT_ANSWERED,
+        'orderSelected' => OrderStatFunc::STAT_SELECTED_ANSWERED ,
     ] ;
 
     /**
@@ -56,7 +56,7 @@ class MailingResponseController extends BaseController {
  private function setOrderStat($nextOrderStat) {
      $orderId = $this->orderId ;
      $userId = $this->userId ;
-     $orderMailing = (new OrderMailing())
+     $orderMailing = (new OrderStatFunc())
          ->addOrderMailing($orderId, $userId, $nextOrderStat);
      $success = (!empty($orderMailing));
      return $success ;

@@ -6,7 +6,7 @@
 namespace app\models;
 use Yii;
 use yii\base\Model;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 use app\service\PageItems ;
 use app\service\TaskStore ;
 

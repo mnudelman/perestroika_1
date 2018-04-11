@@ -16,7 +16,7 @@ use app\models\OrderWork ;
 use app\service\TaskStore ;
 use app\components\UserGeography ;
 use app\models\OrderAdditional ;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 use app\controllers\OrderFunc ;
 use app\models\OrderFilterForm ;
 use Yii ;
@@ -42,8 +42,8 @@ class OrderController extends BaseController {
         $orderGeneral = [] ;
         $orderGeneral['orderName'] = '' ;
         $orderGeneral['description'] = '' ;
-        $orderGeneral['perBeg'] = date('Y-m-d',time()) ;
-        $orderGeneral['perEnd'] = date('Y-m-d',time()) ;
+        $orderGeneral['perBeg'] = date('d M Y H:00 T',time()) ;
+        $orderGeneral['perEnd'] = date('d M Y H:00 T',time()) ;
 
             $answ = [
             'currentOrder' => $this->currentOrder,
@@ -155,7 +155,7 @@ class OrderController extends BaseController {
 
         $orderId = $currentOrder['orderId'] ;
         $additionalModel = new OrderAdditional();
-        $mailingModel = new OrderMailing();
+        $mailingModel = new OrderStatFunc();
         $mailingModel->currentOrderId = $orderId;
         $additionalModel->currentOrderId = $orderId;
         $addList = $additionalModel->getList();
@@ -165,13 +165,13 @@ class OrderController extends BaseController {
         $isSelected = false;
         foreach ($sentList as $key => $value) {
             switch ($key) {
-                case OrderMailing::STAT_SENT :
+                case OrderStatFunc::STAT_SENT :
                     $sentTotal = $value;
                     break;
-                case OrderMailing::STAT_ANSWERED :
+                case OrderStatFunc::STAT_ANSWERED :
                     $answered = $value;
                     break;
-                case OrderMailing::STAT_SELECTED :
+                case OrderStatFunc::STAT_SELECTED :
                     $isSelected = ($value) ? true : false;;
                     break;
 

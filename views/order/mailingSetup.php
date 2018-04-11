@@ -38,8 +38,8 @@ $mailingNumberMaxItems = $setupForm->getMailingNumberMaxItems() ;
         <div class="col-md-8">
             <?= $form->field($setupForm, 'deadline')
                 ->widget(DatePicker::classname(), [
-                    'language' => 'ru',
-                    'dateFormat' => 'yyyy-MM-dd',
+                    'language' => 'en',
+                    'dateFormat' => 'php:d M Y',
                     'options' => [
                         'class' => 'picker-per-end'
                     ],

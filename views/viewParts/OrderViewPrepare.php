@@ -7,7 +7,7 @@
 
 namespace app\views\viewParts;
 
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
 use app\service\TaskStore ;
 
 class OrderViewPrepare
@@ -22,14 +22,14 @@ class OrderViewPrepare
 
     protected $orderStat = [
         'notSent' => [         // 0
-            'stat' => [OrderMailing::STAT_NO_SENT], // не отправлено предложение
+            'stat' => [OrderStatFunc::STAT_NO_SENT], // не отправлено предложение
             'pictureClass' => 'fa fa-frown-o ', //'fa fa-envelope-o',
             'btClass' => 'btn btn-primary',
             'btTitle' => ['ru' => 'Состояние заказа.Предложение  на выполнение не сделано',
                 'en' => 'Order status.The proposal for execution is not made',]
         ],
         'sentReady' => [    // 5
-            'stat' => [OrderMailing::STAT_SENT_READY], // не отправлено предложение
+            'stat' => [OrderStatFunc::STAT_SENT_READY], // не отправлено предложение
             'pictureClass' => 'fa fa-send-o ', //'fa fa-envelope-o',
             'btClass' => 'btn btn-default',
             'btTitle' => ['ru' => 'Состояние заказа. Предложение исполнителю сделано, но не отправлено',
@@ -37,7 +37,7 @@ class OrderViewPrepare
         ],
 
         'sent' => [          // 10
-            'stat' => [OrderMailing::STAT_SENT],    // отправлено предложение
+            'stat' => [OrderStatFunc::STAT_SENT],    // отправлено предложение
             'pictureClass' => 'fa fa-send-o',
             'btClass' => 'btn btn-primary',
             'btTitle' => ['ru' => 'Состояние заказа. Предложение отправлено',
@@ -52,7 +52,7 @@ class OrderViewPrepare
         ],
         'answeredReady' => [      // 15
             'stat' => [
-                OrderMailing::STAT_ANSWERED_READY], // согласие на исполнение
+                OrderStatFunc::STAT_ANSWERED_READY], // согласие на исполнение
             'pictureClass' => 'fa fa-send-o', //'fa fa-check-square-o',
             'btClass' => 'btn btn-primary',
             'btTitle' => ['ru' => 'Состояние заказа. Подготовил согласие, но не отправил',
@@ -66,7 +66,7 @@ class OrderViewPrepare
         ],
         'answered' => [       // 20
             'stat' => [
-                OrderMailing::STAT_ANSWERED], // согласие на исполнение
+                OrderStatFunc::STAT_ANSWERED], // согласие на исполнение
             'pictureClass' => 'fa fa-send-o', //'fa fa-check-square-o',
             'btClass' => 'btn btn-success',
             'btTitle' => ['ru' => 'Состояние заказа. отправил согласие заказчику',
@@ -79,7 +79,7 @@ class OrderViewPrepare
             ],
         ],
         'selectedReady' => [     // 25
-            'stat' => [OrderMailing::STAT_SELECTED_READY],  // выбран исполнителем
+            'stat' => [OrderStatFunc::STAT_SELECTED_READY],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-default',
             'btTitle' => ['ru' => 'Выбран исполнителем. Предложение не отправлено',
@@ -93,7 +93,7 @@ class OrderViewPrepare
         ],
 
         'selected' => [        // 30
-            'stat' => [OrderMailing::STAT_SELECTED],  // выбран исполнителем
+            'stat' => [OrderStatFunc::STAT_SELECTED],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-primary',
             'btTitle' => ['ru' => 'Выбран исполнителем. Предложение отправлено',
@@ -107,7 +107,7 @@ class OrderViewPrepare
             ],
         ],
         'selectedAnsweredReady' => [    // 35
-            'stat' => [OrderMailing::STAT_SELECTED_ANSWERED_READY],  // выбран исполнителем
+            'stat' => [OrderStatFunc::STAT_SELECTED_ANSWERED_READY],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-primary',
             'btTitle' => ['ru' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Но не отправил подтверждение',
@@ -121,7 +121,7 @@ class OrderViewPrepare
 
         ],
         'selectedAnswered' => [    // 40
-            'stat' => [OrderMailing::STAT_SELECTED_ANSWERED],  // выбран исполнителем
+            'stat' => [OrderStatFunc::STAT_SELECTED_ANSWERED],  // выбран исполнителем
             'pictureClass' => 'fa fa-thumbs-o-up',
             'btClass' => 'btn btn-success',
             'btTitle' => ['ru' => 'Состояние заказа. Согласился на ВЫПОЛНЕНИЕ.Отправил подтверждение',
@@ -161,10 +161,10 @@ class OrderViewPrepare
         'plus' => [
             'rule' => [
                 ['role' => self::ROLE_CUSTOMER,
-                 'stat' => [OrderMailing::STAT_NO_SENT, OrderMailing::STAT_ANSWERED,]
+                 'stat' => [OrderStatFunc::STAT_NO_SENT, OrderStatFunc::STAT_ANSWERED,]
                 ],
                 ['role' => self::ROLE_DEVELOPER,
-                    'stat' => [OrderMailing::STAT_SENT, OrderMailing::STAT_SELECTED]
+                    'stat' => [OrderStatFunc::STAT_SENT, OrderStatFunc::STAT_SELECTED]
                 ],
             ],
             'btn' => [
@@ -178,10 +178,10 @@ class OrderViewPrepare
         'minus' => [
             'rule' => [
                 ['role' => self::ROLE_CUSTOMER,
-                    'stat' => [OrderMailing::STAT_SENT_READY, OrderMailing::STAT_SELECTED_READY]
+                    'stat' => [OrderStatFunc::STAT_SENT_READY, OrderStatFunc::STAT_SELECTED_READY]
                 ],
                 ['role' => self::ROLE_DEVELOPER,
-                    'stat' => [OrderMailing::STAT_ANSWERED_READY, OrderMailing::STAT_SELECTED_ANSWERED_READY],
+                    'stat' => [OrderStatFunc::STAT_ANSWERED_READY, OrderStatFunc::STAT_SELECTED_ANSWERED_READY],
                 ],
             ],
             'btn' => [

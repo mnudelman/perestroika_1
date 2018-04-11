@@ -7,7 +7,8 @@
 namespace app\controllers;
 
 
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
+use app\models\OrderMailing ;
 use yii\web\Controller;
 use app\controllers\BaseController ;
 use app\service\TaskStore ;
@@ -17,7 +18,6 @@ use app\models\MailingSetupForm ;
 use app\models\OrderWork ;
 use app\controllers\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
-use app\models\OrderStatFunc ;
 use yii\helpers\Url ;
 use yii\helpers\Html ;
 use yii\swiftmailer ;
@@ -147,7 +147,6 @@ class DeveloperController extends BaseController {
         $orderStat = $orderRec->stat ;
         $newStat = (new OrderStatFunc())->nextStat('customer',$toggleDirect,$orderStat) ;
 
-
         $devFunc = new DeveloperFunc() ;
         $l = $devFunc->putOrderStatus($developerId,$orderStat,$newStat) ;
 
@@ -262,6 +261,7 @@ class DeveloperController extends BaseController {
     region_stat INTEGER DEFAULT 0,    -- 1 если регион совпадает
     city_stat INTEGER DEFAULT 0,      -- 1 если город совпадает
     geography_rank INTEGER            -- оценка географии(100% - город| 50% - регион
+     * сохранять deadline
      */
     public function actionSendEmail() {
 // атрибуты тек договора
@@ -278,13 +278,13 @@ class DeveloperController extends BaseController {
         $limit = 20 ; // max число рассылок
         $devFunc = new DeveloperFunc() ;
         $limit = 1 ;
-        $orderStatSelectedReady = OrderMailing::STAT_SELECTED_READY ;
+        $orderStatSelectedReady = OrderStatFunc::STAT_SELECTED_READY ;
         $lSelected = $devFunc->getDataFull($limit,'=',$orderStatSelectedReady) ;    // здесь имена полей как в таблице dev_order_rank_tmp
         $listItems = $lSelected['listItems'] ;
         $success = true ;
         $message = [] ;
         $messCount = 0 ;
-        $devFunc = new DeveloperFunc() ;
+//        $devFunc = new DeveloperFunc() ;
 
         if (sizeof($listItems) > 0) {   // есть исполнитель. Больше рассылок не делать
             $item = $listItems[0] ;
@@ -297,14 +297,14 @@ class DeveloperController extends BaseController {
             $this->sendSelectedEmail($confirmation_key,$aliasId,$orderName,$timeCreate,$company,$email) ;
             $message[] = 'Отправлено уведомление ИСПОЛНИТЕЛЮ ЗАКАЗА' ;
             $messCount = 1;
-            $orderStatSelected = OrderMailing::STAT_SELECTED ;
+            $orderStatSelected = OrderStatFunc::STAT_SELECTED ;
             $devFunc->putOrderStatus($userId,$orderStatSelectedReady,
                 $orderStatSelected) ;
 
         }else {
             $limit = 20 ;
-            $orderStatSentReady = OrderMailing::STAT_SENT_READY ;
-            $orderStatSent = OrderMailing::STAT_SENT ;
+            $orderStatSentReady = OrderStatFunc::STAT_SENT_READY ;
+            $orderStatSent = OrderStatFunc::STAT_SENT ;
             $lSent = $devFunc->getDataFull($limit,'=',$orderStatSentReady) ;    // здесь имена полей как в таблице dev_order_rank_tmp
             $listItems = $lSent['listItems'] ;
             foreach ($listItems as $ind => $item) {

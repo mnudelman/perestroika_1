@@ -7,7 +7,7 @@
  */
 namespace app\controllers;
 
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
 use app\models\User;
 use app\service\Files;
 use Yii;
@@ -120,7 +120,7 @@ class SiteController extends BaseController
 
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
         $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
-        $orderStat = OrderMailing::STAT_ANSWERED ;
+        $orderStat = OrderStatFunc::STAT_ANSWERED ;
         $success = true ;
         $company = '' ;
         $orderId = 0 ;
@@ -153,7 +153,7 @@ class SiteController extends BaseController
         list($confirmationKey,$orderAliasId)= explode("-", $id);
         $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
         $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
-        $orderStat = OrderMailing::STAT_SELECTED_ANSWERED ;
+        $orderStat = OrderStatFunc::STAT_SELECTED_ANSWERED ;
         $success = true ;
         $company = '' ;
         $orderId = 0 ;
@@ -166,7 +166,7 @@ class SiteController extends BaseController
             $orderId = $order->id ;
             $orderName = $order->order_name ;
             $developerId = $profile->userid ;
-            $orderMailing = (new OrderMailing())->addOrderMailing($orderAliasId,$developerId,$orderStat) ;
+            $orderMailing = (new OrderStatFunc())->addOrderMailing($orderAliasId,$developerId,$orderStat) ;
             $success = (!empty($orderMailing)) ;
 
              $success = true ;

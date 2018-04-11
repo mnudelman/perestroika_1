@@ -8,13 +8,13 @@
 namespace app\service;
 
 
-class SimpleEncript
+class SimpleEncrypt
 {
-    private $namedEncripts = [
+    private $namedEncrypts = [
         'order' => ['start' => 0, 'step' => 2, 'len' => -1],
         'orderSelected' => ['start' => 1, 'step' => 2, 'len' => -1],
     ];
-    private $currentEncript = ['start' => 0, 'step' => 2, 'len' => -1];
+    private $currentEncrypt = ['start' => 0, 'step' => 2, 'len' => -1];
 
     //--------------------------------------------//
 
@@ -27,20 +27,21 @@ class SimpleEncript
      */
     public function setKey($name = 'zz', $start = -1, $step = -1, $len = -1)
     {
-        if (isset($this->namedEncripts[$name])) {
-            $this->currentEncript = $this->namedEncripts[$name];
+        if (isset($this->namedEncrypts[$name])) {
+            $this->currentEncrypt = $this->namedEncrypts[$name];
         }
-        foreach ($this->currentEncript as $key => $value) {
+        foreach ($this->currentEncrypt as $key => $value) {
             if ($$key >= 0) {
-                $this->currentEncript[$key] = $$key;
+                $this->currentEncrypt[$key] = $$key;
             }
         }
+//        var_dump($this->currentEncrypt) ;
     }
-    public function encriptDo($baseString) {
+    public function encryptDo($baseString) {
         $result = '' ;
-        $start = $this->currentEncript['start'] ;
-        $step =  $this->currentEncript['step'] ;
-        $len =   $this->currentEncript['len'] ;
+        $start = $this->currentEncrypt['start'] ;
+        $step =  $this->currentEncrypt['step'] ;
+        $len =   $this->currentEncrypt['len'] ;
         for ($i = $start ; $i < strlen($baseString); $i += $step) {
             $result .= $baseString[$i] ;
         }
@@ -49,26 +50,41 @@ class SimpleEncript
         }
         return $result ;
     }
-    public function getKey($baseString,$encriptString) {
-        $startSymb = $encriptString[0] ;
-        $secondSymb = $encriptString[1] ;
+
+    /**
+     * получить ключ для расшифровки( это и есть цель расшифровки)
+     * настройка по двум первым символам $encriytString
+     * @param $baseString
+     * @param $encryptString
+     * @return array - при неудаче  false
+     */
+    public function getUnencryptKey($baseString, $encryptString) {
+        $startSymb = $encryptString[0] ;
+        $secondSymb = $encryptString[1] ;
         $start = $this->getStart($baseString,$startSymb) ;
+        if (!$start) {
+            return false ;
+        }
         $step =  $this->getStep($baseString,$secondSymb,$start) ;
+        if (!$step) {
+            return false ;
+        }
+
         $currentEncript['start'] = $start ;
         $currentEncript['step'] = $step ;
-        $currentEncript['len'] = strlen($encriptString) ;
-        $res = $this->encriptDo($baseString) ;
-        $res = (strlen($res) > strlen($encriptString)) ?
-            substr($res,0,strlen($encriptString)) : $res ;
-        $key = ['start' => -1, 'step' => -1, 'len' => -1];
-        $len = strlen($encriptString) ;
-        if ($res === $encriptString) {
+        $currentEncript['len'] = strlen($encryptString) ;
+        $res = $this->encryptDo($baseString) ;
+        $res = (strlen($res) > strlen($encryptString)) ?
+            substr($res,0,strlen($encryptString)) : $res ;
+        $key = false ;
+        $len = strlen($encryptString) ;
+        if ($res === $encryptString) {
             $key = ['start' => $start, 'step' => $step, 'len' => $len];
         }
         return $key ;
     }
     private function getStart($baseString,$startSymb) {
-        $start = -1 ;
+        $start = false ;
         for ($i=0; $i < strlen($baseString); $i++) {
             if ($baseString[$i] === $startSymb) {
                 $start = $i ;
@@ -78,7 +94,7 @@ class SimpleEncript
         return $start ;
     }
     private function getStep($baseString,$secondSymb,$start) {
-        $step = -1 ;
+        $step = false ;
         for ($i = $start+1; $i < strlen($baseString); $i++) {
             if ($baseString[$i] === $secondSymb) {
                 $step = $i - $start ;

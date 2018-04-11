@@ -25,8 +25,7 @@ use yii\jui\DatePicker;
     <?= $form->field($filterForm, 'perBeg')
         ->widget(DatePicker::classname(), [
             'language' => 'en',
-            'dateFormat' => 'yyyy-MM-dd',
-
+            'dateFormat' => 'php:d M Y', // 'yyyy-MM-dd',
             'clientOptions' => [
                 'changeYear' => true,
                 'changeMonth' => true,
@@ -41,7 +40,7 @@ use yii\jui\DatePicker;
     <?= $form->field($filterForm, 'perEnd')
         ->widget(DatePicker::classname(), [
             'language' => 'ru',
-            'dateFormat' => 'yyyy-MM-dd',
+            'dateFormat' => 'php:d M Y', //'yyyy-MM-dd',
             'options' => [
                 'class' => 'picker-per-end'
             ],

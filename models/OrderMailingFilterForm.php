@@ -6,7 +6,7 @@
 namespace app\models;
 use Yii;
 use yii\base\Model;
-use app\models\OrderMailing ;
+use app\models\OrderStatFunc ;
 use app\service\PageItems ;
 use app\service\TaskStore ;
 use app\models\FilterForm ;
@@ -37,8 +37,8 @@ class OrderMailingFilterForm  extends FilterForm
         ];
     }
     protected function defaultFilter() {
-        $this->workRank = OrderMailing::MIN_TOTAL_RANK;
-        $this->geographyRank = OrderMailing::MIN_GEOGRAPHY_RANK;
+        $this->workRank = OrderStatFunc::MIN_TOTAL_RANK;
+        $this->geographyRank = OrderStatFunc::MIN_GEOGRAPHY_RANK;
         return [
             'workRank' => $this->workRank,
             'geographyRank' => $this->geographyRank,

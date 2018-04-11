@@ -1,41 +1,52 @@
 <?php
 /**
  *  Состояние заказа
- * Time: 15:57
+ * константы сотояния и взаимосвязь сотояний
  */
 
 namespace app\models;
-use app\models\OrderMailing ;
 
 class OrderStatFunc
 {
+    const STAT_NO_SENT = 0 ;    // не отправлено предложение
+    const STAT_SENT_READY = 5 ; // Готов к отправке (заказчик)
+    const STAT_SENT = 10 ;       // отправлено предложение (заказчик)
+    const STAT_ANSWERED_READY = 15 ;  // подтверждение сделано, но не отправлено(исполнитель)
+    const STAT_ANSWERED = 20 ;   // получено подтверждение (исполнитель)
+    const STAT_SELECTED_READY = 25 ;   // выбран исполнитель (заказчик)
+    const STAT_SELECTED = 30 ;   // выбран исполнитель - отправлено предложение
+    const STAT_SELECTED_ANSWERED_READY = 35 ;
+    const STAT_SELECTED_ANSWERED = 40 ; // подтверждение от исполнителя
+    const MIN_TOTAL_RANK = 50 ; // min суммарная оценка(%) для добавления в order_mailing
+    const MIN_GEOGRAPHY_RANK = 50 ; // min оценка(%) географии для добавления в order_mailing
+
     private $orderId;
     private $userId;
     private $currentRole;
     private $transferTable = [
         'customer' => [                // роль  - ЗАКАЗЧИК
             [                               // блок состояний
-                OrderMailing::STAT_NO_SENT,
-                OrderMailing::STAT_SENT_READY,
-                OrderMailing::STAT_SENT,
+                self::STAT_NO_SENT,
+                self::STAT_SENT_READY,
+                self::STAT_SENT,
             ],
             [                               // блок состояний
-                OrderMailing::STAT_ANSWERED,
-                OrderMailing::STAT_SELECTED_READY,
-                OrderMailing::STAT_SELECTED,
-                OrderMailing::STAT_SELECTED_ANSWERED,
+                self::STAT_ANSWERED,
+                self::STAT_SELECTED_READY,
+                self::STAT_SELECTED,
+                self::STAT_SELECTED_ANSWERED,
             ]
         ],
         'developer' => [        // роль  - ИСПОЛНИТЕЛЬ
             [                                   // блок состояний
-                OrderMailing::STAT_SENT,
-                OrderMailing::STAT_ANSWERED_READY,
-                OrderMailing::STAT_ANSWERED,
+                self::STAT_SENT,
+                self::STAT_ANSWERED_READY,
+                self::STAT_ANSWERED,
             ],
             [                                    // блок состояний
-                OrderMailing::STAT_SELECTED,
-                OrderMailing::STAT_SELECTED_ANSWERED_READY,
-                OrderMailing::STAT_SELECTED_ANSWERED,
+                self::STAT_SELECTED,
+                self::STAT_SELECTED_ANSWERED_READY,
+                self::STAT_SELECTED_ANSWERED,
             ]
         ]
     ];
@@ -43,20 +54,26 @@ class OrderStatFunc
         'plus' => +1,
         'minus' => -1
     ];
+    // состояния, для которых надо фиксировать deadline
+    private $isTimeDeadlineStat = [self::STAT_SENT,self::STAT_SELECTED,] ;
+    // состояния, для которых надо фиксировать время ответа исполнителя
+    private $isTimeAnsweredStat = [self::STAT_ANSWERED,self::STAT_SELECTED_ANSWERED,] ;
+    // состояния, для которых надо фиксировать время отправления запроса
+    private $isTimeSendStat = [self::STAT_SENT,self::STAT_SELECTED] ;
     //  промежуточные состояния. при рассылке/подтверждении происходит
     // переход в следующее стационарное состояние
     private $statReady = [
         'customer' => [                // роль  - ЗАКАЗЧИК
-            OrderMailing::STAT_SENT_READY =>
-                OrderMailing::STAT_SENT,
-            OrderMailing::STAT_SELECTED_READY =>
-                OrderMailing::STAT_SELECTED,
+            self::STAT_SENT_READY =>
+                self::STAT_SENT,
+            self::STAT_SELECTED_READY =>
+                self::STAT_SELECTED,
         ],
         'developer' => [        // роль  - ИСПОЛНИТЕЛЬ
-            OrderMailing::STAT_ANSWERED_READY =>
-                OrderMailing::STAT_ANSWERED,
-            OrderMailing::STAT_SELECTED_ANSWERED_READY =>
-                OrderMailing::STAT_SELECTED_ANSWERED,
+            self::STAT_ANSWERED_READY =>
+                self::STAT_ANSWERED,
+            self::STAT_SELECTED_ANSWERED_READY =>
+                self::STAT_SELECTED_ANSWERED,
         ]
     ];
 
@@ -66,9 +83,37 @@ class OrderStatFunc
 
     }
 
+    /**
+     * допустим ли для состояния атрибут  time_deadline
+     * @param $stat
+     * @return bool
+     */
+    public function isDeadlineStat($stat) {
+        return in_array($stat,$this->isTimeDeadlineStat) ;
+    }
+    /**
+     * допустим ли для состояния атрибут  time_send
+     * @param $stat
+     * @return bool
+     */
+    public function isSendStat($stat) {
+        return in_array($stat,$this->isTimeSendStat) ;
+    }
+    /**
+     * допустим ли для состояния атрибут  time_answer
+     * @param $stat
+     * @return bool
+     */
+    public function isAnswerStat($stat) {
+        return in_array($stat,$this->isTimeAnsweredStat) ;
+    }
+
     public function nextStat($role, $statDirect, $orderStat) {
-        $orderStat = (empty($orderStat)) ? OrderMailing::STAT_NO_SENT : $orderStat;
+        $orderStat = (empty($orderStat)) ? self::STAT_NO_SENT : $orderStat;
         $newStat = false;
+        if (is_numeric($statDirect)) {
+            $statDirect = ($statDirect - 0 > 0) ? 'plus' : 'minus' ;
+        }
         $sign = $this->directSign[$statDirect];
         $transferTable = $this->transferTable[$role];
         foreach ($transferTable as $key => $blockStates) {

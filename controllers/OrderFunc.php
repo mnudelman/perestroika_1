@@ -10,7 +10,7 @@ use app\components\UserGeography;
 use yii\widgets\ActiveForm;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\models\OrderFilterForm ;
@@ -41,7 +41,7 @@ class OrderFunc
             'viewPrepareFunction' => 'app\views\viewParts\OrderViewPrepareGeneral',
         ],
         'mailing' => [
-            'object' => 'app\models\OrderMailing',
+            'object' => 'app\models\OrderStatFunc',
             'filter' => 'app\models\DeveloperOrdersFilterForm',
             'paginationName' => 'developerOrders',
             'getListAction' => 'getListByUser',
@@ -72,7 +72,7 @@ class OrderFunc
 //            $this->orderModel = new OrderWork() ;
             $this->orderModel = new $xOrderClass() ;
             $this->additionalModel = new OrderAdditional() ;
-            $this->mailingModel = new OrderMailing() ;
+            $this->mailingModel = new OrderStatFunc() ;
             $this->ugModel = new UserGeography() ;
 //            $this->orderFilterModel = new OrderFilterForm() ;
             $this->orderFilterModel = new $xOrderFilter() ;
@@ -269,13 +269,13 @@ class OrderFunc
         $isSelected = false;
         foreach ($sentList as $key => $value) {
             switch ($key) {
-                case OrderMailing::STAT_SENT :
+                case OrderStatFunc::STAT_SENT :
                     $sentTotal = $value;
                     break;
-                case OrderMailing::STAT_ANSWERED :
+                case OrderStatFunc::STAT_ANSWERED :
                     $answered = $value;
                     break;
-                case OrderMailing::STAT_SELECTED_ANSWERED :
+                case OrderStatFunc::STAT_SELECTED_ANSWERED :
                     $isSelected = ($value) ? true : false;;
                     break;
 

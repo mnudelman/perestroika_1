@@ -7,7 +7,8 @@
 namespace app\controllers;
 
 
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
+use app\models\OrderMailing ;
 use yii\web\Controller;
 use app\controllers\BaseController ;
 use app\service\TaskStore ;
@@ -16,7 +17,7 @@ use app\models\DeveloperOrdersFilterForm ;
 use app\models\OrderWork ;
 use app\controllers\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
-use app\models\OrderStatFunc ;
+
 use yii\helpers\Url ;
 use yii\helpers\Html ;
 use yii\swiftmailer ;
@@ -260,7 +261,7 @@ class DeveloperOrdersController extends BaseController {
 
             $orderMailing->addOrderMailing($orderId,$developerId,$newStat) ;
 //          послать координаты
-            if ($newStat === OrderMailing::STAT_SELECTED_ANSWERED) {
+            if ($newStat === OrderStatFunc::STAT_SELECTED_ANSWERED) {
                 $this->emailSelectedAnswered($developerId,$orderId) ;
 
 

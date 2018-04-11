@@ -178,7 +178,7 @@ $filterForm = new OrderFilterForm();
                     <?= $form->field($orderModel, 'description')->textarea(['id'=>$htmlPrefix . '-description']) ?>
                     <?= $form->field($orderModel, 'per_beg')->widget(DatePicker::classname(), [
                         'language' => 'en',
-                        'dateFormat' => 'yyyy-MM-dd',
+                        'dateFormat' => 'php: d M Y',
 //                                'value' => '20-03-2017',
                         'clientOptions' => [
                             'changeYear' => true,
@@ -195,8 +195,8 @@ $filterForm = new OrderFilterForm();
 
                     <?= $form->field($orderModel, 'per_end')
                         ->widget(DatePicker::classname(), [
-                            'language' => 'ru',
-                            'dateFormat' => 'yyyy-MM-dd',
+                            'language' => 'en',
+                            'dateFormat' => 'php: d M Y',
                             'options' => [
                                 'class' => 'picker-per-end',
                                 'id' => $htmlPrefix . '-perEnd',

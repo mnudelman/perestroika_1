@@ -11,7 +11,8 @@ use yii\widgets\ActiveForm;
 use app\components\GeographySimpleWidget;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderMailing;
+use app\models\OrderStatFunc;
+use app\models\OrderStatFunc;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;
@@ -59,7 +60,7 @@ $orderText = (empty($ln) || $ln == 'ru') ? 'заказ' : 'order';
 $orderLabel = $orderText . ' № xxxxxxx (<b>' . $newText . '</b>)';
 $listItems = [];
 $additionalModel = new OrderAdditional();
-$mailingModel = new OrderMailing();
+$mailingModel = new OrderStatFunc();
 $infoFields = PageItems::getItemText([$pageItemFile, 'infoFields']);
 foreach ($orderList as $ind => $orderItem) {
     $item = [];
@@ -80,13 +81,13 @@ foreach ($orderList as $ind => $orderItem) {
     $isSelected = false;
     foreach ($sentList as $key => $value) {
         switch ($key) {
-            case OrderMailing::STAT_SENT :
+            case OrderStatFunc::STAT_SENT :
                 $sentTotal = $value;
                 break;
-            case OrderMailing::STAT_ANSWERED :
+            case OrderStatFunc::STAT_ANSWERED :
                 $answered = $value;
                 break;
-            case OrderMailing::STAT_SELECTED :
+            case OrderStatFunc::STAT_SELECTED :
                 $isSelected = ($value) ? true : false;;
                 break;
 
