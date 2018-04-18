@@ -9,7 +9,7 @@ use yii\bootstrap\Tabs;
 use app\models\UserProfile ;
 use app\service\PageItems ;
 use \app\components\TooltipsWidget ;
-use app\controllers\OrderFunc ;
+use app\controllers\funcs\OrderFunc ;
 
 $htmlPrefix = (isset($htmlPrefix))? $htmlPrefix . 'OrderEdit' : 'orderEdit' ;
 $userIsGuest = Yii::$app->user->isGuest ;

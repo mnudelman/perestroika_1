@@ -28,7 +28,7 @@ class DeveloperOrdersController extends BaseController {
     protected $OBJECT_ID_NAME = 'developerId' ;
     protected  $OBJECT_NAME = 'currentDeveloper' ;
     protected $FILTER_FORM_NAME = 'app\models\DeveloperOrdersFilterForm' ;
-    protected $EXT_FUNC = 'app\controllers\OrderFunc' ;
+    protected $EXT_FUNC = 'app\controllers\funcs\OrderFunc' ;
     protected $VIEW_PREPARE_FUNC = 'app\views\viewParts\OrderViewPrepareByOrder' ;
     protected $userRole = 'developer';
 //-----------------------------------------------------//

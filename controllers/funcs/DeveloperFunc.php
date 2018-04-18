@@ -3,7 +3,7 @@
  * CДополнительные функции для контроллера DeveloperController
  */
 
-namespace app\controllers;
+namespace app\controllers\funcs;
 use app\models\OrderStatFunc;
 use app\models\OrderMailing ;
 use app\models\OrderWork ;

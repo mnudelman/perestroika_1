@@ -21,7 +21,7 @@ use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;
 use yii\bootstrap\Tabs;
-use app\controllers\DeveloperFunc;
+use app\controllers\funcs\DeveloperFunc ;
 use app\components\PaginationWidget ;
 use app\models\OrderMailingFilterForm ;
 use app\models\MailingSetupForm ;

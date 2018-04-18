@@ -21,7 +21,7 @@ use app\models\OrderWork;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;
-use app\controllers\OrderFunc;
+use app\controllers\funcs\OrderFunc;
 use app\models\OrderFilterForm;
 //use app\models\Pagination ;
 //use app\components\PaginationWidget ;

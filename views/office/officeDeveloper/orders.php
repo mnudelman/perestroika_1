@@ -13,7 +13,7 @@ use app\models\OrderWork;
 use app\service\PageItems;
 //use yii\jui\DatePicker;
 use app\service\TaskStore;
-use app\controllers\OrderFunc;
+use app\controllers\funcs\OrderFunc;
 use app\models\DeveloperOrdersFilterForm;
 //use app\components\PaginationWidget ;
 use app\views\viewParts\OrderViewPrepareByOrder;

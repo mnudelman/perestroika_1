@@ -93,7 +93,7 @@ class OrderMailing extends ActiveRecord
         if ($orderStatF->isDeadlineStat($orderStat)) {
             if (is_string($deadlineTime)) {
                 $obj->time_deadline = $deadlineTime ;
-            } 
+            }
 
         }
 

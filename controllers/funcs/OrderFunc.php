@@ -4,13 +4,14 @@
  */
 
 //namespace app\controllers;
-namespace app\controllers ;
+namespace app\controllers\funcs ;
 use app\components\UserGeography;
 //use app\views\viewParts\OrderViewPrepareGeneral;
 use yii\widgets\ActiveForm;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
 use app\models\OrderStatFunc;
+use app\models\OrderMailing;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\models\OrderFilterForm ;
@@ -41,7 +42,7 @@ class OrderFunc
             'viewPrepareFunction' => 'app\views\viewParts\OrderViewPrepareGeneral',
         ],
         'mailing' => [
-            'object' => 'app\models\OrderStatFunc',
+            'object' => 'app\models\OrderMailing',
             'filter' => 'app\models\DeveloperOrdersFilterForm',
             'paginationName' => 'developerOrders',
             'getListAction' => 'getListByUser',
@@ -72,7 +73,7 @@ class OrderFunc
 //            $this->orderModel = new OrderWork() ;
             $this->orderModel = new $xOrderClass() ;
             $this->additionalModel = new OrderAdditional() ;
-            $this->mailingModel = new OrderStatFunc() ;
+            $this->mailingModel = new OrderMailing() ;
             $this->ugModel = new UserGeography() ;
 //            $this->orderFilterModel = new OrderFilterForm() ;
             $this->orderFilterModel = new $xOrderFilter() ;

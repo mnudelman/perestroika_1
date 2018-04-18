@@ -6,17 +6,16 @@
 
 namespace app\controllers;
 
-
+use app\controllers\DeveloperOrdersController ;
 use app\models\OrderStatFunc;
 use app\models\OrderMailing ;
 use yii\web\Controller;
-use app\controllers\DeveloperOrdersController ;
 use app\service\TaskStore ;
 use app\models\Pagination ;
 use app\models\OrderMailingFilterForm ;
 use app\models\MailingSetupForm ;
 use app\models\OrderWork ;
-use app\controllers\funcs\DeveloperFunc ;
+use app\controllers\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
 use yii\helpers\Url ;
 use yii\helpers\Html ;
@@ -24,187 +23,154 @@ use yii\swiftmailer ;
 use Yii ;
 class DeveloperController extends DeveloperOrdersController {
     private $orderId ;
-    protected  $objectId ;
-    protected $OBJECT_ID_NAME = 'orderId' ;
-    protected  $OBJECT_NAME = 'currentOrder' ;
-    protected $FILTER_FORM_NAME = 'app\models\OrderMailingFilterForm' ;
-    protected $EXT_FUNC = 'app\controllers\funcs\DeveloperFunc' ;
-    protected $VIEW_PREPARE_FUNC = 'app\views\viewParts\OrderViewPrepare' ;
-    protected $userRole = 'customer';
+    private $userRole = 'customer';
 //-----------------------------------------------------//
     public function actionIndex() {
         return $this->render('index');
     }
-//    private function getCurrentOrderId() {
-//        $orderId = $this->orderId   ;
-//        if (empty($orderId)) {
-//            $order = TaskStore::getParam('currentOrder') ;
-//            $orderId =   $order['orderId'] ;
-//            $this->orderId = $orderId ;
-//        }
-//        return $orderId ;
-//    }
-    /**
-     * объект
-     * @return mixed
-     */
-    protected  function getContextObjectId() {
-        $objectId = $this->objectId  ;
-        if (empty($objectId)) {
-            $obj = TaskStore::getParam($this->OBJECT_NAME) ;
-            $objectId =   $obj[$this->OBJECT_ID_NAME] ;
-            $this->objectId = $objectId ;
+    private function getCurrentOrderId() {
+        $orderId = $this->orderId   ;
+        if (empty($orderId)) {
+            $order = TaskStore::getParam('currentOrder') ;
+            $orderId =   $order['orderId'] ;
+            $this->orderId = $orderId ;
         }
-        return $objectId ;
+        return $orderId ;
     }
-
-
-
     /**
      * установить новый фильтр и взять список
      * пустой фильтр может быть - тогда, то что по умолчанию
      */
-//    public function actionSetFilter()  {
-//        $filter = Yii::$app->request->post('filter');
-//        if (!empty($filter)) {
-//            $filterForm = new OrderMailingFilterForm() ;
-//            $filterForm->setFilter($filter) ;
-//        }
-//        $orderLock = $this->getOrderLock() ;
-//        $success = true ;
-//        $answ = [
-//            'success' => $success ,
-//            'message' => [],
-//            'orderLock' => $orderLock,
-//            'z-end' => 'zend'
-//        ] ;
-//        echo json_encode($answ) ;
-////        $this->sendDataPage($initFlag) ;
-//    }
+    public function actionSetFilter()  {
+        $filter = Yii::$app->request->post('filter');
+        if (!empty($filter)) {
+            $filterForm = new OrderMailingFilterForm() ;
+            $filterForm->setFilter($filter) ;
+        }
+        $orderLock = $this->getOrderLock() ;
+        $success = true ;
+        $answ = [
+            'success' => $success ,
+            'message' => [],
+            'orderLock' => $orderLock,
+            'z-end' => 'zend'
+        ] ;
+        echo json_encode($answ) ;
+//        $this->sendDataPage($initFlag) ;
+    }
 
     /**
      * отправить страницу данных
      */
-//    private function sendDataPage($initFlag = false,$indexPageType = -1,$pageNum = -1) {
-//        $devFunc = new DeveloperFunc() ;
-//        $l = [] ;
-//        if ($initFlag) {
-//            $l = $devFunc->getDataFirstPage() ;
-//        }else {
-//            $l = $devFunc->getDataOrdinaryPage($indexPageType,$pageNum) ;
-//        }
-//        $lItems = $l['listItems'] ;
-//        $indexPages = $l['indexPages'] ;
-//
-//        $listForShow = (new OrderViewPrepare())->getItemsForShow($lItems) ;
-//        $listItems = $listForShow['setItems'] ;
-//        $buttons = $listForShow['buttons'] ;
-//        $success = true ;
-//        $answ = [
-//            'success' => $success ,
-//            'listItems' => $listItems,
-//            'indexPages' => $indexPages,
-//            'buttons' => $buttons,
-//            'message' => [],
-//            'z-end' => 'zend'
-//        ] ;
-//        echo json_encode($answ) ;
-//
-//    }
+    private function sendDataPage($initFlag = false,$indexPageType = -1,$pageNum = -1) {
+        $devFunc = new DeveloperFunc() ;
+        $l = [] ;
+        if ($initFlag) {
+            $l = $devFunc->getDataFirstPage() ;
+        }else {
+            $l = $devFunc->getDataOrdinaryPage($indexPageType,$pageNum) ;
+        }
+        $lItems = $l['listItems'] ;
+        $indexPages = $l['indexPages'] ;
+
+        $listForShow = (new OrderViewPrepare())->getItemsForShow($lItems) ;
+        $listItems = $listForShow['setItems'] ;
+        $buttons = $listForShow['buttons'] ;
+        $success = true ;
+        $answ = [
+            'success' => $success ,
+            'listItems' => $listItems,
+            'indexPages' => $indexPages,
+            'buttons' => $buttons,
+            'message' => [],
+            'z-end' => 'zend'
+        ] ;
+        echo json_encode($answ) ;
+
+    }
     /**
      * текущий фильтр
      */
-//    public function actionGetFilter()  {
-//        $filterForm = new OrderMailingFilterForm() ;
-//        $filter = $filterForm->getFilter() ;
-//        $success = true ;
-//        $answ = [
-//            'success' => $success ,
-//            'filter' => $filter,
-//            'message' => [],
-//            'z-end' => 'zend'
-//        ] ;
-//        echo json_encode($answ) ;
-//    }
+    public function actionGetFilter()  {
+        $filterForm = new OrderMailingFilterForm() ;
+        $filter = $filterForm->getFilter() ;
+        $success = true ;
+        $answ = [
+            'success' => $success ,
+            'filter' => $filter,
+            'message' => [],
+            'z-end' => 'zend'
+        ] ;
+        echo json_encode($answ) ;
+    }
 
     /**
      * страница данных из indexPages
      */
-//    public function actionNewPage() {
-//
-//        $newPage = Yii::$app->request->post('page');
-//        $pageType = -1 ;
-//        $pageNum = -1 ;
-//        switch ($newPage) {
-//            case 'first' :
-//                $pageType = Pagination::PAGE_FIRST ;
-//                break ;
-//            case 'prev' :
-//                $pageType = Pagination::PAGE_PREV ;
-//                break ;
-//            case 'next' :
-//                $pageType = Pagination::PAGE_NEXT ;
-//                break ;
-//            case 'last' :
-//                $pageType = Pagination::PAGE_LAST ;
-//                break ;
-//            default :
-//                $pageType = Pagination::PAGE_NUM ;
-//                $pageNum = $newPage ;
-//                break ;
-//
-//
-//        }
-//        $this->sendDataPage(false,$pageType,$pageNum) ;
-//    }
-    /**
-     * параметры для определния состояния заказа
-     * на выходе пара ['orderId' => ... , 'developerId' => ..],
-     * определяющая состояние заказа
-     */
-    protected function getNewStatParams() {
-        $developerId = Yii::$app->request->post('developerId');
-        $orderId = $this->getContextObjectId() ;
-        return ['orderId' => $orderId,'developerId' => $developerId] ;
-    }
+    public function actionNewPage() {
 
+        $newPage = Yii::$app->request->post('page');
+        $pageType = -1 ;
+        $pageNum = -1 ;
+        switch ($newPage) {
+            case 'first' :
+                $pageType = Pagination::PAGE_FIRST ;
+                break ;
+            case 'prev' :
+                $pageType = Pagination::PAGE_PREV ;
+                break ;
+            case 'next' :
+                $pageType = Pagination::PAGE_NEXT ;
+                break ;
+            case 'last' :
+                $pageType = Pagination::PAGE_LAST ;
+                break ;
+            default :
+                $pageType = Pagination::PAGE_NUM ;
+                $pageNum = $newPage ;
+                break ;
+
+
+        }
+        $this->sendDataPage(false,$pageType,$pageNum) ;
+    }
     /**
      * переключение состояния
      */
-//    public function actionOrderNewStat() {
-//        $developerId = Yii::$app->request->post('developerId');
-//        $toggleDirect = Yii::$app->request->post('toggleDirect');
-//        $orderId = $this->getCurrentOrderId() ;
-//        $orderMailing = new OrderMailing() ;
-//        $orderRec = $orderMailing->getById($orderId,$developerId) ;
-//        $orderStat = $orderRec->stat ;
-//        $newStat = (new OrderStatFunc())->nextStat('customer',$toggleDirect,$orderStat) ;
-//
-//        $devFunc = new DeveloperFunc() ;
-//        $l = $devFunc->putOrderStatus($developerId,$orderStat,$newStat) ;
-//
-//
-//
-//
-//
-//
-//        $orderMailing->addOrderMailing($orderId,$developerId,$newStat) ;
-//        $answ = [
-//            'opCod' => 'orderStat',
-//            'success' => true,
-//            'message' => [],
-//            'orderId' => $orderId,
-//            'developerId' => $developerId,
-//            'prevOrderStat' => $orderStat,
-//            'newOrderStat' => $newStat,
-//            'currentPage' => $l['currentPage'],
-//            'z_end' => 'end'
-//        ];
-//        echo json_encode($answ);
-//
-//    }
+    public function actionOrderNewStat() {
+        $developerId = Yii::$app->request->post('developerId');
+        $toggleDirect = Yii::$app->request->post('toggleDirect');
+        $orderId = $this->getCurrentOrderId() ;
+        $orderMailing = new OrderMailing() ;
+        $orderRec = $orderMailing->getById($orderId,$developerId) ;
+        $orderStat = $orderRec->stat ;
+        $newStat = (new OrderStatFunc())->nextStat('customer',$toggleDirect,$orderStat) ;
+
+        $devFunc = new DeveloperFunc() ;
+        $l = $devFunc->putOrderStatus($developerId,$orderStat,$newStat) ;
+
+
+
+
+
+
+        $orderMailing->addOrderMailing($orderId,$developerId,$newStat) ;
+        $answ = [
+            'opCod' => 'orderStat',
+            'success' => true,
+            'message' => [],
+            'orderId' => $orderId,
+            'developerId' => $developerId,
+            'prevOrderStat' => $orderStat,
+            'newOrderStat' => $newStat,
+            'currentPage' => $l['currentPage'],
+            'z_end' => 'end'
+        ];
+        echo json_encode($answ);
+
+    }
     private function getOrderLock() {
-        $orderId =  $this->getContextObjectId() ;
+        $orderId = $this->getCurrentOrderId() ;
         $orderModel = new OrderWork() ;
         $order = $orderModel->getById($orderId) ;
         return  (boolean) $order->lock_flag ;
@@ -214,7 +180,7 @@ class DeveloperController extends DeveloperOrdersController {
      * блокировка/отменаблокировки заказа
      */
     public function actionToggleOrderLock() {
-        $orderId =  $this->getContextObjectId() ;
+        $orderId = $this->getCurrentOrderId() ;
         $orderModel = new OrderWork() ;
         $order = $orderModel->getById($orderId) ;
         $lockFlag = (boolean) $order->lock_flag ;
@@ -247,8 +213,11 @@ class DeveloperController extends DeveloperOrdersController {
             'z_end' => 'end'
         ];
         echo json_encode($answ);
+
+        $a = 1 ;
     }
     public function actionSetSetup() {
+        $a = 1 ;
         $setup = Yii::$app->request->post('setup');
         $setupForm = new MailingSetupForm() ;
         $setupForm->setFilter($setup) ;
@@ -315,6 +284,7 @@ class DeveloperController extends DeveloperOrdersController {
         $message = [] ;
         $messCount = 0 ;
 //        $devFunc = new DeveloperFunc() ;
+
         if (sizeof($listItems) > 0) {   // есть исполнитель. Больше рассылок не делать
             $item = $listItems[0] ;
             $userId = $item['userid'] ;
@@ -323,7 +293,7 @@ class DeveloperController extends DeveloperOrdersController {
             $tel = $item['profile_tel'] ;
             $confirmation_key = $item['profile_confirmation_key'] ;
 //            $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
-            $this->sendSelected1Email($confirmation_key,$aliasId,$orderName,$timeCreate,$company,$email) ;
+            $this->sendSelectedEmail($confirmation_key,$aliasId,$orderName,$timeCreate,$company,$email) ;
             $message[] = 'Отправлено уведомление ИСПОЛНИТЕЛЮ ЗАКАЗА' ;
             $messCount = 1;
             $orderStatSelected = OrderStatFunc::STAT_SELECTED ;
