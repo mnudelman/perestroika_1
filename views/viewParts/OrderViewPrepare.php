@@ -7,7 +7,7 @@
 
 namespace app\views\viewParts;
 
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc;
 use app\service\TaskStore ;
 
 class OrderViewPrepare

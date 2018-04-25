@@ -35,6 +35,7 @@ class SimpleEncrypt
                 $this->currentEncrypt[$key] = $$key;
             }
         }
+        return $this ;
 //        var_dump($this->currentEncrypt) ;
     }
     public function encryptDo($baseString) {

@@ -4,7 +4,7 @@
  * константы сотояния и взаимосвязь сотояний
  */
 
-namespace app\models;
+namespace app\controllers\funcs;
 
 class OrderStatFunc
 {

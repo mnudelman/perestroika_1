@@ -7,7 +7,7 @@
 namespace app\controllers;
 
 
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc;
 use app\models\OrderMailing ;
 use yii\web\Controller;
 use app\controllers\DeveloperOrdersController ;

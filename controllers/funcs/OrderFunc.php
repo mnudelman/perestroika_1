@@ -10,7 +10,7 @@ use app\components\UserGeography;
 use yii\widgets\ActiveForm;
 use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
 use app\models\OrderMailing;
 use app\service\PageItems;
 use yii\jui\DatePicker;

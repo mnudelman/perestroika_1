@@ -1,10 +1,16 @@
 <?php
 /**
  * шаблон письма " //  подтверждение экспресс регистрации"
- */
-//$addText = 'Портал <b>Pere-stroika</b> предлагает Вам(<b>' . $company . '</b><br>' .
-//    'принять участие в конкурсе на выполнение работ по заказу <b> № ' . $orderId .
-//    '(' . $orderName .')</b><br>' ;
-//$totId = $id . '-' . $orderId ;
-//$siteUrl = Url::to(['site/order-email','id'=>$id . '-' . $orderId],true) ;
-//$text = 'Для подтверждения участия в конкурсе перейдите по ссылке ' ;
+* @var $email
+* @var $password
+*/
+$subject = 'экспресс регистрация' ;
+$text = 'Для входа на сайт "PERE-STROIKA" используйте<br> ' .
+    '<b>имя(login)</b>: ваш  email('.$email .')<br>' .
+    '<b>пароль</b>:' .$password .' <br>' .
+$referText = 'Для завершения регистрации пройдите по ссылке' ;
+return [
+    'subject' => $subject,
+    'bodyText' => $text,
+    'referText' => $referText,
+] ;

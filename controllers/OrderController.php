@@ -16,7 +16,7 @@ use app\models\OrderWork ;
 use app\service\TaskStore ;
 use app\components\UserGeography ;
 use app\models\OrderAdditional ;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc ;
 use app\controllers\funcs\OrderFunc ;
 use app\models\OrderFilterForm ;
 use Yii ;

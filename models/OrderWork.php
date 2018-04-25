@@ -10,7 +10,7 @@ use Yii ;
 use app\models\UserProfile ;
 use app\service\PageItems ;
 use yii\db\Query ;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc ;
 //---------------------------------------//
 class OrderWork extends ActiveRecord{
     public $userId = null;

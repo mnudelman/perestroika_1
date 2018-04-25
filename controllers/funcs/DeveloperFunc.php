@@ -4,7 +4,7 @@
  */
 
 namespace app\controllers\funcs;
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
 use app\models\OrderMailing ;
 use app\models\OrderWork ;
 use app\service\TaskStore ;

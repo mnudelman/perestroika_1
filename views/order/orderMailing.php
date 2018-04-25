@@ -11,22 +11,18 @@
 ?>
 <?php
 use app\components\CollapsibleListWidget;
-use app\components\UserGeography;
-use yii\widgets\ActiveForm;
-use app\components\GeographySimpleWidget;
-use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
 use app\service\PageItems;
-use yii\jui\DatePicker;
+//use yii\jui\DatePicker;
 use app\service\TaskStore;
-use yii\bootstrap\Tabs;
+//use yii\bootstrap\Tabs;
 use app\controllers\funcs\DeveloperFunc ;
-use app\components\PaginationWidget ;
+//use app\components\PaginationWidget ;
 use app\models\OrderMailingFilterForm ;
 use app\models\MailingSetupForm ;
-use yii\bootstrap\ButtonDropdown ;
-//use app\views\order\OrderMailingPrepare ;
+//use yii\bootstrap\ButtonDropdown ;
+////use app\views\order\OrderMailingPrepare ;
 use app\views\viewParts\OrderViewPrepare ;
 //use dosamigos\datepicker\DatePicker ;
 ?>

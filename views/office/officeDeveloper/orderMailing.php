@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 //use app\components\GeographySimpleWidget;
 //use app\models\OrderWork;
 use app\models\OrderAdditional;
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;

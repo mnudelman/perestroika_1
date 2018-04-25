@@ -7,16 +7,16 @@
 namespace app\controllers;
 
 
-use app\models\OrderStatFunc;
+
 use yii\web\Controller;
 use app\controllers\BaseController ;
 use app\service\TaskStore ;
 use app\models\Pagination ;
 use app\models\DeveloperOrdersFilterForm ;
 use app\models\OrderWork ;
-use app\controllers\DeveloperFunc ;
+use app\controllers\funcs\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
-use app\controllers\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc ;
 use yii\helpers\Url ;
 use yii\helpers\Html ;
 use yii\swiftmailer ;

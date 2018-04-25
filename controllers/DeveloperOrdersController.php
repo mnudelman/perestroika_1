@@ -7,7 +7,7 @@
 namespace app\controllers;
 
 
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
 use app\models\OrderMailing ;
 use yii\web\Controller;
 use app\controllers\BaseController ;
@@ -15,7 +15,7 @@ use app\service\TaskStore ;
 use app\models\Pagination ;
 use app\models\DeveloperOrdersFilterForm ;
 use app\models\OrderWork ;
-use app\controllers\DeveloperFunc ;
+use app\controllers\funcs\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
 
 use yii\helpers\Url ;

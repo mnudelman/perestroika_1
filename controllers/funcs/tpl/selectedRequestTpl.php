@@ -1,19 +1,17 @@
 <?php
 /**
  * шаблон письма " //  запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа"
- */
-$addText = 'Портал <b>Pere-stroika</b> сообщает Вам,(<b>' . $company . '</b>)<br>' .
-    'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $aliasId .
-    '(' . $orderName .')</b><br>' ;
-$totId = $id . '-' . $aliasId ;
-$siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
-$text = 'Для подтверждения вашей готовности выполнить работы и ' .
-    'получить реквизиты заказчика перейдите по ссылке ' ;
-$a = Html::a($text, $siteUrl) ;
-Yii::$app->mailer->compose()
-//            ->setFrom('mnudelman@yandex.ru')
-    ->setTo($email)
-    ->setSubject('Pere-stroika. Вы выбраны исполнителем работ')
-//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-    ->setHtmlBody($addText .' '.$a)
-    ->send();
+* @var $orderId
+* @var $orderName
+* @var $deadline
+*/
+$subject = 'согласие на исполнение работ по заказу' ;
+$bodyText = 'Вы выбраны в качестве исполнителя работ по заказу <b> № ' . $orderId .
+    '(' . $orderName .')</b><br>' .
+    '<b>Время ответа до:</b>' . $deadline ;
+$refText = 'Для подтверждения согласия на выполнение работ пройдите по ссылке' ;
+return [
+    'subject' => $subject,
+    'bodyText' => $text,
+    'referText' => $referText,
+] ;

@@ -9,7 +9,7 @@ use yii\base\Model;
 use app\service\PageItems ;
 use app\service\TaskStore ;
 use app\models\FilterForm ;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc;
 
 class DeveloperOrdersFilterForm  extends FilterForm
 {

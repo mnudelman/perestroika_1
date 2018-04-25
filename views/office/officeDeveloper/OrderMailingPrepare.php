@@ -5,7 +5,7 @@
  * Time: 22:09
  */
 namespace app\views\order;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc;
 
 class OrderMailingPrepare
 {

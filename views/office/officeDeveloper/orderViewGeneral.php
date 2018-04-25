@@ -6,20 +6,20 @@
 ?>
 Это ЗАКЛАДКА "ОСНОВНЫЕ" для выбранного ЗАКАЗА
 <?php
-use app\components\CollapsibleListWidget;
+//use app\components\CollapsibleListWidget;
 use app\components\UserGeography;
 use yii\widgets\ActiveForm;
 use app\components\GeographySimpleWidget;
 use app\models\OrderWork;
-use app\models\OrderAdditional;
-use app\models\OrderStatFunc;
+//use app\models\OrderAdditional;
+//use app\controllers\funcs\OrderStatFunc ;
 use app\service\PageItems;
 use yii\jui\DatePicker;
 use app\service\TaskStore;
 use app\controllers\funcs\OrderFunc;
 use app\models\OrderFilterForm;
-use app\models\Pagination ;
-use app\components\PaginationWidget ;
+//use app\models\Pagination ;
+//use app\components\PaginationWidget ;
 //use dosamigos\datepicker\DatePicker ;
 ?>
 
