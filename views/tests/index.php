@@ -17,6 +17,10 @@ echo Tabs::widget([
             'label' => 'orderMailing',             //'Я - Заказчик',
             'content' => $this->render('orderMailingTest'),
         ],
+        [
+            'label' => 'mailingFunc',             //'рассылка сообщений через почту',
+            'content' => $this->render('mailingFuncTest'),
+        ],
 
     ]
 ]);

@@ -6,9 +6,11 @@
 
 namespace app\controllers;
 use Yii ;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc ;
 use app\controllers\BaseController ;
 use app\models\LoginForm ;
+use app\models\OrderWork ;
+use app\models\OrderMailing ;
 class MailingResponseController extends BaseController {
     private $userId ;
     private $orderId ;
@@ -56,7 +58,7 @@ class MailingResponseController extends BaseController {
  private function setOrderStat($nextOrderStat) {
      $orderId = $this->orderId ;
      $userId = $this->userId ;
-     $orderMailing = (new OrderStatFunc())
+     $orderMailing = (new OrderMailing())
          ->addOrderMailing($orderId, $userId, $nextOrderStat);
      $success = (!empty($orderMailing));
      return $success ;

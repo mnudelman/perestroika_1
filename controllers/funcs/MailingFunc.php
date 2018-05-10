@@ -5,69 +5,72 @@
  */
 
 namespace app\controllers\funcs;
-use yii\helpers\Url ;
-use yii\helpers\Html ;
-use Yii ;
-use app\service\SimpleEncrypt ;
 
+use yii\helpers\Url;
+use yii\helpers\Html;
+use Yii;
+use app\service\SimpleEncrypt;
+use app\controllers\funcs\OrderStatFunc ;
+use app\models\OrderMailing ;
+use app\models\OrderWork ;
+use app\models\UserProfile ;
 class MailingFunc
 {
-    const TYPE_DETAILS_CUSTOMER = 1 ; // реквизиты заказчика
-    const TYPE_DETAILS_DEVELOPER = 2 ;// реквизиты исполнителя
-    const TYPE_READY_REQUEST = 3 ;    // запрос ИСПОЛНИТЕЛЮ на участие в конкурсе на исполнение заказа
-    const TYPE_SELECTED_REQUEST = 4 ; // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
-    const TYPE_REGISTRATION = 5 ;     // подтверждение регистрации
-    const TYPE_EXPRESS = 6 ;          // экспресс регистрация
+    const TYPE_DETAILS_CUSTOMER = 1; // реквизиты заказчика
+    const TYPE_DETAILS_DEVELOPER = 2;// реквизиты исполнителя
+    const TYPE_READY_REQUEST = 3;    // запрос ИСПОЛНИТЕЛЮ на участие в конкурсе на исполнение заказа
+    const TYPE_SELECTED_REQUEST = 4; // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
+    const TYPE_REGISTRATION = 5;     // подтверждение регистрации
+    const TYPE_EXPRESS = 6;          // экспресс регистрация
     private $types = [
         self::TYPE_DETAILS_CUSTOMER => [    // реквизиты заказчика
-            'sendId' => ['userAlias'],
+            'sendId' => ['developer_userAlias'],
             'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
+            'tpl' => 'detailsCustomerTpl',
+            'addressee' => 'developer_email',     // email адресата
         ],
         self::TYPE_DETAILS_DEVELOPER => [    // реквизиты исполнителя
-            'sendId' => ['userAlias'],
+            'sendId' => ['customer_userAlias'],
             'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
+            'tpl' => 'detailsDeveloperTpl',
+            'addressee' => 'customer_email',     // email адресата
         ],
-        self::TYPE_SELECTED_REQUEST=> [     // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
-            'sendId' => ['userAlias','orderAlias'],
-            'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
+        self::TYPE_SELECTED_REQUEST => [     // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
+            'sendId' => ['developer_userAlias', 'orderAlias'],
+            'urlAnswer' => 'selectedRequestTpl',
+            'tpl' => 'selectedRequestTpl',
+            'addressee' => 'developer_email',     // email адресата
         ],
         self::TYPE_READY_REQUEST => [        // запрос ИСПОЛНИТЕЛЮ на участие в конкурсе на исполнение заказа
-            'sendId' => ['userAlias','orderAlias'],
+            'sendId' => ['developer_userAlias', 'orderAlias'],
             'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
+            'tpl' => 'readyRequestTpl',
+            'addressee' => 'developer_email',     // email адресата
         ],
         self::TYPE_REGISTRATION => [     // подтверждение регистрации
-            'sendId' => ['userAlias'],
+            'sendId' => ['user_userAlias'],
             'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
-
+            'tpl' => 'registrationTpl',
+            'addressee' => 'user_email',     // email адресата
         ],
         self::TYPE_EXPRESS => [            // экспресс регистрация
-            'sendId' => ['userAlias'],
+            'sendId' => ['user_userAlias'],
             'urlAnswer' => '',
-            'tpl' => '',
-            'encrypt' => []
-
+            'tpl' => 'expressTpl',
+            'addressee' => 'user_email',     // email адресата
+            'password' => '',               // пароль для экспресс регистрации
         ],
     ];
     //-- длина компонентов передаваемого id
     private $sendIdLen = [
         'userAlias' => 10,
-        'orderAlias'=> 10,
+        'orderAlias' => 10,
         'key' => 10
-    ] ;
+    ];
     //-- дополнительные символы для формировании базовой строки
     private $addString = 'UY-UMSMADUseGcgygrogm13lKp6JDCvh' .
-                          'FUBlLz7B7cmUnb759TVqLSb4FLteHpOB';
-    private $urlAnswer = 'site/mail-answer' ;
+    'FUBlLz7B7cmUnb759TVqLSb4FLteHpOB';
+    private $urlAnswer = 'site/mail-answer';
 // substr(\Yii::$app->security->generateRandomString(),-10)
     private $sendId;
     // атрибуты, передавемые через set....
@@ -83,144 +86,222 @@ class MailingFunc
         'userAlias' => '',
         'tel' => '',          // при передаче реквизитов
     ];
+    //--- пользователь с указанием роли
+    private $userRole = [
+        OrderStatFunc::USER_ROLE_CUSTOMER => [],
+        OrderStatFunc::USER_ROLE_DEVELOPER => []
+    ] ;
+
     private $order = [
         'orderId' => '',
         'orderName' => '',
         'orderAlias' => '',
         'timeCreate' => '',
-    ];
+        'deadline' => '',
+        ];
     private $currentType;
     //-- параметры для вычисления $totalId
     private $encrypt = [
         'start' => 0,
         'step' => 2,
         'len' => 10,
-     ] ;
+    ];
 
-    private $encryptObj = null ;
+    private $encryptObj = null;
     //---- общий заголовок сообщений
     private $headBodyText =
-        'Портал <b>Pere-stroika</b> сообщает Вам (<b> companyName </b>)<br>' ;
-    public function __construct() {
-            $this->encryptObj = new SimpleEncrypt() ;
-    }
+        'Портал <b>Pere-stroika</b> сообщает <br>';
+    private $debugFlag = false ;
+    private $urlAnswerDefault = 'site/email-answer' ;
 
-    public function setUser($userId, $userName)
+
+    public function __construct()
     {
-        $this->user = compact(array_keys($this->user));
+        $this->encryptObj = new SimpleEncrypt();
+    }
+    public function setDebug($debug = true) {
+        $this->debugFlag = $debug ;
         return $this ;
     }
-
-    public function setUserProfile($email, $companyName, $userAlias)
-    {
-        $this->userProfile = compact(array_keys($this->userProfile));
+    /**
+     * атрибуты для email, связанного с состоянием зеказа
+     * @param $orderId
+     * @param $DeveloperId
+     * @param $deadline
+     */
+    public function setOrderAttr($orderId,$developerId) {
+        $orderMailing = new OrderMailing() ;
+        $orderRec = $orderMailing->getById($orderId,$developerId) ;
+        $this->order['orderId'] = $orderId ;
+        $this->order['deadline'] = $orderRec->time_deadline ;
+        $oW = OrderWork::findOne($orderId) ;
+        $customerId = $oW->userid ;        // заказчик
+        $this->order['orderName'] = $oW->order_name ;
+        $this->order['orderAlias'] = $oW->alias_id ;
+        $this->order['timeCreate'] = $oW->time_create ;
+        $this->userRole[OrderStatFunc::USER_ROLE_CUSTOMER] =
+            $this->getUserAttr($customerId) ;
+        $this->userRole[OrderStatFunc::USER_ROLE_DEVELOPER] =
+            $this->getUserAttr($developerId) ;
         return $this ;
     }
+    private function getUserAttr($userId) {
+        $profile = UserProfile::findOne(['userid'=>$userId]) ;
+        return [
+            'userId' => $userId,
+            'email'  => $profile->email,
+            'companyName' => $profile->company,
+            'userAlias' => $profile->confirmation_key,
+            'tel' => $profile->tel,          // при передаче реквизитов
 
-    public function setOrder($orderId, $orderAlias, $orderName, $timeCreate)
-    {
-        $this->order = compact(array_keys($this->order));
-        return $this ;
+        ] ;
     }
 
-    public function setDeadline($deadline)
+    /**
+     * атрибуты пользователя для подтверждения регистрации
+     * @param $userId
+     * @param $password - для экспресс регистрации
+     * @return $this
+     */
+    public function setRegistrationAttr($userId, $password='')
     {
-        $this->deadline = $deadline;
-        return $this ;
+        $userAttr = $this->getUserAttr($userId) ;
+        $userAttr['password'] = $password ;
+        $this->userRole[OrderStatFunc::USER_ROLE_USER] = $userAttr ;
+        return $this;
     }
-
     public function setType($type)
     {
         $this->currentType = $type;
-        return $this ;
+        return $this;
     }
 
     public function sendDo()
     {
-//     $addText = 'Портал <b>Pere-stroika</b> сообщает Вам,(<b>' . $company . '</b>)<br>' .
-//         'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $aliasId .
-//         '(' . $orderName .')</b><br>' ;
-//     $totId = $id . '-' . $aliasId ;
-//     $siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
-//     $text = 'Для подтверждения вашей готовности выполнить работы и ' .
-//         'получить реквизиты заказчика перейдите по ссылке ' ;
-//     $a = Html::a($text, $siteUrl) ;
-//     Yii::$app->mailer->compose()
-////            ->setFrom('mnudelman@yandex.ru')
-//         ->setTo($email)
-//         ->setSubject('Pere-stroika. Вы выбраны исполнителем работ')
-////            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-//         ->setHtmlBody($addText .' '.$a)
-//         ->send();
-//
-        extract($this->user);
-        extract($this->order);
-        extract($this->userProfile);
-        $typeAttr = $this->types[$this->currentType];
-        extract($typeAttr);
-       $headBodyText = str_replace('companyName',$companyName,$this->headBodyText)
-       $textArr =  include __DIR__ . '/tpl/' . $tpl ;
-       $subject = $textArr['subject'] ;
-       $textBody = $headBodyText . $textArr['bodyText'] ;
-       $refText =  $textArr['refText'] ;
-       $totId = $this->getTotalId() ;
-       $siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
-        $a = Html::a($refText, $siteUrl) ;
-     Yii::$app->mailer->compose()
-//            ->setFrom('mnudelman@yandex.ru')
-         ->setTo($email)
-         ->setSubject($subject)
-//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-         ->setHtmlBody($textBody .' '.$a)
-         ->send();
-
-    }
-
-    private function getTotalId() {
-        $typeDescript = $this->types[$this->currentType] ;
-        $sendIdArr = $typeDescript['sendId'] ;
-        $totalId = '' ;
-        for ($i = 0; $i < sizeof($sendIdArr); $i++) {
-            switch ($sendIdArr[$i]) {
-                case 'userAlias' :
-                    $totalId .= $this->userProfile['userAlias'] ;
-                    break ;
-                case 'orderAlias' :
-                    $totalId .= $this->order['orderAlias'] ;
-                    break ;
+// переменные получают имя с префиксом <role>_
+        foreach ($this->userRole as $role => $attr) {
+            if (!empty($attr)) {
+                extract($attr,EXTR_PREFIX_ALL,$role) ;
             }
         }
-        $baseString = $totalId . $this->addString ;
-        $encrypt = $this->encrypt ;           // паарметры шифрования
-        $tuneEncrypt = $sendIdArr['encript'] ;
-        foreach ($tuneEncrypt as $key => $value) {
-            $encrypt[$key] = $value ;
-        }
-        $obj = $this->encryptObj ;
-        extract($encrypt) ;
-        $cipher = $obj ->setKey($this->currentType,$start,$step,$len)
-            ->encryptDo($baseString) ;
-        return $totalId . $cipher ;
-    }
-    public function unencriptMailId($mailId) {
-        $cipherLen = $this->encrypt['len'] ;
-        $cipher =  substr($mailId,-$cipherLen) ;
-        $encryptObj = $this->encryptObj ;
-        $ln = strlen($mailId) ;
-        $params = substr($mailId,0,$ln - $cipherLen) ;
-        $baseStr = $params . $this->addString;
-        $key = $encryptObj->getUnencryptKey($baseStr,$cipher) ;
-        $this->currentType = $key['start'] ;
-        $sendIdArr = $this->types[$this->currentType]['sendId'] ;
-        $paramVect = ['mailingType' => $this->currentType] ;
 
-        for ($i = 0; $i < sizeof($sendIdArr); $i++) {
-            $name = $sendIdArr[$i];
-            $ln = $this->sendIdLen[$name];
-            $paramVect[$name] = substr($params, 0, $ln);
-            $params = substr($params, $ln);
+
+        $tpl = '' ;
+        $email = '' ;
+        extract($this->order);
+        $typeAttr = $this->types[$this->currentType];
+        extract($typeAttr);
+        $headBodyText = $this->headBodyText ;
+       $textArr = include  __DIR__ . '/tpl/' . $tpl . '.php';
+       $subject = $textArr['subject'];
+       $textBody = $headBodyText . $textArr['bodyText'];
+       $referText = $textArr['referText'];
+       $totId = $this->getTotalId();
+       $emailAddressee = $this->getAddressee() ;
+       $urlAnswer = $typeAttr['urlAnswer'] ;
+        $urlAnswer = (empty($urlAnswer)) ? $this->urlAnswerDefault : $urlAnswer ;
+       $siteUrl = Url::to([$urlAnswer, 'id' => $totId], true);
+        $a = Html::a($referText, $siteUrl);     // ссылка для возврата на сайт
+        if ($this->debugFlag) {
+            echo $textBody . ' ' . $a . '<br>' ;
+        }else {
+            Yii::$app->mailer->compose()
+//            ->setFrom('mnudelman@yandex.ru')
+                ->setTo($emailAddressee)
+                ->setSubject($subject)
+//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
+                ->setHtmlBody($textBody . ' ' . $a)
+                ->send();
         }
-        return $paramVect ;
+    }
+
+    /**
+     * получить email - адресата
+     *
+     */
+    private function getAddressee() {
+        $typeDescript = $this->types[$this->currentType];
+        $addresseeText = $typeDescript['addressee'] ;
+        $type = $this->currentType ;
+        if (!empty($addresseeText)) {
+            list($type, $mail) = explode('_', $addresseeText);
+        }
+        return $this->userRole[$type]['email'] ;
+    }
+
+    /**
+     * определить id - параметр для ссылки возврата на сайт в сообщении
+     * атрибут sendId содержит набор компонентов для сборки id
+     * чтобы лишить читаемого вида включается простая шифрация
+     * параметр шифрации start определяет тип сообщения
+     * @return string
+     */
+    private function getTotalId()
+    {
+        $typeDescript = $this->types[$this->currentType];
+        $sendIdArr = $typeDescript['sendId'];
+        $totalId = '';
+        for ($i = 0; $i < sizeof($sendIdArr); $i++) {
+            $componentText = $sendIdArr[$i] ;
+            $type = '' ;
+            $component = '' ;
+            if (strpos($componentText,'_') > 0) {
+                $componentArr = explode('_',$sendIdArr[$i]) ;
+                list($type,$component) = $componentArr ;
+            }else {
+                $component = $componentText ;
+            }
+
+
+            switch ($component) {
+                case 'userAlias' :
+                    $totalId .= $this->userRole[$type]['userAlias'];
+                    break;
+                case 'orderAlias' :
+                    $totalId .= $this->order['orderAlias'];
+                    break;
+            }
+        }
+        $baseString = $totalId . $this->addString;
+        $encrypt = $this->encrypt;           // паарметры шифрования
+        $obj = $this->encryptObj;
+        $start = 0;
+        $step = 0;
+        $len = 0;
+        extract($encrypt);
+        $cipher = $obj->setKey($this->currentType, $start, $step, $len)
+            ->encryptDo($baseString);
+        return $totalId . $cipher;
+    }
+
+    public function unencriptMailId($mailId)
+    {
+        $cipherLen = $this->encrypt['len'];
+        $ln = strlen($mailId);
+        $cipher = ($ln > $cipherLen) ?
+            substr($mailId, -$cipherLen) : 'zzzz';
+        $encryptObj = $this->encryptObj;
+
+        $params = ($ln > $cipherLen) ?
+            substr($mailId, 0, $ln - $cipherLen) : '';
+        $baseStr = $params . $this->addString;
+        $key = $encryptObj->getUnencryptKey($baseStr, $cipher);
+        $paramVect = [];
+        if (false === $key) {
+            return false;
+        } else {
+            $this->currentType = $key['start'];
+            $sendIdArr = $this->types[$this->currentType]['sendId'];
+            $paramVect['mailingType'] = $this->currentType ;
+
+            for ($i = 0; $i < sizeof($sendIdArr); $i++) {
+                $name = $sendIdArr[$i];
+                $ln = $this->sendIdLen[$name];
+                $paramVect[$name] = substr($params, 0, $ln);
+                $params = (strlen($params) > $ln) ? substr($params, $ln) : '';
+            }
+        }
+        return $paramVect;
     }
 
 }

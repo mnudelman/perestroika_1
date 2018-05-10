@@ -2,6 +2,7 @@
 /**
  * контроллер исполнителей - Я - заказчик
  * Time: 21:23
+ * это старый текст. Вместо него используется DeveloperOrdersController
  */
 
 namespace app\controllers;
@@ -23,7 +24,7 @@ use yii\swiftmailer ;
 use Yii ;
 class OrderDeveloperController extends BaseController {
     private $developerId ;
-    private $userRole = 'developer';
+//    private $userRole = 'developer';
 //-----------------------------------------------------//
     public function actionIndex() {
         return $this->render('index');

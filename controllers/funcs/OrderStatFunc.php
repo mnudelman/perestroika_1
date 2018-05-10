@@ -19,12 +19,15 @@ class OrderStatFunc
     const STAT_SELECTED_ANSWERED = 40 ; // подтверждение от исполнителя
     const MIN_TOTAL_RANK = 50 ; // min суммарная оценка(%) для добавления в order_mailing
     const MIN_GEOGRAPHY_RANK = 50 ; // min оценка(%) географии для добавления в order_mailing
-
+    //-- роль пользователя
+    const USER_ROLE_CUSTOMER = 'customer' ;   // заказчик
+    const USER_ROLE_DEVELOPER = 'developer' ; // исполнитель
+    const USER_ROLE_USER = 'user' ; // посто пользователь
     private $orderId;
     private $userId;
     private $currentRole;
     private $transferTable = [
-        'customer' => [                // роль  - ЗАКАЗЧИК
+        self::USER_ROLE_CUSTOMER => [                // роль  - ЗАКАЗЧИК
             [                               // блок состояний
                 self::STAT_NO_SENT,
                 self::STAT_SENT_READY,
@@ -37,7 +40,7 @@ class OrderStatFunc
                 self::STAT_SELECTED_ANSWERED,
             ]
         ],
-        'developer' => [        // роль  - ИСПОЛНИТЕЛЬ
+        self::USER_ROLE_DEVELOPER => [        // роль  - ИСПОЛНИТЕЛЬ
             [                                   // блок состояний
                 self::STAT_SENT,
                 self::STAT_ANSWERED_READY,
@@ -63,13 +66,13 @@ class OrderStatFunc
     //  промежуточные состояния. при рассылке/подтверждении происходит
     // переход в следующее стационарное состояние
     private $statReady = [
-        'customer' => [                // роль  - ЗАКАЗЧИК
+        self::USER_ROLE_CUSTOMER => [                // роль  - ЗАКАЗЧИК
             self::STAT_SENT_READY =>
                 self::STAT_SENT,
             self::STAT_SELECTED_READY =>
                 self::STAT_SELECTED,
         ],
-        'developer' => [        // роль  - ИСПОЛНИТЕЛЬ
+        self::USER_ROLE_DEVELOPER => [        // роль  - ИСПОЛНИТЕЛЬ
             self::STAT_ANSWERED_READY =>
                 self::STAT_ANSWERED,
             self::STAT_SELECTED_ANSWERED_READY =>

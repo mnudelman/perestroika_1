@@ -7,13 +7,13 @@
  */
 namespace app\controllers;
 
-use app\models\OrderStatFunc;
+use app\controllers\funcs\OrderStatFunc ;
+use app\controllers\funcs\MailingFunc ;
 use app\models\User;
 use app\service\Files;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
-use yii\web\Controller;
 use yii\web\UploadedFile ;
 use app\service\PageItems ;
 use yii\filters\VerbFilter;
@@ -144,6 +144,18 @@ class SiteController extends BaseController
                 'userId'=>$userId,'orderName' => $orderName]);
     }
 
+    /**
+     * обработка возвратов по  email
+     * @param $totalId
+     */
+    public function actionEmailResponse($mailId) {
+        $mailVect = (new MailingFunc())->unencriptMailId($mailId) ;
+        $success = true ;
+        if (false === $mailVect ) {      // ошибка расшифровки параметра
+            $success = false ;
+        }
+
+    }
     /**
      * принятие предложения от ЗАКАЗЧИКА на выполнение работ по ЗАКАЗУ
      * @param $id

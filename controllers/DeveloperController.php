@@ -1,6 +1,7 @@
 <?php
 /**
  * контроллер исполнителей - Я - заказчик
+ * в качестве базового используется котроллер Я-исполнитель
  * Time: 21:23
  */
 
@@ -26,11 +27,11 @@ class DeveloperController extends DeveloperOrdersController {
     private $orderId ;
     protected  $objectId ;
     protected $OBJECT_ID_NAME = 'orderId' ;
-    protected  $OBJECT_NAME = 'currentOrder' ;
+    protected $OBJECT_NAME = 'currentOrder' ;
     protected $FILTER_FORM_NAME = 'app\models\OrderMailingFilterForm' ;
     protected $EXT_FUNC = 'app\controllers\funcs\DeveloperFunc' ;
     protected $VIEW_PREPARE_FUNC = 'app\views\viewParts\OrderViewPrepare' ;
-    protected $userRole = 'customer';
+    protected $USER_ROLE = OrderStatFunc::USER_ROLE_CUSTOMER; //'customer';
 //-----------------------------------------------------//
     public function actionIndex() {
         return $this->render('index');

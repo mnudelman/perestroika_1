@@ -30,7 +30,7 @@ class DeveloperOrdersController extends BaseController {
     protected $FILTER_FORM_NAME = 'app\models\DeveloperOrdersFilterForm' ;
     protected $EXT_FUNC = 'app\controllers\funcs\OrderFunc' ;
     protected $VIEW_PREPARE_FUNC = 'app\views\viewParts\OrderViewPrepareByOrder' ;
-    protected $userRole = 'developer';
+    protected $USER_ROLE = OrderStatFunc::USER_ROLE_DEVELOPER ;//'developer';
 //-----------------------------------------------------//
     public function actionIndex() {
         return $this->render('index');
@@ -177,7 +177,7 @@ class DeveloperOrdersController extends BaseController {
         $orderStat = $orderRec->stat ;   // тек состояние
         // состояние зависит от теукущей роли пользователя
         $newStat = (new OrderStatFunc())
-            ->nextStat($this->userRole,$toggleDirect,$orderStat) ;
+            ->nextStat($this->USER_ROLE,$toggleDirect,$orderStat) ;
 //      сохранить состояние
         $orderMailing->addOrderMailing($orderId,$developerId,$newStat) ;
 
@@ -238,7 +238,7 @@ class DeveloperOrdersController extends BaseController {
         $developerId = $statParams['developerId'] ;
 //        $orderId = $statParams['orderId'] ;
 
-        $statReadyList = (new OrderStatFunc())->getStatReadyList($this->userRole) ;
+        $statReadyList = (new OrderStatFunc())->getStatReadyList($this->USER_ROLE) ;
         $xExtFuncName = $this->EXT_FUNC ;
         $limit = -1 ;
         $xExtFunc =  new $xExtFuncName('mailing') ;
@@ -256,7 +256,7 @@ class DeveloperOrdersController extends BaseController {
             $currentStat = $item['mailing']['stat'] ;
             $orderId = $item['id'] ;
             $newStat = $statFunc
-                ->nextStat($this->userRole,'plus',$currentStat) ;
+                ->nextStat($this->USER_ROLE,'plus',$currentStat) ;
             $xExtFunc->putOrderStatus($userId,$orderId,$currentStat,$newStat) ;
 
             $orderMailing->addOrderMailing($orderId,$developerId,$newStat) ;

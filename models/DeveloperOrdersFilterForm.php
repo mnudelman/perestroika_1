@@ -19,7 +19,7 @@ class DeveloperOrdersFilterForm  extends FilterForm
     public $responseStat ;  // только заказы, требующие ответа
     public $responseStatList ;            // список состояний, определяемый  $onlyResponse
     public $statList ;            // все сотояния для роли "Я_ГСПОЛНИТЕЛЬ"
-    private $USER_ROLE = 'developer' ;
+    private $USER_ROLE = OrderStatFunc::USER_ROLE_DEVELOPER ;//'developer' ;
     const DEFAULT_PERBEG = '2017-01-01' ;
     const DEFAULT_PEREND = '2050-12-31';
     //---------------------------------//

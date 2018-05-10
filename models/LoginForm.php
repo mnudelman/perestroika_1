@@ -126,7 +126,7 @@ class LoginForm extends Model
             return false ;
         }
         $this->rememberMe = false ;
-        $this->_user = User::findByUsername($this->autoUserId);
+        $this->_user = User::findIdentity($this->autoUserId);
         return $this->loginDo() ;
     }
     /**
