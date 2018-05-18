@@ -150,10 +150,10 @@ class SiteController extends BaseController
      */
     public function actionEmailResponse($mailId) {
         $mailVect = (new MailingFunc())->unencriptMailId($mailId) ;
-        $success = true ;
-        if (false === $mailVect ) {      // ошибка расшифровки параметра
-            $success = false ;
-        }
+        echo 'site/email-response: <br>' ;
+        var_dump($mailVect) ;
+        $success = (false !== $mailVect ) ;      // ошибка расшифровки параметра
+        return $this->render('emailResponse',['mailId'=> $mailId]) ;
 
     }
     /**

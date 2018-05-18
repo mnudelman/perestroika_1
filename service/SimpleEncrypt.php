@@ -63,7 +63,7 @@ class SimpleEncrypt
         $startSymb = $encryptString[0] ;
         $secondSymb = $encryptString[1] ;
         $start = $this->getStart($baseString,$startSymb) ;
-        if (!$start) {
+        if (false === $start) {
             return false ;
         }
         $step =  $this->getStep($baseString,$secondSymb,$start) ;
@@ -71,9 +71,9 @@ class SimpleEncrypt
             return false ;
         }
 
-        $currentEncript['start'] = $start ;
-        $currentEncript['step'] = $step ;
-        $currentEncript['len'] = strlen($encryptString) ;
+        $this->currentEncrypt['start'] = $start ;
+        $this->currentEncrypt['step'] = $step ;
+        $this->currentEncrypt['len'] = strlen($encryptString) ;
         $res = $this->encryptDo($baseString) ;
         $res = (strlen($res) > strlen($encryptString)) ?
             substr($res,0,strlen($encryptString)) : $res ;

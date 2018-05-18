@@ -22,7 +22,7 @@ class MailingFunc
     const TYPE_SELECTED_REQUEST = 4; // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
     const TYPE_REGISTRATION = 5;     // подтверждение регистрации
     const TYPE_EXPRESS = 6;          // экспресс регистрация
-    private $types = [
+    protected  $types = [
         self::TYPE_DETAILS_CUSTOMER => [    // реквизиты заказчика
             'sendId' => ['developer_userAlias'],
             'urlAnswer' => '',
@@ -37,7 +37,7 @@ class MailingFunc
         ],
         self::TYPE_SELECTED_REQUEST => [     // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
             'sendId' => ['developer_userAlias', 'orderAlias'],
-            'urlAnswer' => 'selectedRequestTpl',
+            'urlAnswer' => '',
             'tpl' => 'selectedRequestTpl',
             'addressee' => 'developer_email',     // email адресата
         ],
@@ -62,7 +62,7 @@ class MailingFunc
         ],
     ];
     //-- длина компонентов передаваемого id
-    private $sendIdLen = [
+    protected $sendIdLen = [
         'userAlias' => 10,
         'orderAlias' => 10,
         'key' => 10
@@ -87,19 +87,19 @@ class MailingFunc
         'tel' => '',          // при передаче реквизитов
     ];
     //--- пользователь с указанием роли
-    private $userRole = [
+    protected $userRole = [
         OrderStatFunc::USER_ROLE_CUSTOMER => [],
         OrderStatFunc::USER_ROLE_DEVELOPER => []
     ] ;
 
-    private $order = [
+    protected $order = [
         'orderId' => '',
         'orderName' => '',
         'orderAlias' => '',
         'timeCreate' => '',
         'deadline' => '',
         ];
-    private $currentType;
+    protected $currentType;
     //-- параметры для вычисления $totalId
     private $encrypt = [
         'start' => 0,
@@ -112,7 +112,7 @@ class MailingFunc
     private $headBodyText =
         'Портал <b>Pere-stroika</b> сообщает <br>';
     private $debugFlag = false ;
-    private $urlAnswerDefault = 'site/email-answer' ;
+    private $urlAnswerDefault = 'site/email-response' ;
 
 
     public function __construct()
@@ -200,7 +200,7 @@ class MailingFunc
        $emailAddressee = $this->getAddressee() ;
        $urlAnswer = $typeAttr['urlAnswer'] ;
         $urlAnswer = (empty($urlAnswer)) ? $this->urlAnswerDefault : $urlAnswer ;
-       $siteUrl = Url::to([$urlAnswer, 'id' => $totId], true);
+       $siteUrl = Url::to([$urlAnswer, 'mailId' => $totId], true);
         $a = Html::a($referText, $siteUrl);     // ссылка для возврата на сайт
         if ($this->debugFlag) {
             echo $textBody . ' ' . $a . '<br>' ;
@@ -269,6 +269,7 @@ class MailingFunc
         $step = 0;
         $len = 0;
         extract($encrypt);
+        $start = $this->currentType ;
         $cipher = $obj->setKey($this->currentType, $start, $step, $len)
             ->encryptDo($baseString);
         return $totalId . $cipher;
@@ -295,9 +296,31 @@ class MailingFunc
             $paramVect['mailingType'] = $this->currentType ;
 
             for ($i = 0; $i < sizeof($sendIdArr); $i++) {
-                $name = $sendIdArr[$i];
-                $ln = $this->sendIdLen[$name];
-                $paramVect[$name] = substr($params, 0, $ln);
+                $componentText = $sendIdArr[$i];
+                $userRole = '' ;
+                $component = '' ;
+                if (strpos($componentText,'_') > 0) {
+                    $componentArr = explode('_',$sendIdArr[$i]) ;
+                    list($userRole,$component) = $componentArr ;
+                }else {
+                    $component = $componentText ;
+                }
+
+
+
+
+
+                $ln = $this->sendIdLen[$component];
+                $componemtValue = substr($params, 0, $ln);
+                if (empty($userRole)) {
+                    $paramVect[$component] = $componemtValue;
+                }else {
+                    $paramVect[$component] = [
+                        'userRole' => $userRole,
+                        'id' => $componemtValue,
+                    ] ;
+                }
+
                 $params = (strlen($params) > $ln) ? substr($params, $ln) : '';
             }
         }
