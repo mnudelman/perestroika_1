@@ -24,40 +24,53 @@ class MailingFunc
     const TYPE_EXPRESS = 6;          // экспресс регистрация
     protected  $types = [
         self::TYPE_DETAILS_CUSTOMER => [    // реквизиты заказчика
-            'sendId' => ['developer_userAlias'],
+            'sendId' => ['developer_userAlias','customer_userAlias','orderAlias'],
             'urlAnswer' => '',
             'tpl' => 'detailsCustomerTpl',
+            'answerTpl' => 'detailsCustomerAnswerTpl',
             'addressee' => 'developer_email',     // email адресата
+            'recipient' => 'developer_userAlias', // получатель ответа
+
         ],
         self::TYPE_DETAILS_DEVELOPER => [    // реквизиты исполнителя
-            'sendId' => ['customer_userAlias'],
+            'sendId' => ['customer_userAlias','developer_userAlias','orderAlias'],
             'urlAnswer' => '',
             'tpl' => 'detailsDeveloperTpl',
+            'answerTpl' => 'detailsDeveloperAnswerTpl',
             'addressee' => 'customer_email',     // email адресата
+            'recipient' => 'customer_userAlias', // получатель ответа
         ],
         self::TYPE_SELECTED_REQUEST => [     // запрос ИСПОЛНИТЕЛЮ о согласии выполнить заказа
             'sendId' => ['developer_userAlias', 'orderAlias'],
             'urlAnswer' => '',
             'tpl' => 'selectedRequestTpl',
+            'answerTpl' => 'selectedRequestAnswerTpl',
             'addressee' => 'developer_email',     // email адресата
+            'recipient' => 'developer_userAlias', // получатель ответа
         ],
         self::TYPE_READY_REQUEST => [        // запрос ИСПОЛНИТЕЛЮ на участие в конкурсе на исполнение заказа
             'sendId' => ['developer_userAlias', 'orderAlias'],
             'urlAnswer' => '',
             'tpl' => 'readyRequestTpl',
+            'answerTpl' => 'readyRequestAnswerTpl',
             'addressee' => 'developer_email',     // email адресата
+            'recipient' => 'developer_userAlias', // получатель ответа
         ],
         self::TYPE_REGISTRATION => [     // подтверждение регистрации
             'sendId' => ['user_userAlias'],
             'urlAnswer' => '',
             'tpl' => 'registrationTpl',
+            'answerTpl' => 'registrationAnswerTpl',
             'addressee' => 'user_email',     // email адресата
+            'recipient' => 'user_userAlias', // получатель ответа
         ],
         self::TYPE_EXPRESS => [            // экспресс регистрация
             'sendId' => ['user_userAlias'],
             'urlAnswer' => '',
             'tpl' => 'expressTpl',
+            'answerTpl' => 'expressAnswerTpl',
             'addressee' => 'user_email',     // email адресата
+            'recipient' => 'user_userAlias', // получатель ответа
             'password' => '',               // пароль для экспресс регистрации
         ],
     ];
@@ -70,26 +83,11 @@ class MailingFunc
     //-- дополнительные символы для формировании базовой строки
     private $addString = 'UY-UMSMADUseGcgygrogm13lKp6JDCvh' .
     'FUBlLz7B7cmUnb759TVqLSb4FLteHpOB';
-    private $urlAnswer = 'site/mail-answer';
-// substr(\Yii::$app->security->generateRandomString(),-10)
-    private $sendId;
-    // атрибуты, передавемые через set....
-    private $deadline;
-    private $user = [
-        'userId' => '',
-        'userName' => '',
-        'password' => '',     //  передаётся при экспресс регистрации
-    ];
-    private $userProfile = [
-        'email' => '',
-        'companyName' => '',
-        'userAlias' => '',
-        'tel' => '',          // при передаче реквизитов
-    ];
     //--- пользователь с указанием роли
     protected $userRole = [
         OrderStatFunc::USER_ROLE_CUSTOMER => [],
-        OrderStatFunc::USER_ROLE_DEVELOPER => []
+        OrderStatFunc::USER_ROLE_DEVELOPER => [],
+        OrderStatFunc::USER_ROLE_USER => [],
     ] ;
 
     protected $order = [
@@ -135,6 +133,10 @@ class MailingFunc
         $this->order['orderId'] = $orderId ;
         $this->order['deadline'] = $orderRec->time_deadline ;
         $oW = OrderWork::findOne($orderId) ;
+        if (empty($oW->alias_id)) {
+            $oW = (new OrderWork())->addOrder($orderId) ;
+        }
+
         $customerId = $oW->userid ;        // заказчик
         $this->order['orderName'] = $oW->order_name ;
         $this->order['orderAlias'] = $oW->alias_id ;
@@ -315,10 +317,15 @@ class MailingFunc
                 if (empty($userRole)) {
                     $paramVect[$component] = $componemtValue;
                 }else {
-                    $paramVect[$component] = [
+//                    $paramVect[$component] = [
+//                        'userRole' => $userRole,
+//                        'aliasId' => $componemtValue,
+//                    ] ;
+                    $paramVect['userAlias'][] = [
                         'userRole' => $userRole,
-                        'id' => $componemtValue,
+                        'aliasId' => $componemtValue,
                     ] ;
+
                 }
 
                 $params = (strlen($params) > $ln) ? substr($params, $ln) : '';

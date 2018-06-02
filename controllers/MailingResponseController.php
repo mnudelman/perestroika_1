@@ -26,6 +26,14 @@ class MailingResponseController extends BaseController {
 
     /**
      * подтверждение согласия на участие в конкурсе на исполнение заказа
+     * data = {
+     *actionFlag: actionFlag,   // выполнить изменение статуса заказа
+     *type: type,       // тип ответа (см. MailingFunc.php)
+     *orderId: orderId,          // заказ
+     *developerId: developerId,   // исполнитель
+     *recipientRole: recipientRole, // роль пользователя-получателя ответа
+     *recipientId: recipientId     // id  получателя
+    } ;
      */
  public function actionOrderAnswer() {
      $answerName =  Yii::$app->request->post('answerName');
@@ -38,7 +46,14 @@ class MailingResponseController extends BaseController {
      }
      $this->goToOffice() ;
  }
- public function actionConfirmationAnswer() {
+ /**
+  * var data = {
+  * type: type,             // тип ответа (см. MailingFunc.php)
+  *recipientId: recipientId // id  получателя
+  * } ;
+
+  */
+ public function actionRegistrationAnswer() {
 
  }
 

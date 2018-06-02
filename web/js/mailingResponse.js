@@ -1,7 +1,45 @@
 /**
  *   обслужимание форм ответов на почтовые извещения
  */
+/**
+ * изменение статуса заказа
+ *
+ * @param type  - тип email ответа (см. MailingFunc.php)
+ * @param orderId     - заказ
+ * @param developerId - исполнитель
+ * @param recipientRole - получатель ответа - poль(developer | customer)
+ * @param recipientId  -   получатель ответа - Id
+ */
+function emailOrderStatOkAnswer(type,orderId,developerId,recipientRole,recipientId) {
+    var cnt = getEmailAnswerController() ;
+    var actionFlag = 1 ;    // выполнить изменение статуса заказа
+    cnt.orderStatAnswer(actionFlag,type,orderId,developerId,recipientRole,recipientId) ;
+}
+/**
+ * переход в офис без изменение статуса
+ *
+ * @param type  - тип email ответа (см. MailingFunc.php)
+ * @param orderId     - заказ
+ * @param developerId - исполнитель
+ * @param recipientRole - получатель ответа - poль(developer | customer)
+ * @param recipientId  -   получатель ответа - Id
+ */
+function emailOrderStatOfficeAnswer(type,orderId,developerId,recipientRole,recipientId) {
+    var cnt = getEmailAnswerController() ;
+    var actionFlag = 0 ;    // без выполнения изменений статуса заказа
+    cnt.orderStatAnswer(actionFlag,type,orderId,developerId,recipientRole,recipientId) ;
 
+}
+
+/**
+ * Завершение регистрации
+ * @param type
+ * @param recipientId
+ */
+function emailRegistrationAnswer(type,recipientId) {
+    var cnt = getEmailAnswerController() ;
+    cnt.registrationAnswer(type,recipientId) ;
+}
 /**
  * ответ в форме подтверждения на изменение состояния заказа
  * в зависимости от ответа ИСПОЛНИТЕЛЯ на запрос ЗАКАЗЧИКА
@@ -23,53 +61,64 @@ function orderStatAnswer(answer) {
     }
     cnt.answerDo(answerName,userId,orderId,answerType) ;
 }   
-
-/**
- * ответ - подтверждение регистрации
- */
-function confirmationAnswer() {
+function getEmailAnswerController() {
+    var objName = 'emailAnswerController';
+    var cnt = paramSet.getObj(objName);
+    if (cnt === null) {
+        cnt = new emailAnswerController();
+        paramSet.putObj(objName, cnt);
+        cnt.init() ;
+    }
+    return cnt ;
 
 }
-function MailingResponse() {
+function emailAnswerController() {
     var ajaxExe = null ;
     var urlPrefix = 'index.php?r=' + 'mailing-response' + '%2F' ;
 
-    var url = urlPrefix + 'order-answer' ;
+    var url = {
+        order: urlPrefix + 'order-answer',
+        registration: urlPrefix + 'regisration-answer'
+    };
     var _this = this ;
     //-------------------------------------------------//
     this.init = function (html) {
-        htmlPrefix = html ;
         ajaxExe = new AjaxExecutor() ;
-
     } ;
-    this.answerDo = function (answerName,userId,orderId,answerType) {
-        if (ajaxExe === null) {
-            ajaxExe = new AjaxExecutor() ;
-        }
+    this.orderStatAnswer = function (actionFlag,type,orderId,developerId,recipientRole,recipientId) {
         var data = {
-            answerName: answerName,
-            userId: userId,
+            actionFlag: actionFlag,
+            type: type,
             orderId: orderId,
-            answerType: answerType
-        } ;
-        ajaxExe.setUrl(url) ;
-        ajaxExe.setData(data) ;
-        ajaxExe.setClallback(resShow) ;
-        ajaxExe.go() ;
-    } ;
-    var resShow = function (rr) {
-
-    } ;
-    this.orderAnswer = function (userId,orderId,answerType) {
-        var data = {
-            orderId:orderId,
-            userId: userId,
-            answerType: answerType
+            developerId: developerId,
+            recipientRole: recipientRole,
+            recipientId: recipientId
         } ;
         ajaxExe.setUrl(url.order) ;
         ajaxExe.setData(data) ;
-        ajaxExe.setCallback(resShow) ;
+        ajaxExe.setClallback(resShow) ;
         ajaxExe.go() ;
 
-    };
+    } ;
+    this.registrationAnswer = function(type,recipientId) {
+        var data = {
+            type: type,
+            recipientId: recipientId
+        } ;
+        ajaxExe.setUrl(url.registration) ;
+        ajaxExe.setData(data) ;
+        ajaxExe.setClallback(resShow) ;
+        ajaxExe.go() ;
+
+    } ;
+    /**
+     * возврат только в случае ошибки
+     * @param rr
+     */
+    var resShow = function (rr) {
+        var success = rr['success'] ;
+        var message = rr['message'] ;
+
+    } ;
+
 }
