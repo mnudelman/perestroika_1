@@ -110,8 +110,12 @@ class OrderMailing extends ActiveRecord
     /**
      * текущее состояние заказа
      */
-    public function getOrderStat() {
-
+    public function getOrderStat($orderId,$developerId) {
+            $r = $this->getById($orderId,$developerId) ;
+            if (empty($r)) {
+                return false ;
+            }
+            return $r->stat ;
     }
     public function getById($orderId,$developerId) {
         $r = $this->findOrderMailing($orderId,$developerId) ;

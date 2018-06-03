@@ -50,6 +50,7 @@ class OrderFunc
         ],
 
     ] ;
+    private $currentOrderParamName = 'currentOrder' ;
     //--------------------------------------------//
     public function __construct($sourceType = 'order') {
         $this->setSourceType($sourceType) ;
@@ -82,6 +83,24 @@ class OrderFunc
             $this->pagination = new Pagination($this->paginationName,$paginationClear) ;
         }
 
+    }
+
+    /**
+     * определяет формат сохранения текущего заказа
+     * @param $orderId
+     * @param bool $isNew
+     * @param null $copyFromId
+     */
+    public function setCurrentOrder($orderId,$isNew = false,$copyFromId = null) {
+        $order = [] ;
+        $order['orderId'] = $orderId ;
+        $order['isNew'] = $isNew ;
+        $order['copyFromId'] = $copyFromId ;
+        $paramName = $this->currentOrderParamName ;
+        TaskStore::putParam($paramName,$this->currentOrder) ;
+    }
+    public function getCurrentOrder() {
+        return TaskStore::getParam($this->currentOrderParamName) ;
     }
     /**
      * формирует список для вывода
