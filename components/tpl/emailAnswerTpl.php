@@ -7,6 +7,7 @@
  * @var $buttonStyle
  * @var $parmString
  */
+use yii\helpers\Url ;
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -32,5 +33,10 @@
            }
            ?>
        </div>
+        <div class="row" >
+            <button href="<?=Url::to(['/office/index'])?>" role="button" id="emailAnswerOfficeButton">
+                в оффис
+            </button>
+        </div>
     </div>
 </div>

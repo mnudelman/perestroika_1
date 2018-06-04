@@ -50,7 +50,7 @@ class MailingResponseController extends BaseController
         if ($actionFlag) {
             $oM = new OrderMailing();
             $currentStat = $oM->getOrderStat($orderId, $developerId);
-            $nextStat = $this->nextOrderStat[$recipientRole];
+            $nextStat = $this->nextOrderStat[$type];
             if ($nextStat > $currentStat) {  // можно выполнить
                 $oM->addOrderMailing($orderId, $developerId, $nextStat);
             } else {     // error - состояние уже достигнуто
@@ -58,16 +58,20 @@ class MailingResponseController extends BaseController
                 $message = $this->errorText;
             }
         }
-        if ($success) {
-            $this->goToOffice();
-        } else {
+
+        $success = $success && $this->goToOffice();
+
+
             $answ = [
                 'success' => $success,
                 'message' => $message,
                 'z_end' => 'end'
             ];
-            echo json_encode($answ);
+//            echo json_encode($answ);
+        if ($success) {
+            Yii::$app->response->redirect(['/office/index']);
         }
+
     }
 
     /**
@@ -79,9 +83,7 @@ class MailingResponseController extends BaseController
         $success = false;
         $model = new LoginForm(['scenario' => LoginForm::SCENARIO_AUTOLOGIN]);
         $model->autoUserId = $this->recipientId;
-        if ($model->autoLogin()) {
-            return $this->render('office/index');
-        }
+        return ($model->autoLogin())  ;
 
     }
 }

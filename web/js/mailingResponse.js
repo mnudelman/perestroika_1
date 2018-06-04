@@ -96,7 +96,7 @@ function emailAnswerController() {
         } ;
         ajaxExe.setUrl(url.order) ;
         ajaxExe.setData(data) ;
-        ajaxExe.setClallback(resShow) ;
+        ajaxExe.setCallback(resShow) ;
         ajaxExe.go() ;
 
     } ;
@@ -107,7 +107,7 @@ function emailAnswerController() {
         } ;
         ajaxExe.setUrl(url.registration) ;
         ajaxExe.setData(data) ;
-        ajaxExe.setClallback(resShow) ;
+        ajaxExe.setCallback(resShow) ;
         ajaxExe.go() ;
 
     } ;
@@ -118,7 +118,9 @@ function emailAnswerController() {
     var resShow = function (rr) {
         var success = rr['success'] ;
         var message = rr['message'] ;
-
+        // });
+        // var href = $('#emailAnswerOfficeButton').attr('href') ;
+        // var newWin = window.open(href,'office') ;
     } ;
 
 }

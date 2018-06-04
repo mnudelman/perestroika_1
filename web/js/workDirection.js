@@ -299,11 +299,13 @@ function AjaxExecutor() {
             },
             error: function (event, XMLHttpRequest, ajaxOptions, thrownError) {
                 var responseText = event.responseText; // html - page
-                showError(responseText);
+                if (responseText.length > 0) {
+                    showError(responseText);
+                }
                 if (typeof errorCallback === "function") {
                     errorCallback(responseText) ;
                 }
-            },
+            }
             //Options to tell jQuery not to process data or worry about content-type.
             // эта часть обязательна !!!
             // cache: false,

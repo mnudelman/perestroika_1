@@ -8,7 +8,7 @@ use yii\db\ActiveRecord ;
 use app\service\PageItems ;
 use app\service\TaskStore ;
 use app\models\OrderWork ;
-use app\models\OrderStatFunc ;
+use app\controllers\funcs\OrderStatFunc ;
 use Yii ;
 use yii\db\Query ;
 class OrderMailing extends ActiveRecord
@@ -82,7 +82,7 @@ class OrderMailing extends ActiveRecord
         if (empty($obj)) {
             return $obj ;
         }
-        $currentTime = date('Y-m-dTH',time()) ;
+        $currentTime = date('Y-m-d-H',time()) ;
         $orderStatF = new OrderStatFunc() ;
         if ($orderStatF->isAnswerStat($orderStat)) {
             $obj->time_answer = $currentTime ;

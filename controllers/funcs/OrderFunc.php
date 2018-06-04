@@ -97,7 +97,7 @@ class OrderFunc
         $order['isNew'] = $isNew ;
         $order['copyFromId'] = $copyFromId ;
         $paramName = $this->currentOrderParamName ;
-        TaskStore::putParam($paramName,$this->currentOrder) ;
+        TaskStore::putParam($paramName,$order) ;
     }
     public function getCurrentOrder() {
         return TaskStore::getParam($this->currentOrderParamName) ;
