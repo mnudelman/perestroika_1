@@ -19,7 +19,7 @@ class EmailAnswerFunc extends MailingFunc {
     private $clickParms = [
         'orderParms' =>
             ['type','orderId','developerId','recipientRole','recipientId'],
-        'noOrderParms' => ['type','recipientId'],
+        'noOrderParms' => ['type','recipientRole','recipientId'],
     ] ;
     //------------------------------------------------//
 

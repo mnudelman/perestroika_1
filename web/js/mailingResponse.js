@@ -36,9 +36,9 @@ function emailOrderStatOfficeAnswer(type,orderId,developerId,recipientRole,recip
  * @param type
  * @param recipientId
  */
-function emailRegistrationAnswer(type,recipientId) {
+function emailRegistrationAnswer(type,recipientRole,recipientId) {
     var cnt = getEmailAnswerController() ;
-    cnt.registrationAnswer(type,recipientId) ;
+    cnt.registrationAnswer(type,recipientRole,recipientId) ;
 }
 /**
  * ответ в форме подтверждения на изменение состояния заказа
@@ -78,7 +78,7 @@ function emailAnswerController() {
 
     var url = {
         order: urlPrefix + 'order-answer',
-        registration: urlPrefix + 'regisration-answer'
+        registration: urlPrefix + 'registration-answer'
     };
     var _this = this ;
     //-------------------------------------------------//
@@ -100,9 +100,10 @@ function emailAnswerController() {
         ajaxExe.go() ;
 
     } ;
-    this.registrationAnswer = function(type,recipientId) {
+    this.registrationAnswer = function(type,recipientRole,recipientId) {
         var data = {
             type: type,
+            recipientRole: recipientRole,
             recipientId: recipientId
         } ;
         ajaxExe.setUrl(url.registration) ;
@@ -112,15 +113,29 @@ function emailAnswerController() {
 
     } ;
     /**
-     * возврат только в случае ошибки
+     * возврат для перехода по адресу
      * @param rr
      */
     var resShow = function (rr) {
         var success = rr['success'] ;
         var message = rr['message'] ;
+        if (!success) {
+            showError(message) ;
+        }
+        var url = rr['url'] ;
+
+        var delayInMilliseconds = (success) ? 10 : 5000; //5 second
+
+        setTimeout(function() {
+            //your code to be executed after 1 second
+            window.location = url ;        //open(href,'office') ;
+        }, delayInMilliseconds);
+
+
         // });
         // var href = $('#emailAnswerOfficeButton').attr('href') ;
-        // var newWin = window.open(href,'office') ;
+        // window.location = href ;        //open(href,'office') ;
+
     } ;
 
 }

@@ -33,7 +33,7 @@ use yii\helpers\Url ;
            }
            ?>
        </div>
-        <div class="row" >
+        <div id="emailAnswerHref" style="display: none">
             <button href="<?=Url::to(['/office/index'])?>" role="button" id="emailAnswerOfficeButton">
                 в оффис
             </button>

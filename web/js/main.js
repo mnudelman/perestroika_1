@@ -142,7 +142,13 @@ function showError(errorText, errorTitle) {
         $('#errorShowTitle').empty() ;
         $('#errorShowTitle').append('<h2>' + errorTitle + '</h2>');
     }
-    errShowContent.append(errorText);
+    if (typeof(errorText) === 'object') {
+        for (var i = 0; i < errorText.length; i++) {
+            errShowContent.append('<p>' + errorText + '</p>');
+        }
+    }else {
+        errShowContent.append(errorText);
+    }
     $('#errorShow').modal('show') ;
 }
 

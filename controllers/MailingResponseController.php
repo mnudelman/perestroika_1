@@ -10,9 +10,11 @@ use Yii ;
 use app\controllers\funcs\OrderStatFunc ;
 use app\controllers\BaseController ;
 use app\models\LoginForm ;
-use app\models\OrderWork ;
 use app\models\OrderMailing ;
 use app\controllers\funcs\OrderFunc ;
+use app\service\TaskStore ;
+use yii\helpers\Url;
+use app\models\UserProfile ;
 
 class MailingResponseController extends BaseController
 {
@@ -22,11 +24,23 @@ class MailingResponseController extends BaseController
         MailingFunc::TYPE_READY_REQUEST => OrderStatFunc::STAT_ANSWERED,
         MailingFunc::TYPE_SELECTED_REQUEST => OrderStatFunc::STAT_SELECTED_ANSWERED,
     ];
-    private $errorText = 'Состояние заказа, которое Вы пытаетесь установить,
-    пройдено ранее. <br> Войдите в кабинет и разберитесь с текущим состоянием заказа';
-
+    private $errorText = [
+        'errorOrderStat' =>
+            'Состояние заказа, которое Вы пытаетесь установить, пройдено ранее. <br> ' .
+             'Войдите в кабинет и разберитесь с текущим состоянием заказа',
+        'errorLogin' => 'не удалось выполнить Ваше подключение.<br>'.
+            'Войдите по обычной схеме.',
+        'errorProfile' => 'Регистрация не завершена. Ошибка профиля'
+    ];
+    private $userRoleParamName = 'currentUserRole' ; // имя параметра для сохранения
+    private $urlTo = [        // адрес перехода
+        'office' => '/office/index',
+        'home' => '/'
+        ] ;
     /**
      * подтверждение согласия на участие в конкурсе на исполнение заказа
+     *  или выполнение заказа или любое другое сообщение, когда известен
+     *  заказ
      * data = {
      *actionFlag: actionFlag,   // выполнить изменение статуса заказа
      *type: type,       // тип ответа (см. MailingFunc.php)
@@ -55,30 +69,80 @@ class MailingResponseController extends BaseController
                 $oM->addOrderMailing($orderId, $developerId, $nextStat);
             } else {     // error - состояние уже достигнуто
                 $success = false;
-                $message = $this->errorText;
+                $message[] = $this->errorText['errorOrderStat'];
             }
         }
+        $currentUrl = $this->urlTo['office'] ;
+        if ( !$this->autoLogin()) {
+            $message[] = $this->errorText['errorLogin'];
+            $success = false ;
+            $currentUrl = $this->urlTo['home'] ;
+        }
 
-        $success = $success && $this->goToOffice();
+        if ($success) {
+            TaskStore::putParam($this->userRoleParamName,$recipientRole) ;
 
-
+        }
             $answ = [
+                'url' => Url::to([$currentUrl]),
                 'success' => $success,
                 'message' => $message,
                 'z_end' => 'end'
             ];
-//            echo json_encode($answ);
-        if ($success) {
-            Yii::$app->response->redirect(['/office/index']);
-        }
+            echo json_encode($answ);
+//        if ($success) {
+//            Yii::$app->response->redirect(['/office/index']);
+//        }
 
     }
 
     /**
-     * перейти в кабинет
+     *  var data = {
+     *  type: type,
+     *  recipientId: recipientId
+    } ;
+
+     */
+    public function actionRegistrationAnswer() {
+        $type = Yii::$app->request->post('type');       // тип ответа (см. MailingFunc.php)
+        $this->recipientId = Yii::$app->request->post('recipientId');
+        $recipientRole =  Yii::$app->request->post('recipientRole');
+        $profile = UserProfile::findOne(['userid' => $this->recipientId]);
+        $success = true ;
+        $userName = null ;
+        $email = null ;
+        $message = [] ;
+
+        if (empty($profile)) {
+            $success = false ;
+            $message[] = $this->errorText['errorProfile'] ;
+        }else {
+            $profile->confirmation_flag = true ;
+            $profile->scenario = UserProfile::SCENARIO_EXPRESS ; // иначе может быть ошибка при save
+            $profile->save() ;
+        }
+        $currentUrl = $this->urlTo['home'] ;
+        if ($success && !$this->autoLogin()) {
+            $message[] = $this->errorText['errorLogin'];
+            $success = false;
+        }
+        if ($success) {
+            TaskStore::putParam($this->userRoleParamName,$recipientRole) ;
+        }
+        $answ = [
+            'url' => Url::to([$currentUrl]),
+            'success' => $success,
+            'message' => $message,
+            'z_end' => 'end'
+        ];
+        echo json_encode($answ);
+
+    }
+    /**
+     * автоматический login
      *
      */
-    private function goToOffice()
+    private function autoLogin()
     {
         $success = false;
         $model = new LoginForm(['scenario' => LoginForm::SCENARIO_AUTOLOGIN]);

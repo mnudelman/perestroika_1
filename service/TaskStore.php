@@ -19,6 +19,7 @@ class TaskStore {
         'menuPath',                         // путь меню от корня до тек пункта
         'timeZone',                          // временной пояс
         'mailingSetup',                      // настройка рассылки
+        'currentUserRole',                   // роль пользователя(customer|developer|user)
     ] ;
     //-------------------------------------------------//
     public static function putParam($paramName,$value) {

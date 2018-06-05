@@ -25,8 +25,6 @@ use app\components\EmailAnswerWidget;
 //           'message' => $textArr,
 //        ] ;
 $mailVect = (new EmailAnswerFunc())->responseDo($mailId);
-echo 'site/email-response: <br>';
-var_dump($mailVect);
 $message = $mailVect['message'];
 $success = (false !== $mailVect);      // ошибка расшифровки параметра
 echo EmailAnswerWidget::widget([
