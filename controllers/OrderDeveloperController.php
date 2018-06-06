@@ -18,6 +18,7 @@ use app\models\OrderWork ;
 use app\controllers\funcs\DeveloperFunc ;
 use app\views\viewParts\OrderViewPrepare ;
 use app\controllers\funcs\OrderStatFunc ;
+use app\controllers\funcs\MailingFunc ;
 use yii\helpers\Url ;
 use yii\helpers\Html ;
 use yii\swiftmailer ;
@@ -191,12 +192,6 @@ class OrderDeveloperController extends BaseController {
 
 
     /**
-     * сообщение для выбранного исполнителя
-     */
-    public function actionSendSelectedEmail() {
-
-    }
-    /**
      * если есть выбранный исполнитель, то отсылается единственное письмо
      * иначе всем, кому не было предложений  (orderStat = 0 )
      * 'CREATE TEMPORARY TABLE IF NOT EXISTS dev_order_rank_tmp
@@ -235,20 +230,32 @@ class OrderDeveloperController extends BaseController {
         $message = [] ;
         $messCount = 0 ;
         $devFunc = new DeveloperFunc() ;
-
+        $mailingFunc = new MailingFunc() ;
         if (sizeof($listItems) > 0) {   // есть исполнитель. Больше рассылок не делать
             $item = $listItems[0] ;
             $userId = $item['userid'] ;
-            $company = $item['profile_company'] ;
-            $email = $item['profile_email'] ;
-            $tel = $item['profile_tel'] ;
-            $confirmation_key = $item['profile_confirmation_key'] ;
-            $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+//            $company = $item['profile_company'] ;
+//            $email = $item['profile_email'] ;
+//            $tel = $item['profile_tel'] ;
+//            $confirmation_key = $item['profile_confirmation_key'] ;
+
+//  старое          $this->sendSelectedEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+
+
+
+
+
+
+
             $message[] = 'Отправлено уведомление ИСПОЛНИТЕЛЮ ЗАКАЗА' ;
             $messCount = 1;
             $orderStatSelected = OrderStatFunc::STAT_SELECTED ;
             $devFunc->putOrderStatus($userId,$orderStatSelectedReady,
                 $orderStatSelected) ;
+//   отправка почты для подтверждения
+            $mailingFunc->setOrderAttr($orderId,$userId)
+                ->setType(MailingFunc::TYPE_SELECTED_REQUEST)
+                ->sendDo() ;
 
         }else {
             $limit = 20 ;
@@ -262,7 +269,17 @@ class OrderDeveloperController extends BaseController {
                 $email = $item['profile_email'] ;
                 $tel = $item['profile_tel'] ;
                 $confirmation_key = $item['profile_confirmation_key'] ;
-                $this->sendEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+
+                $mailingFunc->setOrderAttr($orderId,$userId)
+                    ->setType(MailingFunc::TYPE_READY_REQUEST)
+                    ->sendDo() ;
+
+
+//                $this->sendEmail($confirmation_key,$orderId,$orderName,$timeCreate,$company,$email) ;
+
+
+
+
                 $messCount += 1 ;
                 $devFunc->putOrderStatus($userId,$orderStatSentReady,$orderStatSent) ;
             }
@@ -280,40 +297,40 @@ class OrderDeveloperController extends BaseController {
         echo json_encode($answ);
 //      отправлено nnn предложений по заказу xxxxxxxxx
     }
-    private function sendSelectedEmail($id,$orderId,$orderName,$timeCreate,$company,$email) {
-        $addText = 'Портал <b>Pere-stroika</b> сообщает Вам,(<b>' . $company . '</b>)<br>' .
-            'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $orderId .
-            '(' . $orderName .')</b><br>' ;
-        $totId = $id . '-' . $orderId ;
-        $siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
-        $text = 'Для подтверждения вашей готовности выполнить работы и ' .
-                 'получить реквизиты заказчика перейдите по ссылке ' ;
-        $a = Html::a($text, $siteUrl) ;
-        Yii::$app->mailer->compose()
-//            ->setFrom('mnudelman@yandex.ru')
-            ->setTo($email)
-            ->setSubject('Pere-stroika. Вы выбраны исполнителем работ')
-//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-            ->setHtmlBody($addText .' '.$a)
-            ->send();
+//    private function sendSelectedEmail($id,$orderId,$orderName,$timeCreate,$company,$email) {
+//        $addText = 'Портал <b>Pere-stroika</b> сообщает Вам,(<b>' . $company . '</b>)<br>' .
+//            'что компания выбрана ИСПОНИТЕЛЕМ работ по заказу <b> № ' . $orderId .
+//            '(' . $orderName .')</b><br>' ;
+//        $totId = $id . '-' . $orderId ;
+//        $siteUrl = Url::to(['site/order-selected-email','id'=>$totId],true) ;
+//        $text = 'Для подтверждения вашей готовности выполнить работы и ' .
+//                 'получить реквизиты заказчика перейдите по ссылке ' ;
+//        $a = Html::a($text, $siteUrl) ;
+//        Yii::$app->mailer->compose()
+////            ->setFrom('mnudelman@yandex.ru')
+//            ->setTo($email)
+//            ->setSubject('Pere-stroika. Вы выбраны исполнителем работ')
+////            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
+//            ->setHtmlBody($addText .' '.$a)
+//            ->send();
+//
+//    }
 
-    }
-
-    private function sendEmail($id,$orderId,$orderName,$timeCreate,$company,$email) {
-        $addText = 'Портал <b>Pere-stroika</b> предлагает Вам(<b>' . $company . '</b><br>' .
-            'принять участие в конкурсе на выполнение работ по заказу <b> № ' . $orderId .
-            '(' . $orderName .')</b><br>' ;
-        $totId = $id . '-' . $orderId ;
-        $siteUrl = Url::to(['site/order-email','id'=>$id . '-' . $orderId],true) ;
-        $text = 'Для подтверждения участия в конкурсе перейдите по ссылке ' ;
-        $a = Html::a($text, $siteUrl) ;
-        Yii::$app->mailer->compose()
-//            ->setFrom('mnudelman@yandex.ru')
-            ->setTo($email)
-            ->setSubject('Pere-stroika. Конкурс на выолнение работы')
-//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-            ->setHtmlBody($addText .' '.$a)
-            ->send();
-
-    }
+//    private function sendEmail($id,$orderId,$orderName,$timeCreate,$company,$email) {
+//        $addText = 'Портал <b>Pere-stroika</b> предлагает Вам(<b>' . $company . '</b><br>' .
+//            'принять участие в конкурсе на выполнение работ по заказу <b> № ' . $orderId .
+//            '(' . $orderName .')</b><br>' ;
+//        $totId = $id . '-' . $orderId ;
+//        $siteUrl = Url::to(['site/order-email','id'=>$id . '-' . $orderId],true) ;
+//        $text = 'Для подтверждения участия в конкурсе перейдите по ссылке ' ;
+//        $a = Html::a($text, $siteUrl) ;
+//        Yii::$app->mailer->compose()
+////            ->setFrom('mnudelman@yandex.ru')
+//            ->setTo($email)
+//            ->setSubject('Pere-stroika. Конкурс на выолнение работы')
+////            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
+//            ->setHtmlBody($addText .' '.$a)
+//            ->send();
+//
+//    }
 }

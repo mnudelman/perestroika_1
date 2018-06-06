@@ -14,7 +14,7 @@ function Registration() {
         login: 'index.php?r=site%2Flogin',
         logout: 'index.php?r=site%2Flogout',
         wDShow: 'index.php?r=site%2Fwork-direct-get',     // показать описатель направления работ
-        registration: 'index.php?r=site%2Fregistration'
+        registration: 'index.php?r=user%2Fregistration'
     };
     var wdBlock = {      // блок-описатель направления работ
         title: '#wd-description-title',

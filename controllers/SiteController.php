@@ -7,20 +7,15 @@
  */
 namespace app\controllers;
 
-use app\controllers\funcs\OrderStatFunc ;
-use app\controllers\funcs\MailingFunc ;
-use app\models\User;
 use app\service\Files;
 use Yii;
 use yii\filters\AccessControl;
-use yii\helpers\Html;
 use yii\web\UploadedFile ;
 use app\service\PageItems ;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\UploadForm;
 use app\models\UserProfile;
-use app\models\OrderWork ;
 use app\controllers\BaseController ;
 
 class SiteController extends BaseController
@@ -85,122 +80,12 @@ class SiteController extends BaseController
     {
         return $this->render('about');
     }
-
-    /**
-     * подтверждение регистрации по email
-     * @param $id
-     * @return string - переход на форму подтверждения
-     */
-    public function actionEmail($id) {
-        $profile = UserProfile::findOne(['confirmation_key' => $id]);
-        $success = true ;
-        $userName = null ;
-        $email = null ;
-        if (empty($profile)) {
-            $success = false ;
-        }else {
-            $userId = $profile->userid ;
-            $profile->confirmation_flag = true ;
-            $profile->scenario = UserProfile::SCENARIO_EXPRESS ; // иначе может быть ошибка при save
-            $profile->save() ;
-            $user = User::findOne(['id'=>$userId]) ;
-            $userName = $user->username ;
-            $email = $profile->email ;
-        }
-        return $this->render('emailConfirm',['success'=>$success,'userName' => $userName,'email'=>$email]);
-    }
-
-    /**
-     * Подтверждение участия в конкурсе на выполнение заказа
-     * @param $id
-     * @return string - переход на форму подтверждения
-     */
-    public function actionOrderEmail($id) {
-        list($type,$confirmationKey,$orderAliasId)= explode("-", $id);
-
-        $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
-        $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
-        $orderStat = OrderStatFunc::STAT_ANSWERED ;
-        $success = true ;
-        $company = '' ;
-        $orderId = 0 ;
-        $orderName = '' ;
-        $userId = 0 ;
-
-        if (empty($profile) || empty($order)) {
-            $success = false ;
-        }else {
-            $company  = $profile->company ;
-            $orderId = $order->id ;
-            $orderName = $order->order_name ;
-            $userId = $profile->userid ;
-//  не надо торопиться
-//            $orderMailing = (new OrderMailing())->addOrderMailing($orderId,$userId,$orderStat) ;
-//            $success = (!empty($orderMailing)) ;
-
-        }
-        return $this->render('emailOrder',
-            ['success'=>$success,'company' => $company,'orderId'=>$orderId,
-                'userId'=>$userId,'orderName' => $orderName]);
-    }
-
     /**
      * обработка возвратов по  email
-     * @param $totalId
+     * @param $mailId - полный ключ, полученный по ссылке из почты пользователя
      */
     public function actionEmailResponse($mailId) {
-        $mailVect = (new MailingFunc())->unencriptMailId($mailId) ;
-        echo 'site/email-response: <br>' ;
-        var_dump($mailVect) ;
-        $success = (false !== $mailVect ) ;      // ошибка расшифровки параметра
         return $this->render('emailResponse',['mailId'=> $mailId]) ;
-
-    }
-    /**
-     * принятие предложения от ЗАКАЗЧИКА на выполнение работ по ЗАКАЗУ
-     * @param $id
-     * @return string - переход на форму подтверждения
-     */
-    public function actionOrderSelectedEmail($id) {
-        list($confirmationKey,$orderAliasId)= explode("-", $id);
-        $profile = UserProfile::findOne(['confirmation_key' => $confirmationKey]);
-        $order = OrderWork::findOne(['alias_id' => $orderAliasId]) ;
-        $orderStat = OrderStatFunc::STAT_SELECTED_ANSWERED ;
-        $success = true ;
-        $company = '' ;
-        $orderId = 0 ;
-        $orderName = '' ;
-
-        if (empty($profile) || empty($order)) {
-            $success = false ;
-        }else {
-            $company  = $profile->company ;
-            $orderId = $order->id ;
-            $orderName = $order->order_name ;
-            $developerId = $profile->userid ;
-            $orderMailing = (new OrderStatFunc())->addOrderMailing($orderAliasId,$developerId,$orderStat) ;
-            $success = (!empty($orderMailing)) ;
-
-             $success = true ;
-        }
-        return $this->render('emailOrderSelected',
-            ['success'=>$success,'company' => $company,'orderId'=>$orderId,'orderName' => $orderName]);
-    }
-    /**
-     * обработать подтверждение  email
-     * @param $id
-     * @return string
-     */
-    public function actionEmailOk($id) {
-        $profile = UserProfile::findOne(['confirmation_key' => $id]);
-        if (empty($profile)) {
-
-        }else {
-            $userId = $profile->userid ;
-            $profile->confirmation_flag = true ;
-            $profile->save() ;
-        }
-        return $this->render('index');
     }
     /**
      * получить описание описание направления работ
@@ -247,13 +132,7 @@ class SiteController extends BaseController
                 $path = Files::getPath('userAvatar',$userId) ;
                 $urlAvatar = $path['url'] ;
             }
-//            return $this->goBack();
         }
-//        return $this->render('login', [
-//            'model' => $model,
-//        ]);
-
-
         if( Yii::$app->request->isAjax ){
             $query = Yii::$app->request->post() ;
             $message=  (empty($model->errors)) ? ['oK!'] : $model->errors ;

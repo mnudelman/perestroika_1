@@ -18,8 +18,11 @@ use app\models\UserProfile;
 use app\models\UserRegistration;
 use app\models\LoginForm;
 use app\service\PageItems ;
-use app\controllers\BaseController ;
+use app\controllers\funcs\MailingFunc ;
 use app\models\User ;
+
+
+
 class UserController extends BaseController
 {
     private $_registrationSuccessMessage = '' ;
@@ -115,9 +118,16 @@ class UserController extends BaseController
             }
             if (!empty($userProfile)) {
                 if (!$userProfile->confirmation_flag) {
-                    $this->sendEmailConfirmation($userProfile->confirmation_key,$email,true,$userName,$password);
+//                    $this->sendEmailConfirmation($userProfile->confirmation_key,$email,true,$userName,$password);
 //                    sendEmailConfirmation($id,$email,$expressFlag = false,$login = false,$password = false)
-               }
+
+//             отправить email  для подтверждения
+                    (new MailingFunc())
+                     -> setType(MailingFunc::TYPE_EXPRESS)
+                        ->setRegistrationAttr($userId,$password)
+                        ->sendDo() ;
+
+                    }
                 $message = array_merge($message,$userProfile->errors) ;
                 $confirmationFlag = $userProfile->confirmation_flag ;
                 $confirmationMessage = ($confirmationFlag) ? '' : $profileMessage['confirmation'] ;
@@ -229,7 +239,13 @@ class UserController extends BaseController
             $confirmationMessage = ($confirmationFlag || $isError) ? '' : $profileMessage['confirmation'] ;
             if (!($confirmationFlag || $isError)) {
                 $email = $userProfile->email ;
-                $this->sendEmailConfirmation($userProfile->confirmation_key,$email) ;
+//                $this->sendEmailConfirmation($userProfile->confirmation_key,$email) ;
+
+//             отправить email  для подтверждения
+                (new MailingFunc())
+                 -> setType(MailingFunc::TYPE_REGISTRATION)
+                    ->setRegistrationAttr($userId)
+                    ->sendDo() ;
             }
             $avatar = $userProfile->getAvatar() ;
             $avatarUrl = $avatar['url'] ;
@@ -251,25 +267,25 @@ class UserController extends BaseController
 //        $siteUrl = Url::to(['site/email','id'=>id]) ;
 //        return $this->redirect($siteUrl);
 //    }
-    private function sendEmailConfirmation($id,$email,$expressFlag = false,$login = false,$password = false) {
-//        $email = 'mnudelman@yandex.ru' ;
-        $addText = '' ;
-        if (isset($expressFlag) && $expressFlag) {
-            $addText = 'Процедура экспресс регистрации на сайте<b>PERE-STROIKA.ru</b><br>
-            <b>Ваш login:</b>' . $login .'<br>' . ' <b>Ваш пароль:</b>' . $password .'<br>' ;
-        }
-        $siteUrl = Url::to(['site/email','id'=>$id],true) ;
-        $text = 'Для подтверждения корректности email перейдите по ссылке ' ;
-        $a = Html::a($text, $siteUrl) ;
-        Yii::$app->mailer->compose()
-//            ->setFrom('mnudelman@yandex.ru')  // в конфигурации по умолчанию
-            ->setTo($email)
-            ->setSubject('подтвердить корректность email')
-//            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
-            ->setHtmlBody($addText .' '.$a)
-            ->send();
-
-    }
+//    private function sendEmailConfirmation($id,$email,$expressFlag = false,$login = false,$password = false) {
+////        $email = 'mnudelman@yandex.ru' ;
+//        $addText = '' ;
+//        if (isset($expressFlag) && $expressFlag) {
+//            $addText = 'Процедура экспресс регистрации на сайте<b>PERE-STROIKA.ru</b><br>
+//            <b>Ваш login:</b>' . $login .'<br>' . ' <b>Ваш пароль:</b>' . $password .'<br>' ;
+//        }
+//        $siteUrl = Url::to(['site/email','id'=>$id],true) ;
+//        $text = 'Для подтверждения корректности email перейдите по ссылке ' ;
+//        $a = Html::a($text, $siteUrl) ;
+//        Yii::$app->mailer->compose()
+////            ->setFrom('mnudelman@yandex.ru')  // в конфигурации по умолчанию
+//            ->setTo($email)
+//            ->setSubject('подтвердить корректность email')
+////            ->setTextBody($addText .' '.'Для подтверждения корректности email перейдите по ссылке ' . $siteUrl)
+//            ->setHtmlBody($addText .' '.$a)
+//            ->send();
+//
+//    }
     public function actionGetAvatar() {
         $userId = Yii::$app->user->identity->id;
         $userProfile = UserProfile::findOne(['userid' => $userId]);
