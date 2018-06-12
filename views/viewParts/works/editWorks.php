@@ -4,13 +4,6 @@
  * @var $htmlPrefix
  * @var $objectType = {'user' | 'order'}
  */
-//use yii\bootstrap\ButtonDropdown;
-//use yii\bootstrap\Dropdown;
-//use app\components\CollapsibleListWidget;
-//use app\components\RuleTextWidget ;
-//use app\components\ToolbarWidget ;
-//use yii\helpers\Html;
-//use yii\helpers\Url;
 use app\components\TreeLevelWidget ;
 ?>
 <?php

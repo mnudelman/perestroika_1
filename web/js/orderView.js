@@ -184,11 +184,10 @@ function OrderViewHtml() {
     } ;
     this.generalShow = function(general) {
 // закрыть изменения
-        (generalNode.find('input')).attr('disabled','disabled') ;
-        (generalNode.find('button')).attr('disabled','disabled') ;
-        (generalNode.find('textArea')).attr('disabled','disabled') ;
-        var a = 1 ;
-        (generalNode.find('[name$="[description]"]')).val(general.orderDescription) ;
+//         (generalNode.find('input')).attr('disabled','disabled') ;
+//         (generalNode.find('button')).attr('disabled','disabled') ;
+//         (generalNode.find('textArea')).attr('disabled','disabled') ;
+        (generalNode.find('[name$="[description]"]')).val(general.description) ;
         (generalNode.find('[name$="[order_name]"]')).val(general.orderName) ;
         (generalNode.find('[name$="[per_beg]"]')).val(general.perBeg) ;
         (generalNode.find('[name$="[per_end]"]')).val(general.perEnd) ;

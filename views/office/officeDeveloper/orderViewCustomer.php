@@ -4,9 +4,15 @@
  * @var $htmlPrefix
  */
 ?>
-Это ЗАКЛАДКА "СПРАВКА О ЗАКАЗЧИКЕ" для выбранного ЗАКАЗА(имя, средняя оценка, отзывы)
-<!--?php-->
-<!--    $baseGalleryEditScel = '/viewParts/worksView' ;-->
-<!--    $htmlPrefix .= 'Works';-->
-<!--    $objectType = 'order' ;-->
-<!--    ?>-->
+<?php
+    use app\components\ProfileGeneralWidget ;
+?>
+<?php
+$htmlPrefix = (isset($htmlPrefix)) ? $htmlPrefix  : 'profileEdit' ;
+echo ProfileGeneralWidget::widget([
+    'htmlPrefix' => $htmlPrefix ,
+    'disabled' => true, // - true - запрет редактирования( только просмотр)
+    'IDFieldsFlag' => false, // показывать или нет поля - идентификаторы (email, tel, site)
+    'content' => ['avatar' => true,'formEdit'=>true]
+
+]) ;

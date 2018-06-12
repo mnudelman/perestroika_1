@@ -130,16 +130,15 @@ $filterForm = new DeveloperOrdersFilterForm();
                 <h5 class="header-title" id="<?= $htmlPrefix ?>-orderView-title"
                     style="text-align: left;">
                     <?= $partsTitleView ?></h5></div>
-            <!--                    <div class="navbar navbar-default" style="margin-bottom:0px;min-height:20px ">-->
-            <!--                    </div>-->
             <div class="panel-body" id="<?= $htmlPrefix ?>-orderView" style="display: none;">
 
                 <?php
-                $expressStyle = '';
-                $hideExpressFlag = true;
-                //        $this->render('indexProfile',['htmlPrefix' => $htmlPrefix,
-                //        'expressStyle' => $expressStyle,'hideExpressFlag'=>$hideExpressFlag]) ;
+//                $expressStyle = '';
+//                $hideExpressFlag = true;
                 include_once __DIR__ . '/indexOrderView.php';
+//                $this->render('indexOrderView',
+//                    ['htmlPrefix' => $htmlPrefix])
+
                 ?>
 
             </div>

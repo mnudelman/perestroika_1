@@ -245,6 +245,9 @@ class OrderViewPrepare
         'currentOrderLock' => ['name' => ['ru' => 'заказ закрыт для изменений',
             'en' => 'the order is closed for changes'],
             'value' => 'lockFlag', 'default' => false],
+        'mailingStat' => ['name' => ['ru' => 'состояние рассылки(заказа)',
+            'en' => 'the state of the mailing(of the order)'],
+        'value' => 'mailingStat', 'default' => false],
 
     ];
 
