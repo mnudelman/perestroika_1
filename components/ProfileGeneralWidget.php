@@ -12,8 +12,8 @@ use yii\helpers\Url ;
 class ProfileGeneralWidget extends Widget
 {
     public $htmlPrefix;
-    public $disabled; // - true - запрет редактирования( только просмотр)
-    public $IDFieldsFlag; // показывать или нет поля - идентификаторы (email, tel, site)
+    public $disabled = false; // - true - запрет редактирования( только просмотр)
+    public $IDFieldsFlag = true ; // показывать или нет поля - идентификаторы (email, tel, site)
     public $content;
     private $contentDefault = ['tooltips' => true, 'rule' => true, 'toolbar' => true,
         'avatar' => true, 'formEdit' => true];

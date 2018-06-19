@@ -33,7 +33,59 @@ $( window ).load(function() {
 
     }
 });
+$(function () {
+   $('#slider').slider({
+       animate: 'fast',
+       min: 0,
+       max: 100,
+       // range: true,
+       step:5,
+       change: function( event, ui ) {
+           var i = 1 ;
+           var value = ui.value ;
+           $('#sliderValue').text(value) ;
+       } ,
+       create: function(event, ui) {
+           $('#sliderArea').empty() ;
+           var valElem = $('<span></span>') ;
+           valElem.text(0 + ' ') ;
+           $('#sliderArea').append(valElem) ;
+           var n = 10 ;
+           for (var i = 1; i <= 10; i++){
+               var emptyStar = $('<i  class="star-evaluation fa fa-star-o"></i>') ;
+               $('#sliderArea').append(emptyStar) ;
+           }
 
+       },
+       slide: function( event, ui ) {
+           var value = ui.value ;
+           // $('#sliderValue').text(value) ;
+           $('#sliderArea').empty() ;
+           var valElem = $('<span></span>') ;
+           valElem.text(value + ' ') ;
+           $('#sliderArea').append(valElem) ;
+           var n = 10 ;
+           for (var i = 1; i <= 10; i++){
+               if (n*i <= value) {
+                   var star = $('<i class="star-evaluation fa fa-star"></i>') ;
+                   $('#sliderArea').append(star) ;
+               }
+               if (n*i - 5 === value ) {
+                   var halfStar = $('<i class="star-evaluation fa fa-star-half-o"></i>') ;
+                   $('#sliderArea').append(halfStar) ;
+               }
+               if (n*i >  value + 5) {
+                   var emptyStar = $('<i  class="star-evaluation fa fa-star-o"></i>') ;
+                   $('#sliderArea').append(emptyStar) ;
+
+               }
+           }
+       },
+       classes:{"ui-slider": "highlight"}
+
+   }) ;
+
+});
 
 /**
  * вкл/выкл фильтр

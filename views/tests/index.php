@@ -21,6 +21,10 @@ echo Tabs::widget([
             'label' => 'mailingFunc',             //'рассылка сообщений через почту',
             'content' => $this->render('mailingFuncTest'),
         ],
+        [
+            'label' => 'slider',
+            'content' => $this->render('slider'),
+        ],
 
     ]
 ]);

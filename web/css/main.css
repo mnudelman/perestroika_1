@@ -95,7 +95,11 @@ textarea {
 .icon-stat {
     width: 37px;
 }
-
+/* звёздочки для выставления оценок*/
+.star-evaluation {
+    width: 20px;
+    color: red;
+}
 .double-panel {
     border: 2px solid;
     border-color: #0b93d5;
